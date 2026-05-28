@@ -187,6 +187,18 @@
   <button type="button" data-i="2">atlas</button>
 </nav>
 
+
+<!-- AvianVisitors: empty admin-screen stub. The live JS expects this
+     element to exist (openAdmin/closeAdmin call setAttribute on it).
+     Menu items navigate to BirdNET-Pi's stock pages instead of opening
+     in-app admin views, so this stays empty. -->
+<section class="admin-screen" id="adminScreen" aria-hidden="true">
+  <div class="admin-frame">
+    <header class="admin-title"><h1 id="adminTitle"></h1></header>
+    <div class="admin-body" id="adminBody"></div>
+  </div>
+</section>
+
 <script src="./apt.js"></script>
 </body>
 </html>

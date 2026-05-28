@@ -1322,7 +1322,7 @@
       // race a timeout because icecast can take 1–10s to warm up
       // depending on tunnel + bitrate.
       return new Promise(function (resolve, reject) {
-        liveEl = new Audio('?t=' + Date.now());
+        liveEl = new Audio('/stream?t=' + Date.now());
         // No crossOrigin — the stream is same-origin via the worker
         // and crossOrigin='anonymous' would require CORS headers
         // icecast doesn't send.
