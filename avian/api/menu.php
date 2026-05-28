@@ -23,15 +23,15 @@ if (getenv('AV_REQUIRE_AUTH') === '1' && empty($_SERVER['HTTP_AUTHORIZATION'])) 
     exit;
 }
 
+// All hrefs are the canonical paths BirdNET-Pi's views.php recognises
+// (lifted from homepage/views.php). AvianVisitors took over `/`, so
+// the stock home is at /index.php.
 echo json_encode([
     'items' => [
-        // Stock BirdNET-Pi UI (AvianVisitors took over `/`, so the stock
-        // UI is reachable at /index.php directly)
-        ['label' => 'birdnet-pi',  'href' => '/index.php',                   'native' => false],
-        // BirdNET-Pi log view (php served at /views.php)
-        ['label' => 'logs',        'href' => '/views.php?view=Log+Out',      'native' => false],
-        ['label' => 'system',      'href' => '/views.php?view=Services',     'native' => false],
-        // AvianVisitors source
-        ['label' => 'github', 'href' => 'https://github.com/Twarner491/AvianVisitors', 'native' => false],
+        ['label' => 'birdnet-pi', 'href' => '/index.php',                            'native' => false],
+        ['label' => 'detections', 'href' => '/views.php?view=Todays+Detections',     'native' => false],
+        ['label' => 'log',        'href' => '/views.php?view=View+Log',              'native' => false],
+        ['label' => 'system',     'href' => '/views.php?view=Services',              'native' => false],
+        ['label' => 'github',     'href' => 'https://github.com/Twarner491/AvianVisitors', 'native' => false],
     ],
 ]);
