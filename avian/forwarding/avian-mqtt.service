@@ -4,10 +4,13 @@ After=network-online.target
 
 [Service]
 Type=simple
-# Edit User= and the ExecStart path to match your Pi's username if
-# you didn't install BirdNET-Pi as the `birdnet` user.
+# Edit User= if BirdNET-Pi was installed under a different account.
+# The ExecStart path uses an absolute path because systemd's %h
+# specifier always expands to /root for system-mode units, ignoring
+# User=. WorkingDirectory=~ does respect User=, so we use it.
 User=birdnet
-ExecStart=/usr/bin/python3 %h/avian-mqtt.py
+WorkingDirectory=~
+ExecStart=/usr/bin/python3 avian-mqtt.py
 Restart=on-failure
 RestartSec=10
 

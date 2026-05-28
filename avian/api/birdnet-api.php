@@ -1,30 +1,30 @@
 <?php
-// AvianVisitors — JSON facade over BirdNET-Pi's birds.db. Read-only.
+// AvianVisitors - JSON facade over BirdNET-Pi's birds.db. Read-only.
 // Symlinked into the BirdNET-Pi Caddy site root at /avian/api/.
 //
 // Endpoints (?action=...):
-//   stats       — totals (detections, unique species, today, last hour)
-//   lifelist    — every species with first_seen, last_seen, total_count
-//   recent      — &hours=N (default 24): species heard in the window
-//   species     — &sci=<sci_name>: per-species detail page
-//   timeseries  — &days=N: daily detection counts per species
-//   firstseen   — every species' earliest detection
+//   stats       - totals (detections, unique species, today, last hour)
+//   lifelist    - every species with first_seen, last_seen, total_count
+//   recent      - &hours=N (default 24): species heard in the window
+//   species     - &sci=<sci_name>: per-species detail page
+//   timeseries  - &days=N: daily detection counts per species
+//   firstseen   - every species' earliest detection
 //
 // Default LAN deploy ships without auth. If you've exposed the Pi via
 // Cloudflare or a tunnel, add a Caddy `basic_auth` matcher around the
-// /avian/api/* path — see avian/forwarding/.
+// /avian/api/* path - see avian/forwarding/.
 
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: public, max-age=30');
 
 // SCRIPT_FILENAME on the Pi resolves through the symlink to
-// $HOME/BirdNET-Pi/avian/api/birdnet-api.php — walk three dirs up to
+// $HOME/BirdNET-Pi/avian/api/birdnet-api.php - walk three dirs up to
 // reach the install root, then point at scripts/birds.db. Lets a Pi
 // installed under any username (the BirdNET-Pi installer uses $USER,
 // not a fixed name) work without editing this file.
 $DB_PATH = dirname(__DIR__, 3) . '/scripts/birds.db';
-// Fallback if the symlink layout ever changes — keeps the most common
+// Fallback if the symlink layout ever changes - keeps the most common
 // install path working even if SCRIPT_FILENAME oddities trip __DIR__.
 if (!file_exists($DB_PATH)) {
     $alt = getenv('HOME') . '/BirdNET-Pi/scripts/birds.db';
@@ -84,9 +84,11 @@ switch ($action) {
     }
 
     case 'lifelist': {
+        // n = total calls (matches the `recent` action's alias so the
+        // frontend can read either response interchangeably).
         $rs = rows($db,
           "SELECT Sci_Name AS sci, Com_Name AS com, MIN(Date||' '||Time) AS first_seen, "
-        . "       MAX(Date||' '||Time) AS last_seen, COUNT(*) AS total, MAX(Confidence) AS best_conf "
+        . "       MAX(Date||' '||Time) AS last_seen, COUNT(*) AS n, MAX(Confidence) AS best_conf "
         . "FROM detections GROUP BY Sci_Name ORDER BY first_seen ASC"
         );
         echo json_encode(['species' => $rs, 'as_of' => date('c')]);
@@ -145,9 +147,9 @@ switch ($action) {
 
     case 'timeseries': {
         // Aggregated time-bucketed counts for the stats charts.
-        //   daily   — last $days days, detections + unique species per day
-        //   by_hour — detections grouped by hour of day, last 30 days
-        // The frontend backfills missing dates with zero — sparse data days
+        //   daily   - last $days days, detections + unique species per day
+        //   by_hour - detections grouped by hour of day, last 30 days
+        // The frontend backfills missing dates with zero - sparse data days
         // are otherwise dropped by the GROUP BY.
         $days = max(1, min(90, (int)($_GET['days'] ?? 30)));
         $daily = rows($db,
@@ -172,7 +174,7 @@ switch ($action) {
     }
 
     case 'firstseen': {
-        // Most recent additions to the life list — first detection per
+        // Most recent additions to the life list - first detection per
         // species, sorted by first_seen DESC. Powers the "First Detections"
         // section on the stats view.
         $limit = max(1, min(50, (int)($_GET['limit'] ?? 10)));

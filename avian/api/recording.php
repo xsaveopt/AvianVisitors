@@ -1,5 +1,5 @@
 <?php
-// AvianVisitors — serves the most-recent detection mp3 for a given
+// AvianVisitors - serves the most-recent detection mp3 for a given
 // scientific name. Called by the collage detail modal at
 // /avian/api/recording.php?sci=<name>.
 //
@@ -24,7 +24,7 @@ if ($sci === '' && $file === '') {
 
 // Reject any sci-name that isn't a clean Genus species[ subspecies[ tri]]
 // pattern. resolve_common() below falls back to str_replace(' ', '_', $sci)
-// when there's no birds.json match — without this guard, `?sci=../etc` would
+// when there's no birds.json match - without this guard, `?sci=../etc` would
 // flow through unmodified into a filesystem path.
 if ($sci !== '' && !preg_match('/^[A-Za-z]{2,40}(?:[ ][a-z]{2,40}){1,3}$/', $sci)) {
     http_response_code(400);
@@ -93,14 +93,9 @@ if ($file !== '') {
     readfile($path);
     exit;
 }
-$BIRDS_JSON_CANDIDATES = [
-    getenv('HOME') . '/BirdNET-Pi/scripts/birds.json',
-    getenv('HOME') . '/BirdNET-Pi/model/labels.txt',
-];
-
 // ---- Resolve scientific name → common name (with underscores) ----
 function resolve_common(string $sci): ?string {
-    // Try birds.json first (preferred — has clean sci/com pairs).
+    // Try birds.json first (preferred - has clean sci/com pairs).
     foreach ([getenv('HOME') . '/BirdNET-Pi/scripts/birds.json'] as $f) {
         if (is_readable($f)) {
             $list = json_decode((string)file_get_contents($f), true);

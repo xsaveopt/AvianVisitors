@@ -1,7 +1,7 @@
 <?php
-// AvianVisitors — serves the spectrogram PNG that BirdNET-Pi generates
+// AvianVisitors - serves the spectrogram PNG that BirdNET-Pi generates
 // alongside each detection mp3. Same lookup logic as recording.php (find
-// the matching file under By_Date/<date>/<Common_Name>/) — just .png
+// the matching file under By_Date/<date>/<Common_Name>/) - just .png
 // instead of .mp3.
 //
 // Endpoints:
@@ -10,7 +10,7 @@
 //                                recording (atlas modal uses this so the
 //                                strip below each play button is the
 //                                spectrogram for that recording, not
-//                                "the most recent" — they can differ).
+//                                "the most recent" - they can differ).
 
 declare(strict_types=1);
 
@@ -44,7 +44,7 @@ if ($file !== '') {
         exit;
     }
     // BirdNET-Pi names the spectrogram as the FULL mp3 filename plus
-    // ".png" — e.g. "American_Crow-82-…-20:25:29.mp3" pairs with
+    // ".png" - e.g. "American_Crow-82-…-20:25:29.mp3" pairs with
     // "American_Crow-82-…-20:25:29.mp3.png" (not "…-20:25:29.png").
     // Accept either form gracefully.
     if (substr($file, -4) === '.png') {

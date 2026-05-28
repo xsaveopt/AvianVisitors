@@ -1,6 +1,6 @@
 # Optional Basic-auth gate for the collage.
 # Use only if you're NOT putting Cloudflare Access in front of the
-# public URL. Replace the bcrypt hash below — generate via:
+# public URL. Replace the bcrypt hash below - generate via:
 #   caddy hash-password --plaintext 'your-pass'
 #
 # Drop this into /etc/caddy/conf.d/ alongside avian.caddy and reload.

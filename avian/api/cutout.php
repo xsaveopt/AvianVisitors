@@ -1,5 +1,5 @@
 <?php
-// AvianVisitors — bird image resolver.
+// AvianVisitors - bird image resolver.
 //
 // Lookup chain for /avian/api/cutout.php?sci=Calypte+anna:
 //   1. ../assets/illustrations/<slug>.png   (450+ bundled kachō-e renders)
@@ -7,11 +7,11 @@
 //   3. cached rembg of a Wikipedia photo at $HOME/BirdSongs/Extracted/cutouts/
 //   4. fresh Wikipedia → rembg → cache (skipped gracefully if rembg unset)
 //
-// The frontend's <img src> points here for every species — bundled
+// The frontend's <img src> points here for every species - bundled
 // hits return instantly; cold misses fall through to the dynamic path.
 //
 // Default LAN deploy ships without auth. To expose publicly, gate
-// /avian/api/* with basic_auth in your Caddyfile — see avian/forwarding/.
+// /avian/api/* with basic_auth in your Caddyfile - see avian/forwarding/.
 
 declare(strict_types=1);
 
@@ -61,7 +61,7 @@ if (is_file($cachePath) && filesize($cachePath) > 1024) {
 }
 
 // 4. Fresh Wikipedia fetch + rembg. Skipped if rembg-cli isn't on
-//    PATH — the resolver simply returns a 404 in that case rather
+//    PATH - the resolver simply returns a 404 in that case rather
 //    than burning a Wikipedia request we can't use.
 $rembg = '/usr/local/bin/rembg-cli';
 if (!is_executable($rembg)) {
@@ -107,7 +107,7 @@ if (!$imgBytes || strlen($imgBytes) < 1024) {
     exit;
 }
 
-// rembg via the wrapper. u2netp = lightweight model (~50MB peak RAM —
+// rembg via the wrapper. u2netp = lightweight model (~50MB peak RAM -
 // matters on the Pi 3B+). Temp files because rembg's CLI prefers
 // real paths.
 $tmpInBase  = tempnam(sys_get_temp_dir(), 'rembg-in-');

@@ -1,18 +1,18 @@
-/* AvianVisitors — bird collage frontend.
+/* AvianVisitors - bird collage frontend.
  *
  * Three views over BirdNET-Pi detections:
- *   collage  — mask-packed cluster of species illustrations, sized by
+ *   collage  - mask-packed cluster of species illustrations, sized by
  *              count. Layout normalises so every bird always fits on
  *              every viewport.
- *   stats    — per-species mark on a time × count plot.
- *   atlas    — grid of every species ever detected, with detail modal.
+ *   stats    - per-species mark on a time × count plot.
+ *   atlas    - grid of every species ever detected, with detail modal.
  *
  * Lives at $HOME/BirdNET-Pi/avian/frontend/ on the Pi; the install
  * symlinks $HOME/BirdNET-Pi/avian → $EXTRACTED/avian, so this file
  * loads from http://birdnet.local/avian/frontend/apt.js with the
  * collage at http://birdnet.local/avian/frontend/.
  *
- * All API calls are relative — they target the PHP shims in ../api/
+ * All API calls are relative - they target the PHP shims in ../api/
  * served by BirdNET-Pi's existing Caddy + PHP-FPM stack. No frontend
  * configuration needed; works out of the box on any BirdNET-Pi host.
  */
@@ -44,7 +44,7 @@
   }
   // HTML-escape user-supplied strings before they land in innerHTML.
   // Species names come from BirdNET-Pi's labels file, which is
-  // user-editable (custom species lists, l18n) — so they're untrusted.
+  // user-editable (custom species lists, l18n) - so they're untrusted.
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -52,7 +52,7 @@
   }
 
   // ---- State ----
-  var DATA = { recent: null, lifelist: null, firstseen: null, timeseries: null };
+  var DATA = { recent: null, lifelist: null };
   var MASKS = null, DIMS = null;
   var currentHours = +readLS('av:window', '24') || 24;
 
@@ -153,14 +153,10 @@
     var h = currentHours;
     return Promise.all([
       fetchJson(api('lifelist')).catch(function () { return null; }),
-      fetchJson(api('firstseen')).catch(function () { return null; }),
-      fetchJson(api('timeseries', 'days=30')).catch(function () { return null; }),
       fetchJson(api('recent', 'hours=' + h)).catch(function () { return null; }),
     ]).then(function (parts) {
       DATA.lifelist = parts[0];
-      DATA.firstseen = parts[1];
-      DATA.timeseries = parts[2];
-      if (parts[3] && h === currentHours) DATA.recent = parts[3];
+      if (parts[1] && h === currentHours) DATA.recent = parts[1];
       renderCollageFromData();
       drawHistograms();
     });
@@ -440,7 +436,7 @@
     if (!sp.length) {
       var p = document.createElement('p');
       p.className = 'empty';
-      p.textContent = 'no species yet — atlas fills in as the Pi detects birds.';
+      p.textContent = 'no species yet - atlas fills in as the Pi detects birds.';
       list.innerHTML = '';
       list.appendChild(p);
       return;
@@ -510,7 +506,7 @@
     card.querySelector('.detail-title').textContent = label;
     card.querySelector('.detail-sci em').textContent = sci;
     card.querySelector('.detail-stats').textContent =
-      (+rec.n || 0) + ' calls · last heard ' + (rec.last_seen || '—');
+      (+rec.n || 0) + ' calls · last heard ' + (rec.last_seen || '-');
     card.querySelector('.detail-audio').src = media('recording.php', 'sci=' + encodeURIComponent(sci));
     card.querySelector('.detail-spec').src = media('spectrogram.php', 'sci=' + encodeURIComponent(sci));
     modal.setAttribute('aria-hidden', 'false');

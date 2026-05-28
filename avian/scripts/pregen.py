@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""AvianVisitors — pre-generate kachō-e illustrations for a region.
+"""AvianVisitors - pre-generate kachō-e illustrations for a region.
 
 Reads a species list (BirdNET-Pi's labels.txt, eBird, or stdin),
 generates an illustration for each via the Gemini 2.5 Flash Image API,
@@ -7,7 +7,7 @@ and saves PNGs into avian/assets/illustrations/.
 
 Each species gets two poses: <slug>.png (perched) and <slug>-2.png
 (flight). Edit avian/scripts/prompt.template.md to change the visual
-style — the prompt body is re-sent verbatim per request with
+style - the prompt body is re-sent verbatim per request with
 {sci_name}, {com_name}, and {pose} substituted.
 
 Usage:
@@ -43,7 +43,7 @@ from pathlib import Path
 # get a 404 here, check Google's model catalog and bump this.
 GEMINI_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
-    "gemini-2.5-flash-image-preview:generateContent"
+    "gemini-2.5-flash-image:generateContent"
 )
 POSES = {1: "perched", 2: "in flight with wings spread"}
 
@@ -117,7 +117,7 @@ def gen_one(api_key: str, prompt: str, sci: str, com: str, pose: int) -> bytes:
         # rejecting the request shape (image-only sometimes errors).
         "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]},
     }
-    # API key as header, NOT URL — keeps the key out of Google's
+    # API key as header, NOT URL - keeps the key out of Google's
     # request logs, proxy logs, and shell history.
     req = urllib.request.Request(
         GEMINI_URL,
@@ -134,7 +134,11 @@ def gen_one(api_key: str, prompt: str, sci: str, com: str, pose: int) -> bytes:
             break
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503, 504) and attempt < 3:
-                retry_after = float(e.headers.get("Retry-After") or backoff)
+                ra = e.headers.get("Retry-After")
+                try:
+                    retry_after = float(ra) if ra else backoff
+                except (TypeError, ValueError):
+                    retry_after = backoff  # HTTP-date format, fall back
                 time.sleep(retry_after)
                 backoff *= 2
                 continue
@@ -151,7 +155,7 @@ def gen_one(api_key: str, prompt: str, sci: str, com: str, pose: int) -> bytes:
             inline = part.get("inlineData") or part.get("inline_data")
             if inline and inline.get("data"):
                 return base64.b64decode(inline["data"])
-    # No image — surface the blocking reason so users know what to fix.
+    # No image - surface the blocking reason so users know what to fix.
     finish = (resp.get("candidates", [{}])[0]).get("finishReason", "?")
     block = resp.get("promptFeedback", {}).get("blockReason", "")
     raise RuntimeError(f"no image (finish={finish} block={block})")
@@ -180,8 +184,8 @@ def main() -> int:
                     choices=list(POSES.keys()),
                     help="Which poses to render. 1=perched, 2=flight. Default: both.")
     ap.add_argument("--force", action="store_true", help="Re-render even if file exists")
-    ap.add_argument("--sleep", type=float, default=4.0,
-                    help="Seconds between API calls (default 4 = under free-tier RPM cap)")
+    ap.add_argument("--sleep", type=float, default=6.0,
+                    help="Seconds between API calls (default 6 = headroom under free-tier RPM cap)")
     ap.add_argument("--limit", type=int, default=0, help="Cap species count for testing")
     args = ap.parse_args()
 
