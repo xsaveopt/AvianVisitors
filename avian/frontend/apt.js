@@ -1856,7 +1856,7 @@
     // Wikipedia summary (description + genus / family).
     var loadWiki = WIKI_CACHE[sci]
       ? Promise.resolve(WIKI_CACHE[sci])
-      : fetchJson('/api/wiki.json?sci=' + encodeURIComponent(sci)).then(function (j) {
+      : fetchJson('./avian/api/wiki.php?sci=' + encodeURIComponent(sci)).then(function (j) {
           WIKI_CACHE[sci] = j; return j;
         });
     loadWiki.then(function (j) {

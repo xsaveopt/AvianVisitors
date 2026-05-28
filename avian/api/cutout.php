@@ -33,6 +33,12 @@ if (!preg_match('/^[A-Za-z]{2,40}(?:[ ][a-z]{2,40}){1,3}$/', $sci)) {
 $slug = preg_replace('/[^a-z0-9]+/', '-', strtolower($sci));
 $slug = trim((string)$slug, '-');
 
+// pose=1 (default) is perched. pose=2 is flight. Clamp to a two-digit
+// positive integer so a malformed ?pose= can't break the path.
+$pose = (int)($_GET['pose'] ?? 1);
+if ($pose < 1 || $pose > 99) $pose = 1;
+$poseSuffix = $pose === 1 ? '' : "-$pose";
+
 function serve_png(string $path): void {
     header('Content-Type: image/png');
     header('Cache-Control: public, max-age=86400');
@@ -41,10 +47,19 @@ function serve_png(string $path): void {
     exit;
 }
 
-// 1. Bundled illustration (the kachō-e PNG the repo ships with).
-$bundled = dirname(__DIR__) . "/assets/illustrations/$slug.png";
+// 1. Bundled illustration with pose suffix (the kachō-e PNG the repo
+//    ships with). 450+ species cover both perched + flight.
+$bundled = dirname(__DIR__) . "/assets/illustrations/{$slug}{$poseSuffix}.png";
 if (is_file($bundled) && filesize($bundled) > 1024) {
     serve_png($bundled);
+}
+// Pose-2 missing? Fall back to pose-1 so the flight tab still shows
+// the perched render instead of breaking to the photo fallback.
+if ($pose !== 1) {
+    $fallback = dirname(__DIR__) . "/assets/illustrations/$slug.png";
+    if (is_file($fallback) && filesize($fallback) > 1024) {
+        serve_png($fallback);
+    }
 }
 // 2. Bundled cutout (background-removed photo, fallback for species
 //    without an illustration).
