@@ -5,7 +5,7 @@
 //   1. ../assets/illustrations/<slug>.png   (450+ bundled kachō-e renders)
 //   2. ../assets/cutouts/<slug>.png         (background-removed photo)
 //   3. cached rembg of a Wikipedia photo at $HOME/BirdSongs/Extracted/cutouts/
-//   4. fresh Wikipedia → rembg → cache (skipped gracefully if rembg unset)
+//   4. fresh Wikipedia -> rembg -> cache (skipped gracefully if rembg unset)
 //
 // The frontend's <img src> points here for every species - bundled
 // hits return instantly; cold misses fall through to the dynamic path.
@@ -76,8 +76,8 @@ if (is_file($cachePath) && filesize($cachePath) > 1024) {
 }
 
 // 4. Fresh Wikipedia fetch + rembg. Skipped if rembg-cli isn't on
-//    PATH - the resolver simply returns a 404 in that case rather
-//    than burning a Wikipedia request we can't use.
+//    PATH - the resolver returns a 404 in that case rather than
+//    burning a Wikipedia request we can't use.
 $rembg = '/usr/local/bin/rembg-cli';
 if (!is_executable($rembg)) {
     http_response_code(404);

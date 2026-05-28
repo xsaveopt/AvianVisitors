@@ -93,8 +93,8 @@ switch ($action) {
 
     case 'recent': {
         // Cap raised to 1,000,000 hours (~114 years) so the frontend's
-        // "ALL" button can effectively turn off the time filter without
-        // needing a separate code path.
+        // "ALL" button can turn off the time filter without needing a
+        // separate code path.
         $hours = max(1, min(1000000, (int)($_GET['hours'] ?? 24)));
         // species-collapsed view: one row per species seen in the window,
         // with the file of its highest-confidence detection inside the window.

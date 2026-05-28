@@ -1058,7 +1058,7 @@
   }
 
   /* ============ Detail modal (atlas card expansion) ============
-     Click a bird card → this fades in over a soft ink backdrop with
+     Click a bird card -> this fades in over a soft ink backdrop with
      the full sketch, taxonomic info, Wikipedia summary, and a
      scrollable list of every past audio capture for the species. */
   /* /about - a brief explainer popup floated over the index page.

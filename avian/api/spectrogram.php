@@ -5,8 +5,8 @@
 // instead of .mp3.
 //
 // Endpoints:
-//   ?sci=<sci_name>            → newest spectrogram for that species
-//   ?file=<original-base>.mp3  → spectrogram next to that specific
+//   ?sci=<sci_name>            -> newest spectrogram for that species
+//   ?file=<original-base>.mp3  -> spectrogram next to that specific
 //                                recording (atlas modal uses this so the
 //                                strip below each play button is the
 //                                spectrogram for that recording, not

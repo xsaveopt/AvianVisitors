@@ -45,7 +45,7 @@
   function setTitleForView(i) {
     var next = VIEW_TITLES[i];
     if (!staticTitle || staticTitle.textContent === next) return;
-    // Fade out → swap text → fade in. The opacity transition is 240ms;
+    // Fade out -> swap text -> fade in. The opacity transition is 240ms;
     // we swap at ~half that so the eye doesn't catch the text change.
     staticHead.classList.add('swap-out');
     setTimeout(function () {
@@ -155,7 +155,7 @@
                           n <= 12 ? 0.40 :
                           n <= 24 ? 0.34 :
                                     0.28,
-      // Count → area exponent. ~0.65 keeps the visual hierarchy
+      // Count -> area exponent. ~0.65 keeps the visual hierarchy
       // legible (n=400 reads ~5× bigger than n=30) without the
       // loudest bird drowning everything else.
       countExp: 0.65,
@@ -610,7 +610,7 @@
     byHour:     new Array(24).fill(0),         // [hour-of-day] detections
   };
 
-  // Map sci → all-time detection count, populated from lifelist for atlas.
+  // Map sci -> all-time detection count, populated from lifelist for atlas.
   var speciesTotals = {};
 
   function fetchJson(url) {
@@ -654,20 +654,20 @@
   // toward the "recent" end of the gradient render in deeper ink; older
   // bars fade to a warm light grey. Same hue family throughout.
   function barColor(t) {
-    // t = 0 (outer / newest) → 1 (inner / oldest).
+    // t = 0 (outer / newest) -> 1 (inner / oldest).
     // Monochromatic ink palette: same warm hue as the title text
     // (--ink: #1a1612 ≈ HSL 25, 14%, 9%). Newest hours render in deep
     // ink so the outer perimeter reads bold; older hours fade to a
     // warm light grey, the chart looks like a hand-pulled engraving.
     var hue = 25;                    // warm-grey hue, matches --ink family
-    var sat = 12 - t * 8;             // 12% → 4%
-    var light = 14 + t * 50;          // 14% (near-black) → 64% (light grey)
+    var sat = 12 - t * 8;             // 12% -> 4%
+    var light = 14 + t * 50;          // 14% (near-black) -> 64% (light grey)
     return 'hsl(' + hue + ', ' + sat.toFixed(0) + '%, ' + light.toFixed(0) + '%)';
   }
 
   // Editorial detection timeline. One column per species; the black
   // square's height up the column encodes detection count (y axis),
-  // columns run left→right oldest→newest detection (x axis). A
+  // columns run left->right oldest->newest detection (x axis). A
   // rotated species label sits just above each square. Y-axis count
   // ticks on the left, X-axis time labels on the bottom. Always fits
   // the viewport - column widths flex, square size steps down as the
@@ -918,7 +918,7 @@
 
     var lifelist = (DATA.lifelist && DATA.lifelist.species) || [];
     var recent = (DATA.recent && DATA.recent.species) || [];
-    // Window count lookup: sci → count in current window.
+    // Window count lookup: sci -> count in current window.
     var winBySci = {};
     recent.forEach(function (s) { winBySci[s.sci] = +s.n; });
 
@@ -1271,7 +1271,7 @@
     // native:true they navigate in-page; otherwise they keep the old
     // open-in-new-tab behavior for the legacy BirdNET-Pi screens.
     var linksHtml = menu.map(function (it) {
-      var label = (it.label || '').replace('today's detections', 'today');
+      var label = (it.label || '');
       var attrs = it.native ? '' : ' target="_blank" rel="noopener"';
       var cls = it.native ? '' : ' class="ext"';
       return '<a' + cls + ' href="' + it.href + '"' + attrs + '><span>' + label + '</span></a>';
@@ -1394,7 +1394,7 @@
           var idx = Math.round(lo + (hi - lo) * Math.pow(t, 1.6));
           var v = (bins[idx] || 0) / 255;
           var e = v * v * (3 - 2 * v);
-          // Paper (245,240,230) → ink (26,22,18) ramp.
+          // Paper (245,240,230) -> ink (26,22,18) ramp.
           var r = 245 + Math.round((26 - 245) * e);
           var g = 240 + Math.round((22 - 240) * e);
           var b = 230 + Math.round((18 - 230) * e);
@@ -1439,7 +1439,7 @@
     });
   }
 
-  // Pending changes (key → value), saved on click of the Save button.
+  // Pending changes (key -> value), saved on click of the Save button.
   var pending = {};
 
   function setSaveState(msg, cls) {
@@ -1456,7 +1456,7 @@
         var v = cfg.values || {};
         var preserve = cfg.preserve;
         var html = ''
-          + settingsToggle('preserve', 'Preserve all recordings', 'don't auto-delete', preserve)
+          + settingsToggle('preserve', 'Preserve all recordings', "don't auto-delete", preserve)
           + settingsSlider('CONFIDENCE',  'Confidence threshold', 'min score to log a detection', v.CONFIDENCE,  0.1, 0.95, 0.05, 2)
           + settingsSlider('SENSITIVITY', 'Sensitivity',          'analyzer sensitivity',          v.SENSITIVITY, 0.5, 1.5,  0.05, 2)
           + settingsSlider('OVERLAP',     'Chunk overlap',        'seconds analyzed per pass',     v.OVERLAP,     0,   2.5,  0.1,  1)
@@ -2053,7 +2053,7 @@
         var preserve = cfg.preserve;
         adminBody.innerHTML =
           '<div class="admin-settings">'
-          + settingsToggle('preserve', 'Preserve all recordings', 'don't auto-delete', preserve)
+          + settingsToggle('preserve', 'Preserve all recordings', "don't auto-delete", preserve)
           + settingsSlider('CONFIDENCE',  'Confidence threshold', 'min score to log a detection', v.CONFIDENCE,  0.1, 0.95, 0.05, 2)
           + settingsSlider('SENSITIVITY', 'Sensitivity',          'analyzer sensitivity',          v.SENSITIVITY, 0.5, 1.5,  0.05, 2)
           + settingsSlider('OVERLAP',     'Chunk overlap',        'seconds analyzed per pass',     v.OVERLAP,     0,   2.5,  0.1,  1)
@@ -2130,7 +2130,13 @@
       sys.disk_birds && sys.disk_birds.used_pct > 92 ? 'warn' : '');
     var audio = sys.audio || {}, cards = audio.arecord_l || [];
     var mic = cards.find ? cards.find(function (c) { return /usb-audio|microphone|mic/i.test(c); }) : null;
-    html += adminCard('audio device', mic || cards[0] || 'no cards', '');
+    // Without a USB mic, /proc/asound/cards only lists the Pi's HDMI
+    // audio outputs - which aren't an input source. Flag that clearly
+    // rather than showing "audio device: vc4hdmi0" as if it were a mic.
+    html += adminCard('audio device',
+      mic || (cards.length ? 'no microphone attached' : 'no audio devices'),
+      mic ? '' : (cards[0] || ''),
+      mic ? '' : 'warn');
     html += '</div>';
 
     html += '<h2 class="admin-section-head">services</h2>';
@@ -2312,7 +2318,7 @@
     var m = location.hash.match(/^#admin=([a-z]+)/);
     return m ? m[1] : null;
   }
-  // #about - brief explainer popup; reached via /about (302 → /#about)
+  // #about - brief explainer popup; reached via /about (302 -> /#about)
   // or the masthead eyebrow. aria-hidden drives the CSS fade/slide.
   function openAbout()  { document.getElementById('about-modal').setAttribute('aria-hidden', 'false'); }
   function closeAbout() { document.getElementById('about-modal').setAttribute('aria-hidden', 'true'); }
@@ -2330,7 +2336,7 @@
   if (location.hash === '#about') openAbout();
   window.addEventListener('hashchange', syncRouter);
 
-  // Modal interactions: backdrop / close button → clear the hash.
+  // Modal interactions: backdrop / close button -> clear the hash.
   document.getElementById('detail-modal').addEventListener('click', function (ev) {
     if (ev.target.dataset && ev.target.dataset.close === '1') {
       if (location.hash) { location.hash = ''; } else { closeDetailModal(); }
@@ -2344,7 +2350,7 @@
   });
 
   // About popup: backdrop / close / explore button all carry data-close,
-  // which clears the hash and routes through syncRouter → closeAbout.
+  // which clears the hash and routes through syncRouter -> closeAbout.
   // The masthead eyebrow opens it; Escape dismisses it.
   document.getElementById('about-modal').addEventListener('click', function (ev) {
     if (ev.target.dataset && ev.target.dataset.close === '1') {
@@ -2452,7 +2458,7 @@
     var bins = FFT_SIZE >> 1;
     var nyquist = sr / 2;
 
-    // Frequency-band mapping (Hz → bin) for the bird-relevant band.
+    // Frequency-band mapping (Hz -> bin) for the bird-relevant band.
     // Most North American songbirds + corvids range 250 Hz - 8 kHz, but
     // hummingbirds, kinglets, and warblers reach 12 kHz. Push the cap
     // up so we don't miss the high-frequency tail.
@@ -2483,7 +2489,7 @@
       data[p] = BG_R; data[p + 1] = BG_G; data[p + 2] = BG_B; data[p + 3] = 255;
     }
 
-    // Precompute row → bin map (log-ish so low freqs get more space).
+    // Precompute row -> bin map (log-ish so low freqs get more space).
     var rowToBin = new Int32Array(H);
     for (var row = 0; row < H; row++) {
       var t = 1 - row / (H - 1); // 1 at top, 0 at bottom
@@ -2503,11 +2509,11 @@
         var bin2 = rowToBin[row2];
         var re = real[bin2], im = imag[bin2];
         var mag = Math.sqrt(re * re + im * im);
-        // log compress; -75 .. -10 dB → 0 .. 1
+        // log compress; -75 .. -10 dB -> 0 .. 1
         var db = 20 * Math.log10(mag + 1e-9);
         var v = (db + 75) / 65;
         if (v < 0) v = 0; else if (v > 1) v = 1;
-        // Ink-on-paper palette: low energy → paper, high energy → ink.
+        // Ink-on-paper palette: low energy -> paper, high energy -> ink.
         // Smoothstep for a softer falloff between the two extremes.
         var e = v * v * (3 - 2 * v);
         var r = BG_R + Math.round((FG_R - BG_R) * e);
@@ -2593,11 +2599,11 @@
     var playBtn = ev.target.closest('.play');
     if (playBtn) {
       // Play / pause toggle. Three cases:
-      //   (a) clicking the playing row's button → pause (KEEP audio
+      //   (a) clicking the playing row's button -> pause (KEEP audio
       //       alive so the user can scrub then resume).
       //   (b) clicking a paused row's button (it's still modalRecBtn,
-      //       audio still alive, just paused) → resume from cursor.
-      //   (c) clicking a different row's button → stop the old, start
+      //       audio still alive, just paused) -> resume from cursor.
+      //   (c) clicking a different row's button -> stop the old, start
       //       the new.
       var prow = playBtn.closest('.rec-row');
       var pfile = prow && prow.dataset.file;
@@ -2653,7 +2659,7 @@
       return;
     }
 
-    // Row click anywhere else → toggle strip open/closed.
+    // Row click anywhere else -> toggle strip open/closed.
     var row = ev.target.closest('.rec-row');
     if (!row) return;
     var willExpand = !row.classList.contains('expanded');
@@ -2727,7 +2733,7 @@
     if (location.hash !== '#sci=' + encodeURIComponent(sci)) {
       location.hash = '#sci=' + encodeURIComponent(sci);
     } else {
-      // Same hash → still re-highlight (the user clicked it again).
+      // Same hash -> still re-highlight (the user clicked it again).
       go(2); highlightAtlas(sci);
     }
   }

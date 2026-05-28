@@ -73,9 +73,9 @@ create_necessary_dirs() {
   # reachable at /avian/. The five frontend files at the EXTRACTED root
   # make the collage the default index for http://birdnet.local/ -
   # the matching try_files override in update_caddyfile.sh teaches
-  # php_fastcgi to prefer index.html over index.php at the root, so
-  # BirdNET-Pi's stock UI moves to http://birdnet.local/index.php
-  # (still linked from the AvianVisitors menu drawer).
+  # php_fastcgi to prefer index.html over index.php at the root. The
+  # stock BirdNET-Pi UI stays reachable at http://birdnet.local/index.php
+  # for anyone who wants to drop into the legacy admin pages.
   if [ -d $my_dir/avian ]; then
     sudo -u ${USER} ln -fs $my_dir/avian ${EXTRACTED}/avian
     sudo -u ${USER} ln -fs $my_dir/avian/frontend/index.html ${EXTRACTED}/index.html
@@ -94,7 +94,7 @@ create_necessary_dirs() {
   sudo -u ${USER} ln -fs $my_dir/scripts/todays_detections.php ${EXTRACTED}
   sudo -u ${USER} ln -fs $my_dir/scripts/history.php ${EXTRACTED}
   sudo -u ${USER} ln -fs $my_dir/scripts/weekly_report.php ${EXTRACTED}
-  # favicon.ico → AvianVisitors PNG when the overlay is present (modern
+  # favicon.ico -> AvianVisitors PNG when the overlay is present (modern
   # browsers accept image/png for the .ico path); fall back to the stock
   # BirdNET-Pi favicon.ico otherwise so plain installs still get an icon.
   if [ -d $my_dir/avian ]; then

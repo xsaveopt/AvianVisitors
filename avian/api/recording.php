@@ -7,7 +7,7 @@
 //   $HOME/BirdSongs/Extracted/By_Date/YYYY-MM-DD/<Common_Name>/<base>.mp3
 // (with a matching .png next to it). Common_Name is the SPACE-stripped
 // English common name (e.g. "Anna's_Hummingbird"), NOT the scientific
-// name. We resolve sci → common via birds.json under BirdNET-Pi/scripts/
+// name. We resolve sci -> common via birds.json under BirdNET-Pi/scripts/
 // and walk the directory tree newest-first.
 //
 
@@ -96,7 +96,7 @@ if ($file !== '') {
     readfile($path);
     exit;
 }
-// ---- Resolve scientific name → common name (with underscores) ----
+// ---- Resolve scientific name -> common name (with underscores) ----
 function resolve_common(string $sci): ?string {
     // Try birds.json first (preferred - has clean sci/com pairs).
     foreach ([dirname(__DIR__, 3) . '/BirdNET-Pi/scripts/birds.json'] as $f) {
@@ -131,7 +131,7 @@ function resolve_common(string $sci): ?string {
 
 $common = resolve_common($sci);
 if ($common === null) {
-    // Last-ditch: try the scientific name itself, with spaces → underscores.
+    // Last-ditch: try the scientific name itself, with spaces -> underscores.
     // (Some BirdNET dirs are keyed by sci name.)
     $common = str_replace(' ', '_', $sci);
 }
