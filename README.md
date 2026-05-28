@@ -1,8 +1,6 @@
 # AvianVisitors
 
-*A live bird collage from your apartment window.*
-
-A fork of [BirdNET-Pi](https://github.com/Nachtzuster/BirdNET-Pi) that adds a tile-packed kachō-e collage UI. Listens to your balcony with Cornell's [BirdNET](https://birdnet.cornell.edu/), illustrates every detected species in the style of Edo-period Japanese woodblock prints, and renders them sized by call count. See it running at [bird.onethreenine.net](https://bird.onethreenine.net).
+*A live bird collage from your window.* See it running at [bird.onethreenine.net](https://bird.onethreenine.net).
 
 <img alt="avianvisitors collage" src="docs/thumb.png" />
 
@@ -30,7 +28,7 @@ Use [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Pick **Raspber
 - Hostname: `birdnet` (so it's reachable at `birdnet.local`)
 - Enable SSH with password auth
 
-Boot the Pi.
+Plug the USB lavalier mic into the Pi, place the capsule in a window or mount it outside under an eave, and boot.
 
 ---
 
