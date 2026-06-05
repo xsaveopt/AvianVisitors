@@ -1393,13 +1393,26 @@
       analyser.connect(audioCtx.destination);
       drawSpectrogram();
     }
+    // Convert a CSS colour token (hex or rgb()) to [r,g,b] by letting the 2d
+    // context normalise whatever form the variable is authored in.
+    function toRGB(str, fallback) {
+      var c = spectroEl.getContext('2d');
+      c.fillStyle = fallback; c.fillStyle = str;   // invalid str leaves fallback
+      var s = c.fillStyle;
+      if (s.charAt(0) === '#') return [parseInt(s.substr(1, 2), 16), parseInt(s.substr(3, 2), 16), parseInt(s.substr(5, 2), 16)];
+      var m = s.match(/(\d+)[,\s]+(\d+)[,\s]+(\d+)/);
+      return m ? [+m[1], +m[2], +m[3]] : [0, 0, 0];
+    }
     function drawSpectrogram() {
       var ctx = spectroEl.getContext('2d');
       var W = spectroEl.width, H = spectroEl.height;
-      // Read palette tokens for ink + paper so the live spectrogram
-      // visually matches the recording-row spectrograms.
+      // Read palette tokens so the live spectrogram follows the theme - a
+      // charcoal ground with a light trace in dark mode, not a hardcoded
+      // light-mode ramp - matching the recording-row + card spectrograms.
       var cs = getComputedStyle(document.documentElement);
       var paper = cs.getPropertyValue('--paper-2').trim() || '#efe8d8';
+      var bg = toRGB(paper, '#efe8d8');
+      var fg = toRGB(cs.getPropertyValue('--ink').trim() || '#1a1612', '#1a1612');
       ctx.fillStyle = paper;
       ctx.fillRect(0, 0, W, H);
       var bins = new Uint8Array(analyser.frequencyBinCount);
@@ -1417,10 +1430,10 @@
           var idx = Math.round(lo + (hi - lo) * Math.pow(t, 1.6));
           var v = (bins[idx] || 0) / 255;
           var e = v * v * (3 - 2 * v);
-          // Paper (245,240,230) -> ink (26,22,18) ramp.
-          var r = 245 + Math.round((26 - 245) * e);
-          var g = 240 + Math.round((22 - 240) * e);
-          var b = 230 + Math.round((18 - 230) * e);
+          // Ground (paper) -> trace (ink) ramp, per the active theme.
+          var r = bg[0] + Math.round((fg[0] - bg[0]) * e);
+          var g = bg[1] + Math.round((fg[1] - bg[1]) * e);
+          var b = bg[2] + Math.round((fg[2] - bg[2]) * e);
           ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
           ctx.fillRect(W - 1, y, 1, 1);
         }
@@ -2531,11 +2544,12 @@
     var imgData = ctx.createImageData(W, H);
     var data = imgData.data;
 
-    // Page-paper ground; ink intensifies where there's audio energy.
-    // Matches the sketch palette (paper #f5f0e6 background, ink
-    // #1a1612 strokes).
-    var BG_R = 245, BG_G = 240, BG_B = 230;
-    var FG_R = 26,  FG_G = 22,  FG_B = 18;
+    // Paper ground; ink intensifies where there's audio energy. Theme-
+    // aware so dark mode gets a charcoal ground with a light trace instead
+    // of a glaring light rectangle (matches --paper / --ink per theme).
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var BG_R = dark ? 23  : 245, BG_G = dark ? 24  : 240, BG_B = dark ? 28  : 230;
+    var FG_R = dark ? 236 : 26,  FG_G = dark ? 232 : 22,  FG_B = dark ? 225 : 18;
     for (var p = 0; p < data.length; p += 4) {
       data[p] = BG_R; data[p + 1] = BG_G; data[p + 2] = BG_B; data[p + 3] = 255;
     }

@@ -1432,6 +1432,16 @@
     box-shadow: 0 0 0 0.5px rgba(26,22,18,0.20);
   }
   .rec-spectro.armed .rec-spectro-cursor { opacity: 1; }
+  /* Dark mode: the spectrogram ground is charcoal (paintSpectrogram paints
+     with --paper), so the dark played-veil and the --paper cursor pill would
+     both vanish into it. Flip the veil light, and make the cursor a light
+     pill so it still reads against the dark ground. */
+  :root[data-theme="dark"] .rec-spectro .rec-spectro-played {
+    background: linear-gradient(90deg, rgba(236,232,225,0.18), rgba(236,232,225,0.07));
+  }
+  :root[data-theme="dark"] .rec-spectro .rec-spectro-cursor {
+    background: var(--ink);
+  }
   .rec-spectro .rec-spectro-scrub {
     position: absolute; inset: 0;
     cursor: ew-resize;
