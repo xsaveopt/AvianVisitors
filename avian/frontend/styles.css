@@ -499,6 +499,41 @@
     flex: 1 1 auto; width: 100%; max-width: 1300px; margin: 0 auto;
     position: relative; min-height: 0;
   }
+  /* Centre-out bloom: each tile fades + scales in; JS staggers the
+     animation-delay by distance from the cluster centre. backwards
+     fill-mode holds the hidden start state through the delay, and we keep
+     no forwards transform so the hover scale still works afterward. */
+  @keyframes gtile-in {
+    from { opacity: 0; transform: scale(0.82); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .gtile.entering {
+    animation: gtile-in 420ms cubic-bezier(.2,.7,.3,1) backwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gtile.entering { animation: none; }
+  }
+  /* Atlas: cards rise + fade in, row by row (JS staggers by row). */
+  @keyframes bird-card-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  .bird-card.entering { animation: bird-card-in 480ms cubic-bezier(.2,.7,.3,1) backwards; }
+  /* Stats: the WHOLE graph populates left-to-right - columns, gridlines and
+     x-axis ticks stagger by their x; the y-axis + side panel fade in just
+     behind. Opacity only (these elements use transform for layout, so
+     animating transform here would fight their positioning). */
+  @keyframes stats-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  .stats-tl-col.entering, .stats-tl-gridline.entering,
+  .stats-tl-xtick.entering, .stats-tl-yaxis.entering,
+  .stats-side h3.entering, .stats-side small.entering, .stats-side li.entering {
+    animation: stats-fade-in 340ms ease backwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bird-card.entering, .stats-tl-col.entering, .stats-tl-gridline.entering,
+    .stats-tl-xtick.entering, .stats-tl-yaxis.entering,
+    .stats-side h3.entering, .stats-side small.entering, .stats-side li.entering { animation: none; }
+  }
   .gtile {
     position: absolute;
     background: transparent; border: 0; padding: 0; margin: 0;
@@ -1198,9 +1233,12 @@
     display: flex; align-items: center; justify-content: center;
     padding: 24px;
     pointer-events: none; opacity: 0;
-    transition: opacity 220ms ease;
+    /* One opacity fade for backdrop + card together; the card also
+       morphs via transform (see morphModalOpen). Driven by .is-open so
+       the fade can run *during* the close morph, not after it. */
+    transition: opacity 260ms ease;
   }
-  #detail-modal[aria-hidden="false"] { pointer-events: auto; opacity: 1; }
+  #detail-modal.is-open { pointer-events: auto; opacity: 1; }
   .modal-backdrop {
     position: absolute; inset: 0;
     background: rgba(26,22,18,0.32);
@@ -1224,13 +1262,8 @@
     will-change: transform, opacity;
   }
   .modal-card.is-morphing {
-    transition:
-      transform 380ms cubic-bezier(.32,.72,.32,1),
-      opacity 220ms ease;
+    transition: transform 300ms cubic-bezier(.22,.61,.36,1);
   }
-  /* The static aria-hidden=false rule used to override transform. It
-     now conflicts with our inline FLIP morph - removed. The morph
-     handler explicitly sets the destination transform. */
   .modal-close {
     position: absolute; top: 16px; right: 16px;
     background: var(--paper-2); border: 0;

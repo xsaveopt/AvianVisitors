@@ -56,12 +56,34 @@
     }, 220);
   }
 
+  // The views slide horizontally over SLIDE_MS (see .views transition). For
+  // stats + atlas we hold the load-in hidden until the slide has essentially
+  // settled, so you watch the content populate *in* the view rather than it
+  // finishing mid-slide. The lead is a touch under SLIDE_MS so the cascade
+  // begins just as the view arrives - no dead pause, still snappy. Collage's
+  // bloom reads fine mid-slide, so it starts immediately (no lead). Stats
+  // reads as starting a hair slower than atlas, so it gets a shorter lead.
+  var SLIDE_MS = 480;
+  var SWITCH_LEAD = SLIDE_MS - 100;   // atlas
+  var STATS_LEAD = SLIDE_MS - 200;    // stats - begin a touch sooner
+  var currentView = 0;                // collage shows first (no go() needed)
   function go(i) {
     i = Math.max(0, Math.min(2, i));
+    // Only a genuine view *switch* replays the entrance. go() also fires when
+    // a card is expanded (it sets the #sci= hash, which routes through go(2))
+    // while already on the atlas - that must not retrigger the load-in.
+    var switching = (i !== currentView);
+    currentView = i;
     views.style.transform = 'translateX(-' + (i * 100) + '%)';
     btns.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
     syncPill(slider);
     setTitleForView(i);
+    if (!switching) return;
+    // Replay the view's entrance animation on switch (collage bloom,
+    // stats left-to-right, atlas row-by-row).
+    if (i === 0) playCollageEntrance();
+    else if (i === 1) playStatsEntrance(STATS_LEAD);
+    else if (i === 2) playAtlasEntrance(SWITCH_LEAD);
   }
   btns.forEach(function (b) { b.addEventListener('click', function () { go(+b.dataset.i); }); });
 
@@ -351,14 +373,14 @@
     return placed;
   }
 
-  function renderCollage(items) {
+  function renderCollage(items, animate) {
     collage.innerHTML = '';
     if (!items.length) {
       collage.innerHTML = '<p class="empty">no birds heard in this window.</p>';
       return;
     }
     var W = collage.clientWidth, H = collage.clientHeight;
-    if (!W || !H) { setTimeout(function () { renderCollage(items); }, 80); return; }
+    if (!W || !H) { setTimeout(function () { renderCollage(items, animate); }, 80); return; }
 
     // Tuning depends on bird count - same viewport, very different
     // pack densities for 6 vs 48 birds.
@@ -494,6 +516,116 @@
     // Stash the placed tiles so the alpha-mask hit-tester (below) can
     // resolve which silhouette the cursor is actually over.
     collagePlaced = placed.filter(function (t) { return t.x > -1000; });
+
+    // Bloom the birds in from the centre outward, but only when asked
+    // (first load, window change, view switch) - never on the silent 30s
+    // poll or a resize, which render without the animate flag.
+    if (animate) playCollageEntrance();
+  }
+
+  // Staggered centre-out entrance: each tile fades + scales in, delayed by
+  // its distance from the collage centre, so the flock blooms from the
+  // middle out. Re-applied with a reflow reset so it can replay on demand
+  // (e.g. switching back to the collage view).
+  var collageEntranceT = null;
+  function playCollageEntrance() {
+    var tiles = [].slice.call(collage.querySelectorAll('.gtile'));
+    if (!tiles.length) return;
+    var cx = collage.clientWidth / 2, cy = collage.clientHeight / 2;
+    var maxD = 1;
+    var info = tiles.map(function (t) {
+      var d = Math.hypot((t.offsetLeft + t.offsetWidth / 2) - cx,
+                         (t.offsetTop + t.offsetHeight / 2) - cy);
+      if (d > maxD) maxD = d;
+      return { el: t, d: d };
+    });
+    var SPREAD = 520;   // ms from the centre bird to the outermost
+    info.forEach(function (o) {
+      o.el.classList.remove('entering');
+      o.el.style.animationDelay = ((o.d / maxD) * SPREAD).toFixed(0) + 'ms';
+    });
+    void collage.offsetWidth;   // commit the reset so the animation replays
+    info.forEach(function (o) { o.el.classList.add('entering'); });
+    // Safety net: the keyframe starts the tiles hidden (backwards fill), so
+    // if the animation never advances (a backgrounded/throttled tab where
+    // CSS animation time is frozen), strip the class after the bloom's
+    // worst-case duration so the birds always end visible. A no-op when the
+    // animation ran normally - it's already at the base (visible) state.
+    clearTimeout(collageEntranceT);
+    collageEntranceT = setTimeout(function () {
+      info.forEach(function (o) { o.el.classList.remove('entering'); o.el.style.animationDelay = ''; });
+    }, SPREAD + 520);
+  }
+
+  // Atlas entrance: cards rise + fade in row by row, top to bottom. Cards
+  // sharing an offsetTop are one row, so they appear together; each row
+  // down adds a small delay (capped so a long lifelist doesn't crawl).
+  var atlasEntranceT = null;
+  // lead: ms to hold every card hidden before the cascade starts. On a view
+  // switch this is set to ~the view-slide duration so the row-by-row load-in
+  // begins as the view settles (not while it's still sliding in). The cards'
+  // `backwards` fill keeps them hidden during the lead, so there's no flash.
+  // In-place re-renders (sort change) pass no lead - they fire immediately.
+  function playAtlasEntrance(lead) {
+    lead = lead || 0;
+    var grid = document.getElementById('atlasGrid');
+    if (!grid) return;
+    var cards = [].slice.call(grid.querySelectorAll('.bird-card'));
+    if (!cards.length) return;
+    var uniqTops = cards.map(function (c) { return c.offsetTop; })
+      .sort(function (a, b) { return a - b; })
+      .filter(function (v, i, a) { return i === 0 || v !== a[i - 1]; });
+    var rowOf = {}; uniqTops.forEach(function (t, i) { rowOf[t] = i; });
+    // Each row trails the one above by PER_ROW ms. At 90ms against the 480ms
+    // card animation the rows clearly cascade top-to-bottom (a row starts when
+    // the one above is ~1/5 in) instead of reading as one simultaneous fade.
+    // MAX_ROW caps the stagger so a long lifelist's off-screen rows don't crawl.
+    var PER_ROW = 90, MAX_ROW = 10;
+    cards.forEach(function (c) {
+      c.classList.remove('entering');
+      c.style.animationDelay = (lead + Math.min(rowOf[c.offsetTop] || 0, MAX_ROW) * PER_ROW) + 'ms';
+    });
+    void grid.offsetWidth;
+    cards.forEach(function (c) { c.classList.add('entering'); });
+    clearTimeout(atlasEntranceT);
+    atlasEntranceT = setTimeout(function () {
+      cards.forEach(function (c) { c.classList.remove('entering'); c.style.animationDelay = ''; });
+    }, lead + MAX_ROW * PER_ROW + 540);
+  }
+
+  // Stats entrance: timeline columns fade in left -> right (by their x
+  // position), with the side panel fading in just behind. Opacity only.
+  var statsEntranceT = null;
+  // lead: see playAtlasEntrance. On a view switch the whole graph is held
+  // hidden until the slide settles, then populates left-to-right; in-place
+  // re-renders (window-picker change) pass no lead and animate immediately.
+  function playStatsEntrance(lead) {
+    lead = lead || 0;
+    var plot = document.querySelector('.stats-tl-plot');
+    if (!plot) return;
+    var SPREAD = 460;
+    // The whole graph populates left-to-right: columns, gridlines and
+    // x-ticks stagger by their x%; the y-axis leads (delay 0) and the side
+    // panel trails. animationDelay carries the per-element offset.
+    var items = [].slice.call(plot.querySelectorAll('.stats-tl-col, .stats-tl-gridline, .stats-tl-xtick'))
+      .map(function (el) { return { el: el, d: ((parseFloat(el.style.left) || 0) / 100) * SPREAD }; });
+    var yaxis = document.querySelector('.stats-tl-yaxis');
+    if (yaxis) items.push({ el: yaxis, d: 0 });
+    // Side panel loads in tandem: section headers + captions lead, then
+    // their rows populate top-to-bottom over the same window as the graph.
+    var side = document.querySelector('.stats-side');
+    if (side) {
+      [].slice.call(side.querySelectorAll('h3, small')).forEach(function (el) { items.push({ el: el, d: 40 }); });
+      var rows = [].slice.call(side.querySelectorAll('li'));
+      rows.forEach(function (el, i) { items.push({ el: el, d: 80 + (i / Math.max(1, rows.length - 1)) * SPREAD }); });
+    }
+    items.forEach(function (o) { o.el.classList.remove('entering'); o.el.style.animationDelay = Math.round(lead + o.d) + 'ms'; });
+    void plot.offsetWidth;
+    items.forEach(function (o) { o.el.classList.add('entering'); });
+    clearTimeout(statsEntranceT);
+    statsEntranceT = setTimeout(function () {
+      items.forEach(function (o) { o.el.classList.remove('entering'); o.el.style.animationDelay = ''; });
+    }, lead + SPREAD + 560);
   }
 
   // ---- Alpha-mask hover/click hit-testing ----
@@ -587,9 +719,9 @@
   // Collage renders whatever is in DATA.recent.species. When the picker
   // changes, refreshRecent() refetches and re-renders. Empty state shows
   // a "no detections in this window" message.
-  function renderCollageFromData() {
+  function renderCollageFromData(animate) {
     var items = (DATA.recent && DATA.recent.species) || [];
-    renderCollage(items);
+    renderCollage(items, animate);
   }
   var rTimer;
   window.addEventListener('resize', function () {
@@ -900,7 +1032,7 @@
   var ICON_PLAY = '<svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 2 L10 6 L3 10 Z"/></svg>';
   var ICON_PAUSE = '<svg viewBox="0 0 12 12" fill="currentColor"><rect x="3" y="2" width="2.5" height="8"/><rect x="6.5" y="2" width="2.5" height="8"/></svg>';
 
-  function renderAtlas() {
+  function renderAtlas(animate) {
     var grid = document.getElementById('atlasGrid');
     if (!grid) return;
 
@@ -1126,26 +1258,26 @@
         btn.click();
       }
     });
+    if (animate) playAtlasEntrance();
   }
 
-  function renderWindowDependent() {
-    // Things that change with the time-window picker. drawHistograms is
-    // here too now that its X-axis spans the selected window (was only
-    // re-drawn on full refreshAll before).
-    renderCollageFromData();
-    drawHistograms();
+  function renderWindowDependent(animate) {
+    // renderStatsLists runs BEFORE drawHistograms so the stats entrance
+    // (fired at the end of drawHistograms) can stagger the side-panel rows
+    // that were just built, in tandem with the graph populating.
+    renderCollageFromData(animate);
     renderStatsLists();
-    renderAtlas();
+    drawHistograms(animate);
+    renderAtlas(animate);
   }
-  function renderTimeIndependent() {
-    // Stats charts + atlas/stats lists that derive from non-window data
-    // (totals, lifelist, timeseries).
-    drawHistograms();
+  function renderTimeIndependent(animate) {
+    // Lists first, then the graph (see renderWindowDependent).
     renderStatsLists();
-    renderAtlas();
+    drawHistograms(animate);
+    renderAtlas(animate);
   }
 
-  function refreshRecent() {
+  function refreshRecent(animate) {
     // Capture the window this fetch was issued for. If the user
     // changes the picker again before it resolves - or a slower poll
     // lands later - we discard the stale response so the collage
@@ -1154,11 +1286,11 @@
     return fetchJson('./avian/api/birdnet-api.php?action=recent&hours=' + forHours)
       .then(function (j) {
         if (forHours !== currentHours) return; // window changed mid-flight
-        DATA.recent = j; renderWindowDependent();
+        DATA.recent = j; renderWindowDependent(animate);
       })
       .catch(function (e) { console.warn('recent fetch failed', e); });
   }
-  function refreshAll() {
+  function refreshAll(animate) {
     var forHours = currentHours;
     return Promise.all([
       fetchJson('./avian/api/birdnet-api.php?action=stats').catch(function () { return null; }),
@@ -1175,18 +1307,20 @@
       // since this poll started - otherwise keep what's there.
       if (forHours === currentHours && parts[4]) DATA.recent = parts[4];
       recomputeDerived();
-      renderTimeIndependent();
-      renderCollageFromData();
+      renderTimeIndependent(animate);
+      renderCollageFromData(animate);
     });
   }
 
   // Kick off the initial fetch. Renders pull from DATA as soon as it
   // populates; until then the page sits with empty histograms + lists.
-  refreshAll();
+  // animate=true so the collage blooms in on first load.
+  refreshAll(true);
 
-  // Hook into the window picker so the data refetches on change.
+  // Hook into the window picker so the data refetches on change. Pass
+  // animate=true so the collage blooms (the silent poll passes nothing).
   winBtns.forEach(function (b) {
-    b.addEventListener('click', function () { refreshRecent(); });
+    b.addEventListener('click', function () { refreshRecent(true); });
   });
 
   // ---- Realtime polling ----
@@ -1929,72 +2063,94 @@
     });
   }
 
-  // FLIP morph helpers. We never resize/reposition the modal-card
-  // permanently - we apply an inline transform that places it at the
-  // source-card's position+scale, then clear it next frame so the
-  // browser interpolates to the natural state. The same trick runs in
-  // reverse on close.
+  // Shared-element morph: the modal-card scales+translates from the
+  // clicked atlas card's exact rect to its natural centred rect, so the
+  // little card appears to expand into the big one (and retract on
+  // close). Only the card transforms; the container's opacity does the
+  // single fade for backdrop + card together - no double-fade, and the
+  // transform is cleared only once hidden so there's no mid-close snap.
   var atlasGridEl = document.getElementById('atlasGrid');
-  function morphFromRect(cardEl) {
-    if (!cardEl) return null;
-    var r = cardEl.getBoundingClientRect();
-    var winCx = window.innerWidth / 2;
-    var winCy = window.innerHeight / 2;
-    var dx = (r.left + r.width / 2) - winCx;
-    var dy = (r.top + r.height / 2) - winCy;
-    // Scale relative to the natural max width of the modal (~920px).
-    var ratio = Math.max(0.18, Math.min(0.95, r.width / 920));
-    return { dx: dx, dy: dy, ratio: ratio };
+  function morphTransform(modalCard, sourceCard) {
+    if (!modalCard || !sourceCard) return null;
+    var s = sourceCard.getBoundingClientRect();
+    // Source off-screen (opened from stats mid-slide, or scrolled away)
+    // -> skip the morph and just fade, rather than fly in from nowhere.
+    if (!s.width || s.bottom < 0 || s.top > window.innerHeight ||
+        s.right < 0 || s.left > window.innerWidth) return null;
+    var m = modalCard.getBoundingClientRect();
+    if (!m.width) return null;
+    var scale = Math.max(0.1, s.width / m.width);
+    var dx = (s.left + s.width / 2) - (m.left + m.width / 2);
+    var dy = (s.top + s.height / 2) - (m.top + m.height / 2);
+    return 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0) scale(' + scale.toFixed(4) + ')';
+  }
+  // Run cb once the transform transition finishes, with a timeout
+  // fallback for environments where transitionend doesn't fire.
+  function onceTransformEnd(el, cb, fallbackMs) {
+    var fired = false;
+    function handler(ev) {
+      if (ev && ev.propertyName && ev.propertyName !== 'transform') return;
+      if (fired) return;
+      fired = true;
+      el.removeEventListener('transitionend', handler);
+      cb();
+    }
+    el.addEventListener('transitionend', handler);
+    setTimeout(handler, fallbackMs);
   }
   function morphModalOpen(modalCard, sourceCard) {
-    if (!modalCard) return;
+    var modal = document.getElementById('detail-modal');
+    if (!modalCard) { modal.classList.add('is-open'); return; }
+    // Identity first so we can measure the card's natural rect, then jump
+    // it (no transition) to the source card's position + scale.
     modalCard.classList.remove('is-morphing');
-    var from = morphFromRect(sourceCard);
-    if (from) {
-      modalCard.style.transformOrigin = '50% 50%';
-      modalCard.style.transform =
-        'translate3d(' + from.dx + 'px, ' + from.dy + 'px, 0) scale(' + from.ratio + ')';
-      modalCard.style.opacity = '0';
-    } else {
-      modalCard.style.transform = 'translate3d(0, 8px, 0) scale(.96)';
-      modalCard.style.opacity = '0';
-    }
-    // Force a layout flush so the starting state is committed, then
-    // schedule the destination on the next tick. setTimeout(0) is
-    // more reliable than rAF in some embedded/headless contexts.
+    modalCard.style.transform = '';
     void modalCard.offsetWidth;
+    var start = morphTransform(modalCard, sourceCard);
+    if (start) {
+      modalCard.style.transform = start;
+      void modalCard.offsetWidth;
+    }
+    // Next tick: fade the container in and glide the card to identity.
+    // setTimeout (not rAF) - rAF can stall in non-painting/headless
+    // contexts; the forced reflow above already commits the start
+    // transform so the transition interpolates cleanly from it.
     setTimeout(function () {
-      modalCard.classList.add('is-morphing');
-      // Explicit identity matrix - browsers won't interpolate
-      // between a matrix() and the keyword "none".
-      modalCard.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
-      modalCard.style.opacity = '1';
-      setTimeout(function () {
+      modal.classList.add('is-open');
+      if (start) {
+        modalCard.classList.add('is-morphing');
+        modalCard.style.transform = 'translate3d(0,0,0) scale(1)';
+      }
+    }, 0);
+    if (start) {
+      onceTransformEnd(modalCard, function () {
         modalCard.classList.remove('is-morphing');
         modalCard.style.transform = '';
-        modalCard.style.opacity = '';
-      }, 420);
-    }, 0);
+      }, 360);
+    }
   }
   function morphModalClose(modalCard, sourceCard, done) {
-    if (!modalCard) { if (done) done(); return; }
-    var from = morphFromRect(sourceCard);
-    modalCard.classList.add('is-morphing');
-    if (from) {
-      modalCard.style.transform =
-        'translate3d(' + from.dx + 'px, ' + from.dy + 'px, 0) scale(' + from.ratio + ')';
-    } else {
-      modalCard.style.transform = 'translate3d(0, 8px, 0) scale(.96)';
-    }
-    modalCard.style.opacity = '0';
-    // After the transition, reset state for next open.
-    var settle = function () {
-      modalCard.classList.remove('is-morphing');
-      modalCard.style.transform = '';
-      modalCard.style.opacity = '';
+    var modal = document.getElementById('detail-modal');
+    // Fade the container out (backdrop + card) and retract the card to
+    // the source rect at the same time.
+    modal.classList.remove('is-open');
+    var end = modalCard ? morphTransform(modalCard, sourceCard) : null;
+    var finish = function () {
+      if (modalCard) {
+        modalCard.classList.remove('is-morphing');
+        modalCard.style.transform = '';
+      }
       if (done) done();
     };
-    setTimeout(settle, 380);
+    if (modalCard && end) {
+      modalCard.classList.add('is-morphing');
+      void modalCard.offsetWidth;
+      modalCard.style.transform = end;
+      onceTransformEnd(modalCard, finish, 360);
+    } else {
+      // No morph -> let the container opacity fade run, then hide.
+      setTimeout(finish, 280);
+    }
   }
 
   // Pose toggle inside the modal - swaps the sketch between perched
