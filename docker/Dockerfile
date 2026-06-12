@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       sox libsox-fmt-mp3 alsa-utils ffmpeg icecast2 \
       python3 \
       libsndfile1 libgomp1 \
-      wget unzip bc jq lsof inotify-tools \
+      wget unzip bc jq lsof inotify-tools usbutils \
  && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 -s /bin/bash birdnet \

@@ -98,13 +98,11 @@ function read_temp(): ?float
 
 function read_audio(): array
 {
-    $raw = @file_get_contents('/proc/asound/cards') ?: '';
-    $lines = array_values(array_filter(array_map('rtrim', explode("\n", $raw)), 'strlen'));
     $cards = [];
-    for ($i = 0; $i < count($lines); $i += 2) {
-        $head = trim($lines[$i]);
-        $detail = isset($lines[$i + 1]) ? trim($lines[$i + 1]) : '';
-        $cards[] = $detail !== '' ? "{$head} - {$detail}" : $head;
+    foreach (explode("\n", shellout('arecord -l')) as $line) {
+        if (preg_match('/^card \d+:/', $line)) {
+            $cards[] = trim($line);
+        }
     }
     $usb = shellout('lsusb');
     return [

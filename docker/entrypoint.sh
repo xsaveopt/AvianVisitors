@@ -205,6 +205,7 @@ fi
 if [ -f /etc/icecast2/icecast.xml ]; then
   ICE_PWD_VAL="${ICE_PWD:-birdnetpi}"
   sed -i "s/>admin</>birdnet</g" /etc/icecast2/icecast.xml
+  sed -i "s|<logdir>.*</logdir>|<logdir>${LOGS_DIR}</logdir>|" /etc/icecast2/icecast.xml
   for prefix in source- relay- admin- master- ""; do
     sed -i "s|<${prefix}password>.*</${prefix}password>|<${prefix}password>${ICE_PWD_VAL}</${prefix}password>|g" /etc/icecast2/icecast.xml
   done
