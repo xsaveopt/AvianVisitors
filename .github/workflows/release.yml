@@ -81,7 +81,7 @@ jobs:
     name: Docker build (no push)
     needs: [birdnet, generate, frontend, php, dockerfile]
     runs-on: ubuntu-latest
-    if: ${{ github.ref != 'refs/heads/avian-visitors' && !startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/v') }}
     steps:
       - uses: actions/checkout@v6
       - uses: docker/setup-buildx-action@v4
@@ -100,7 +100,7 @@ jobs:
     name: Publish :dev image
     needs: [birdnet, generate, frontend, php, dockerfile]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/avian-visitors'
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v6
       - uses: docker/setup-qemu-action@v4
