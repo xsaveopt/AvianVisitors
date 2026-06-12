@@ -2,16 +2,45 @@ ARG UV_VERSION=0.11.19
 
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
-FROM debian:bookworm-slim
+FROM debian:bookworm-slim AS builder
 
 ARG TARGETARCH
 ARG TFLITE_VERSION=2.17.1
 ENV DEBIAN_FRONTEND=noninteractive
-ENV HOME=/home/birdnet
-ENV APP_DIR=/home/birdnet/BirdNET-Pi
 ENV UV_PROJECT_ENVIRONMENT=/home/birdnet/BirdNET-Pi/.venv
 ENV UV_PYTHON=/usr/bin/python3.11
 ENV UV_LINK_MODE=copy
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      ca-certificates curl python3 \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY --from=uv /uv /uvx /usr/local/bin/
+
+WORKDIR /home/birdnet/BirdNET-Pi
+
+COPY birdnet/pyproject.toml birdnet/uv.lock ./birdnet/
+
+RUN uv sync --project birdnet --frozen --no-dev --extra stats --extra notify
+
+RUN set -eux; \
+    case "${TARGETARCH}" in \
+      arm64) WHL="tflite_runtime-${TFLITE_VERSION}-cp311-cp311-linux_aarch64.whl" ;; \
+      amd64) WHL="tflite_runtime-${TFLITE_VERSION}-cp311-cp311-linux_x86_64.whl" ;; \
+      *) echo "unsupported TARGETARCH=${TARGETARCH}"; exit 1 ;; \
+    esac; \
+    curl -fL -o "/tmp/${WHL}" "https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/${WHL}"; \
+    uv pip install --no-cache --python "${UV_PROJECT_ENVIRONMENT}/bin/python3" "/tmp/${WHL}"; \
+    rm -f "/tmp/${WHL}"
+
+FROM debian:bookworm-slim
+
+ARG TARGETARCH
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/home/birdnet
+ENV APP_DIR=/home/birdnet/BirdNET-Pi
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -29,26 +58,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       wget unzip bc jq lsof inotify-tools \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=uv /uv /uvx /usr/local/bin/
-
 RUN useradd -m -u 1000 -s /bin/bash birdnet \
- && usermod -aG audio birdnet
+ && usermod -aG audio birdnet \
+ && mkdir -p ${APP_DIR} \
+ && chown birdnet:birdnet ${APP_DIR}
 
 WORKDIR ${APP_DIR}
 
-COPY birdnet/pyproject.toml birdnet/uv.lock ./birdnet/
-
-RUN uv sync --project birdnet --frozen --no-dev --extra stats --extra notify
-
-RUN set -eux; \
-    case "${TARGETARCH}" in \
-      arm64) WHL="tflite_runtime-${TFLITE_VERSION}-cp311-cp311-linux_aarch64.whl" ;; \
-      amd64) WHL="tflite_runtime-${TFLITE_VERSION}-cp311-cp311-linux_x86_64.whl" ;; \
-      *) echo "unsupported TARGETARCH=${TARGETARCH}"; exit 1 ;; \
-    esac; \
-    curl -fL -o "/tmp/${WHL}" "https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/${WHL}"; \
-    uv pip install --no-cache --python "${UV_PROJECT_ENVIRONMENT}/bin/python3" "/tmp/${WHL}"; \
-    rm -f "/tmp/${WHL}"
+COPY --chown=birdnet:birdnet --from=builder /home/birdnet/BirdNET-Pi/.venv ./.venv
 
 COPY --chown=birdnet:birdnet . ${APP_DIR}
 
@@ -72,7 +89,8 @@ RUN rm -f /etc/php/8.2/fpm/pool.d/www.conf \
       /data/config \
       /run/php /etc/birdnet /home/birdnet/run \
  && ln -s /data/recordings /home/birdnet/BirdSongs \
- && chown -R birdnet:birdnet /data /home/birdnet /run/php /etc/birdnet /etc/icecast2
+ && chown -R birdnet:birdnet /data /run/php /etc/birdnet /etc/icecast2 /home/birdnet/run \
+ && chown -h birdnet:birdnet /home/birdnet/BirdSongs
 
 VOLUME ["/data"]
 EXPOSE 8080
