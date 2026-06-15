@@ -76,6 +76,7 @@ jobs:
         with:
           php-version: "8.5"
           extensions: pdo_sqlite, sqlite3
+      - run: composer install --no-interaction --no-progress
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e
