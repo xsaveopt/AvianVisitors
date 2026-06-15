@@ -56,8 +56,6 @@ whitelist_species_list.txt
 .claude/
 # Large source / reference imagery kept on disk for working
 webui/assets/references/
-# Superseded assets retained locally
-webui/assets/_legacy/
 
 .venv/
 .pytest_cache/
@@ -85,3 +83,9 @@ Thumbs.db
 ._*
 
 dev-data/
+
+vendor/
+.phpunit.cache/
+test-results/
+playwright-report/
+.playwright/

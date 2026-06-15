@@ -1,9 +1,8 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "ignorePatterns": [
-    "frontend/apt.js",
-    "frontend/masks.json",
-    "frontend/dims.json",
+    "frontend/dist",
+    "frontend/src/collage/data",
     "**/*.min.js",
     "node_modules"
   ]

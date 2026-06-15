@@ -1,7 +1,8 @@
 php-version = "8.2"
 
 [source]
-paths = ["api"]
+paths = ["backend/src", "backend/public", "tests/php", "tests/support"]
+excludes = ["vendor"]
 
 [formatter]
 print-width = 120
@@ -12,3 +13,9 @@ no-empty = { enabled = false }
 no-isset = { enabled = false }
 literal-named-argument = { enabled = false }
 cyclomatic-complexity = { enabled = false }
+too-many-methods = { enabled = false }
+kan-defect = { enabled = false }
+halstead = { enabled = false }
+excessive-parameter-list = { enabled = false }
+no-shorthand-ternary = { enabled = false }
+readable-literal = { enabled = false }

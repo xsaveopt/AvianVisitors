@@ -121,14 +121,11 @@ source "${CONF}"
 set +a
 
 if [ -d "${APP_DIR}/webui" ]; then
-  ln -sf "${APP_DIR}/webui"                       "${EXTRACTED}/webui"
-  ln -sf "${APP_DIR}/webui/frontend/index.html"   "${EXTRACTED}/index.html"
-  ln -sf "${APP_DIR}/webui/frontend/styles.css"   "${EXTRACTED}/styles.css"
-  ln -sf "${APP_DIR}/webui/frontend/apt.js"       "${EXTRACTED}/apt.js"
-  ln -sf "${APP_DIR}/webui/frontend/masks.json"   "${EXTRACTED}/masks.json"
-  ln -sf "${APP_DIR}/webui/frontend/dims.json"    "${EXTRACTED}/dims.json"
-  ln -sf "${APP_DIR}/webui/assets/favicon.png"    "${EXTRACTED}/favicon.png"
-  ln -sf "${APP_DIR}/webui/assets/favicon.png"    "${EXTRACTED}/favicon.ico"
+  ln -sfn "${APP_DIR}/webui"                            "${EXTRACTED}/webui"
+  ln -sf  "${APP_DIR}/webui/frontend/dist/index.html"   "${EXTRACTED}/index.html"
+  ln -sfn "${APP_DIR}/webui/frontend/dist/assets"       "${EXTRACTED}/assets"
+  ln -sf  "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.png"
+  ln -sf  "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.ico"
 fi
 
 ln -sf "${APP_DIR}/birdnet/model/labels.txt" "${APP_DIR}/birdnet/labels.txt" 2>/dev/null || true
@@ -244,6 +241,63 @@ if [ -f /etc/icecast2/icecast.xml ]; then
   for prefix in source- relay- admin- master- ""; do
     sed -i "s|<${prefix}password>.*</${prefix}password>|<${prefix}password>${ICE_PWD_VAL}</${prefix}password>|g" /etc/icecast2/icecast.xml
   done
+fi
+
+CADDY_TMPL=/etc/caddy/Caddyfile.tmpl
+CADDY_OUT=/etc/caddy/Caddyfile
+if [ -n "${AV_ADMIN_PASSWORD:-}" ]; then
+  AV_USER="${AV_ADMIN_USER:-admin}"
+  AV_HASH=$(php -r 'echo password_hash($argv[1], PASSWORD_BCRYPT);' "${AV_ADMIN_PASSWORD}")
+  cat > "${CADDY_OUT}" <<EOF
+{
+	admin off
+	auto_https off
+}
+
+:8080 {
+	root * /home/birdnet/BirdSongs/Extracted
+
+	@protected path /stream /stats /stats/* /By_Date /By_Date/* /Charts /Charts/* /StreamData /StreamData/* /Processed /Processed/*
+	basic_auth @protected {
+		${AV_USER} ${AV_HASH}
+	}
+
+	handle /stream {
+		reverse_proxy localhost:8000
+	}
+	handle /stats* {
+		reverse_proxy localhost:8501
+	}
+
+	handle /api/* {
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+
+	handle /By_Date* {
+		file_server browse
+	}
+	handle /Charts* {
+		file_server browse
+	}
+	handle /StreamData* {
+		file_server browse
+	}
+	handle /Processed* {
+		file_server browse
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}
+EOF
+  info "admin auth enabled (user=${AV_USER}); protected: recordings, livestream, stats, file browse, admin api"
+else
+  cp "${CADDY_TMPL}" "${CADDY_OUT}"
+  warn "AV_ADMIN_PASSWORD not set: admin auth disabled; recordings, livestream, stats and admin tools are PUBLIC"
 fi
 
 info "preflight complete; launching services"

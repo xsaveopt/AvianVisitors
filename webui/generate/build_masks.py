@@ -4,21 +4,20 @@
 Step 3 of the illustration pipeline (after pregen.py and cutout.py).
 
 The collage packs birds by their actual silhouette, not bounding boxes,
-so the frontend ships a tiny 1-bit mask per illustration inlined in
-apt.js. This reads every cutout in webui/assets/illustrations/ and
-rewrites the DIMS and MASKS tables in webui/frontend/apt.js:
+so the app ships a tiny 1-bit mask per illustration. This reads every
+cutout in webui/assets/illustrations/ and rewrites the data the collage
+loads from webui/frontend/src/collage/data/:
 
-    DIMS[slug]  = [w, h]  aspect, scaled so the long side is 560
-    MASKS[slug] = {w, h, bits}  silhouette downscaled to <=93px, 1-bit
-                  packed MSB-first row-major, base64. A bit is 1 where
-                  the cutout is opaque (alpha > 127). This is exactly
-                  what loadMask() in apt.js decodes.
+    dims.json   slug -> [w, h]  aspect, scaled so the long side is 560
+    masks.json  slug -> {w, h, bits}  silhouette downscaled to <=93px,
+                1-bit packed MSB-first row-major, base64. A bit is 1 where
+                the cutout is opaque (alpha > 127); loadMask() decodes it.
 
-Run after changing the illustration set, then bump SKETCH_VERSION and
-IMG_VERSION in apt.js so browsers drop their cached copies.
+Run after changing the illustration set, then bump IMG_VERSION in the app
+so browsers drop their cached copies.
 
 Usage:
-    python3 build_masks.py            # rewrite apt.js in place
+    python3 build_masks.py            # rewrite the data files in place
     python3 build_masks.py --check    # report only, don't write
 """
 
@@ -37,7 +36,6 @@ ALPHA_ON = 127
 
 
 def build_tables(illus_dir: Path):
-    """Return (dims, masks) dicts keyed by slug, in sorted order."""
     from PIL import Image
 
     dims, masks = {}, {}
@@ -63,22 +61,13 @@ def build_tables(illus_dir: Path):
     return dims, masks
 
 
-def replace_decl(src: str, name: str, value: str) -> str:
-    """Replace `var <name> = {...};` (single line) with the new value."""
-    pat = re.compile(r"  var " + name + r" = \{.*?\};")
-    repl = f"  var {name} = {value};"
-    new, n = pat.subn(lambda _m: repl, src, count=1)
-    if n != 1:
-        raise SystemExit(f"error: could not find `var {name} = {{...}};` in apt.js")
-    return new
-
-
 def main() -> int:
     here = Path(__file__).resolve().parents[1]
+    data_dir = here / "frontend" / "src" / "collage" / "data"
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--illustrations", type=Path, default=here / "assets" / "illustrations", help="Cutout directory (default: webui/assets/illustrations/)")
-    ap.add_argument("--apt", type=Path, default=here / "frontend" / "apt.js", help="Frontend file to patch (default: webui/frontend/apt.js)")
-    ap.add_argument("--check", action="store_true", help="Report counts and don't write apt.js")
+    ap.add_argument("--data", type=Path, default=data_dir, help="Output directory (default: webui/frontend/src/collage/data/)")
+    ap.add_argument("--check", action="store_true", help="Report counts and don't write")
     args = ap.parse_args()
 
     dims, masks = build_tables(args.illustrations)
@@ -89,26 +78,24 @@ def main() -> int:
         print("error: no cutouts found", file=sys.stderr)
         return 1
 
-    dims_json = json.dumps(dims, separators=(",", ":"))
-    masks_json = json.dumps(masks, separators=(",", ":"))
+    dims_path = args.data / "dims.json"
+    masks_path = args.data / "masks.json"
 
     if args.check:
-        src = args.apt.read_text()
-        cur = json.loads(re.search(r"var DIMS = (\{.*?\});", src).group(1))
+        cur = json.loads(dims_path.read_text()) if dims_path.is_file() else {}
         added = sorted(set(dims) - set(cur))
         removed = sorted(set(cur) - set(dims))
-        print(f"apt.js currently has {len(cur)} entries; +{len(added)} new, -{len(removed)} removed")
+        print(f"data currently has {len(cur)} entries; +{len(added)} new, -{len(removed)} removed")
         if added:
             print("  new:", ", ".join(added[:8]) + (" ..." if len(added) > 8 else ""))
         if removed:
             print("  gone:", ", ".join(removed[:8]) + (" ..." if len(removed) > 8 else ""))
         return 0
 
-    src = args.apt.read_text()
-    src = replace_decl(src, "DIMS", dims_json)
-    src = replace_decl(src, "MASKS", masks_json)
-    args.apt.write_text(src)
-    print(f"patched {args.apt}\nremember to bump SKETCH_VERSION + IMG_VERSION in apt.js")
+    args.data.mkdir(parents=True, exist_ok=True)
+    dims_path.write_text(json.dumps(dims, separators=(",", ":")))
+    masks_path.write_text(json.dumps(masks, separators=(",", ":")))
+    print(f"wrote {dims_path} and {masks_path}\nremember to bump IMG_VERSION in the app")
     return 0
 
 

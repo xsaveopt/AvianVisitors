@@ -4,7 +4,7 @@
     "browser": true,
     "es2024": true
   },
-  "ignorePatterns": ["frontend/masks.json", "frontend/dims.json"],
+  "ignorePatterns": ["frontend/dist", "frontend/src/collage/data"],
   "categories": {
     "correctness": "warn"
   },

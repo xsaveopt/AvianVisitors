@@ -1,0 +1,36 @@
+x-generate-env: &env
+  GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+  EBIRD_API_KEY: "${EBIRD_API_KEY:-}"
+
+x-generate-common: &common
+  working_dir: /repo/webui/generate
+  environment: *env
+  volumes:
+    - ../..:/repo
+    - models:/models
+
+services:
+  generate:
+    <<: *common
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE: python:3.13-slim-bookworm
+        REMBG_EXTRA: cpu
+    image: avianvisitors-generate:cpu
+
+  generate-cuda:
+    <<: *common
+    profiles: ["cuda"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE: nvidia/cuda:12.9.2-cudnn-runtime-ubuntu24.04
+        REMBG_EXTRA: gpu
+    image: avianvisitors-generate:cuda
+    gpus: all
+
+volumes:
+  models:

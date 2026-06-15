@@ -30,7 +30,7 @@ Supervisord keeps these running:
 | icecast    | Live audio stream backend        | off     |
 | livestream | ffmpeg feeding icecast (/stream) | off     |
 
-The collage is the web page; its api is under /webui/api/.
+The collage is the web page (a Vue app); its api is the Slim backend under /api/.
 
 ## Start it
 
@@ -82,6 +82,17 @@ The env vars in docker-compose.yml are applied to the config on every start:
 | BIRDNET_CHANNELS  | Number of channels  |
 | BIRDNET_LATITUDE  | Set your latitude   |
 | BIRDNET_LONGITUDE | Set your longitude  |
+| AV_ADMIN_USER     | Admin username (default admin) |
+| AV_ADMIN_PASSWORD | Admin password; gates recordings, livestream, stats, file browse and the admin tools |
+
+## Admin auth
+
+The public page shows the collage, stats, atlas, illustrations and species data to anyone.
+Listening back to recordings, the live stream, the `/stats` dashboard, raw recording/chart browsing and the admin tools (settings, system, logs) are gated behind a single admin login.
+
+Set `AV_ADMIN_PASSWORD` in docker-compose.yml to enable it; enforcement is at the Caddy edge plus a PHP guard.
+With the password set, unauthenticated visitors see the listen-back controls greyed out.
+Leave `AV_ADMIN_PASSWORD` empty to disable auth entirely and serve everything publicly (the original behaviour).
 
 ## Live audio stream
 

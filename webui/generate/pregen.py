@@ -4,7 +4,7 @@
 Step 1 of the illustration pipeline:
     1. pregen.py       render each bird on a uniform cream ground
     2. cutout.py       remove the ground (BiRefNet) and crop to the bird
-    3. build_masks.py  refresh the collage silhouette masks in apt.js
+    3. build_masks.py  refresh the collage silhouette masks (dims/masks.json)
 
 Reads a species list (BirdNET-Pi's labels.txt, eBird, or stdin),
 fetches a Wikipedia reference photo for each species, and generates an
@@ -264,7 +264,7 @@ USER_AGENT = "AvianVisitors/1.0 (https://github.com/Twarner491/AvianVisitors)"
 
 
 def slugify(sci: str) -> str:
-    """Match webui/frontend/apt.js slugify() exactly."""
+    """Match the app's collage slugify() exactly."""
     return re.sub(r"[^a-z0-9]+", "-", sci.lower()).strip("-")
 
 

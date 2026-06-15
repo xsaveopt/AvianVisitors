@@ -2,11 +2,11 @@
 name = "avianvisitors-generation"
 version = "0.0.1"
 description = "Gemini illustration + BiRefNet cutout pipeline for the AvianVisitors collage."
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
-    "pillow>=10.0",
+    "pillow>=11.0",
     "rembg>=2.0.76",
-    "onnxruntime>=1.16",
+    "onnxruntime>=1.22",
 ]
 
 [tool.uv]
@@ -14,7 +14,7 @@ package = false
 
 [tool.ruff]
 line-length = 160
-target-version = "py311"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]

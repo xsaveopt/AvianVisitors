@@ -7,3 +7,13 @@ node_modules
 *.pyc
 .ruff_cache
 .venv
+**/vendor
+webui/tests
+webui/playwright.config.ts
+webui/phpunit.xml.dist
+webui/frontend/dist
+**/.phpunit.cache
+**/test-results
+**/playwright-report
+dev-data
+docker-compose.dev.yml

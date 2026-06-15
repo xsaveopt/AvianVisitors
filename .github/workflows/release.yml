@@ -25,7 +25,7 @@ jobs:
           version: "0.11.19"
       - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libsndfile1 libgomp1
       - run: uv sync --frozen --extra notify --group dev
-      - run: uv pip install https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/tflite_runtime-2.17.1-cp311-cp311-linux_x86_64.whl
+      - run: uv pip install https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/tflite_runtime-2.17.1-cp313-cp313-linux_x86_64.whl
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run --no-sync pytest -q
@@ -45,7 +45,7 @@ jobs:
       - run: uvx ruff format --check .
 
   frontend:
-    name: frontend (oxlint + oxfmt)
+    name: frontend (oxlint + oxfmt + vue-tsc)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -54,10 +54,31 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: "26"
       - run: npm ci
       - run: npm run lint
       - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run test:unit
+
+  e2e:
+    name: frontend (playwright e2e)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webui
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "26"
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: pdo_sqlite, sqlite3
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
 
   php:
     name: php (mago)
@@ -66,6 +87,21 @@ jobs:
       - uses: actions/checkout@v6
       - run: docker run --rm -v "${{ github.workspace }}/webui:/repo" -w /repo ghcr.io/carthage-software/mago:latest fmt --check
       - run: docker run --rm -v "${{ github.workspace }}/webui:/repo" -w /repo ghcr.io/carthage-software/mago:latest lint
+
+  php-tests:
+    name: php (phpunit)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webui
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: pdo_sqlite, sqlite3
+      - run: composer install --no-interaction --no-progress
+      - run: composer test
 
   dockerfile:
     name: dockerfile (hadolint)
@@ -79,7 +115,7 @@ jobs:
 
   docker:
     name: Docker build (no push)
-    needs: [birdnet, generate, frontend, php, dockerfile]
+    needs: [birdnet, generate, frontend, e2e, php, php-tests, dockerfile]
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/v') }}
     steps:
@@ -98,7 +134,7 @@ jobs:
 
   publish-dev:
     name: Publish :dev image
-    needs: [birdnet, generate, frontend, php, dockerfile]
+    needs: [birdnet, generate, frontend, e2e, php, php-tests, dockerfile]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -124,7 +160,7 @@ jobs:
 
   publish:
     name: Publish image
-    needs: [birdnet, generate, frontend, php, dockerfile]
+    needs: [birdnet, generate, frontend, e2e, php, php-tests, dockerfile]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:

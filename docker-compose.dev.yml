@@ -1,0 +1,11 @@
+services:
+  avianvisitors:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: avianvisitors:dev
+    container_name: av-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dev-data:/data

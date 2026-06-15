@@ -5,16 +5,35 @@
 
 :8080 {
 	root * /home/birdnet/BirdSongs/Extracted
-	file_server browse
-	handle /By_Date/* {
+
+	handle /stream {
+		reverse_proxy localhost:8000
+	}
+	handle /stats* {
+		reverse_proxy localhost:8501
+	}
+
+	handle /api/* {
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+
+	handle /By_Date* {
 		file_server browse
 	}
-	handle /Charts/* {
+	handle /Charts* {
 		file_server browse
 	}
-	reverse_proxy /stream localhost:8000
-	php_fastcgi unix//run/php/php-fpm.sock {
-		try_files {path} {path}/index.html {path}/index.php index.php
+	handle /StreamData* {
+		file_server browse
 	}
-	reverse_proxy /stats* localhost:8501
+	handle /Processed* {
+		file_server browse
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
 }
