@@ -14,6 +14,7 @@ ENV VIRTUAL_ENV=/opt/venv
 ENV PATH=/opt/venv/bin:$PATH
 ENV U2NET_HOME=/models
 ENV HF_HOME=/models/hf
+ENV CC=gcc
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates libgl1 libglib2.0-0 libgomp1 \
@@ -26,7 +27,9 @@ RUN uv venv --python 3.13 /opt/venv \
       "pillow>=11" "rembg[${REMBG_EXTRA}]>=2.0.76"
 
 RUN if [ "$WITH_FLUX" = "1" ]; then \
-      uv pip install --python /opt/venv/bin/python \
+      apt-get update && apt-get install -y --no-install-recommends gcc \
+      && rm -rf /var/lib/apt/lists/* \
+      && uv pip install --python /opt/venv/bin/python \
         --extra-index-url https://download.pytorch.org/whl/cu124 \
         "torch>=2.5" \
         "diffusers>=0.32" \
