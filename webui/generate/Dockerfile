@@ -42,4 +42,6 @@ RUN if [ "$WITH_FLUX" = "1" ]; then \
         "huggingface-hub>=0.26" ; \
     fi
 
+ENV LIBRARY_PATH=/usr/local/cuda/compat:${LIBRARY_PATH}
+
 WORKDIR /repo/webui/generate
