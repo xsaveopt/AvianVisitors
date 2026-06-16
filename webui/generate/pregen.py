@@ -6,57 +6,44 @@ Step 1 of the illustration pipeline:
     2. cutout.py       remove the ground (BiRefNet) and crop to the bird
     3. build_masks.py  refresh the collage silhouette masks (dims/masks.json)
 
-Reads a species list (BirdNET-Pi's labels.txt, eBird, or stdin),
-fetches a Wikipedia reference photo for each species, and generates an
-illustration via the Gemini 2.5 Flash Image API. Saves PNGs into
-webui/assets/illustrations/.
+Reads a species list (BirdNET-Pi's labels.txt, eBird, or stdin), fetches a
+Wikipedia reference photo for each species, and renders an illustration
+locally with FLUX.1-dev on an NVIDIA GPU. The target-species photo and a
+kachō-e style plate steer the output through FLUX.1 Redux image
+conditioning; the text prompt carries the style, pose, and anti-lookalike
+instructions. Saves PNGs into webui/assets/illustrations/.
 
-The prompt renders each bird on a CREAM ground, not a transparent one:
-the model can't cut transparency cleanly, but a flat known ground removes
+The prompt renders each bird on a CREAM ground, not a transparent one: the
+model can't cut transparency cleanly, but a flat known ground removes
 cleanly in step 2. Each species gets two poses: <slug>.png (perched) and
 <slug>-2.png (flight). Edit webui/generate/prompt.template.md to change the
-visual style - the prompt body is re-sent verbatim per request with
+visual style - the prompt body is re-used verbatim per render with
 {sci_name}, {com_name}, and {pose} substituted.
 
 Reference photos:
-    Cached in webui/assets/references/. The auto-fetch hits the
-    Wikipedia article's first image. If a reference for the species
-    doesn't exist locally, pregen.py fetches one and caches it. To use
-    a hand-picked reference, drop it in references/ named <slug>.jpg
-    or <slug>.png BEFORE running and pregen.py will use that instead.
+    Cached in webui/assets/references/. The auto-fetch hits the Wikipedia
+    article's first image. To use a hand-picked reference, drop it in
+    references/ named <slug>.jpg or <slug>.png BEFORE running.
 
 Contrastive anti-reference:
-    For genera where Gemini's prior collapses to a more famous
-    lookalike, the script attaches a photo of that lookalike as a
-    negative reference and rewrites the prompt body to tell the model
-    NOT to copy the lookalike's diagnostic features. Currently wired:
-    Blue Jay for small blue corvids (Cyanocitta, Aphelocoma, etc.) and
-    Barn Swallow for other swallows (Tachycineta, Progne, etc.). The
-    anti-reference photos live at webui/assets/references/_anti_*.jpg
-    and the registry (ANTI_REFS, ANTI_REF_TRIGGERS) is keyed so adding
-    a new one is one entry per table.
+    For genera that drift toward a more famous lookalike, the prompt body
+    is rewritten to tell the model NOT to copy that lookalike's diagnostic
+    features. The registry (ANTI_REFS, ANTI_REF_TRIGGERS) is keyed so
+    adding a new one is one entry per table. FLUX Redux conditions
+    additively, so the lookalike steers the prompt text, not an image.
 
 Usage:
-    # Every species BirdNET-Pi knows:
     python3 pregen.py --labels ~/BirdNET-Pi/model/labels.txt
-
-    # Only species observed in an eBird region:
-    python3 pregen.py --labels ~/BirdNET-Pi/model/labels.txt \\
-                      --ebird-region US-CA --ebird-key YOUR_KEY
-
-    # Re-render a single species (useful after editing the prompt):
+    python3 pregen.py --labels labels.txt --ebird-region US-CA --ebird-key KEY
     python3 pregen.py --species "Calypte anna|Anna's Hummingbird" --force
 
-    # Re-render everything after a prompt change:
-    python3 pregen.py --labels ~/BirdNET-Pi/model/labels.txt --force
-
-Set GEMINI_API_KEY in the environment (preferred) or pass --gemini-key.
+FLUX.1-dev and FLUX.1-Redux-dev are gated on Hugging Face: accept both
+licenses, then set HF_TOKEN in the environment (or pass --hf-token).
 """
 
 from __future__ import annotations
 
 import argparse
-import base64
 import json
 import os
 import re
@@ -65,10 +52,13 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from io import BytesIO
 from pathlib import Path
 
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent"
 POSES = {1: "perched", 2: "in flight with wings spread"}
+
+BASE_MODEL = "black-forest-labs/FLUX.1-dev"
+REDUX_MODEL = "black-forest-labs/FLUX.1-Redux-dev"
 
 
 JAY_GENERA = {
@@ -297,7 +287,7 @@ def parse_species_list(lines: list[str]) -> tuple[list[tuple[str, str]], int]:
 def load_prompt(path: Path) -> str:
     """Return everything after the `## Prompt` heading, stripped to the
     next `##` heading (so doc preamble or trailing sections don't bleed
-    into the API call)."""
+    into the render)."""
     text = path.read_text()
     m = re.search(r"##\s*Prompt\s*\n(.+?)(?=\n##\s|\Z)", text, flags=re.DOTALL)
     return (m.group(1) if m else text).strip()
@@ -326,11 +316,8 @@ def fetch_wikipedia_thumb(sci: str, com: str) -> tuple[bytes, str] | None:
     """Fetch the Wikipedia article's lead/infobox image bytes.
 
     Returns (bytes, ext) where ext is '.jpg' or '.png' sniffed from the
-    magic bytes - Wikipedia's infobox image can be either, and shipping
-    PNG bytes labeled as JPEG to Gemini gets the reference silently
-    rejected. Returns None if no usable image. Pi-friendly: pulls a
-    1024-wide thumbnail via the REST summary endpoint (a few KB to MB,
-    not the original-sized image).
+    magic bytes. Returns None if no usable image. Pulls a 1024-wide
+    thumbnail via the REST summary endpoint.
     """
     titles = [sci.replace(" ", "_"), com.replace(" ", "_"), com.split()[0]]
     for title in titles:
@@ -362,11 +349,8 @@ def fetch_wikipedia_thumb(sci: str, com: str) -> tuple[bytes, str] | None:
 
 def ensure_reference(refs_dir: Path, slug: str, sci: str, com: str) -> Path | None:
     """Cache-or-fetch a reference photo. Returns the path if we have one,
-    None if Wikipedia had no usable image. Pre-existing references (e.g.
-    hand-picked Audubon plates dropped in by the user as either
-    <slug>.jpg or <slug>.png) are respected; the file is saved with the
-    extension that matches its actual format so _mime_for ships the
-    right MIME to Gemini."""
+    None if Wikipedia had no usable image. Pre-existing references
+    (<slug>.jpg or <slug>.png) are respected."""
     refs_dir.mkdir(parents=True, exist_ok=True)
     for ext in REF_EXTS:
         cached = refs_dir / f"{slug}{ext}"
@@ -382,9 +366,8 @@ def ensure_reference(refs_dir: Path, slug: str, sci: str, com: str) -> Path | No
 
 
 def select_anti_ref_key(sci: str) -> str | None:
-    """Return the ANTI_REFS key for the lookalike that Gemini drifts
-    toward for this species, or None if no anti-ref is needed. The key
-    matches `_anti_<key>.jpg` in the references directory."""
+    """Return the ANTI_REFS key for the lookalike that this species drifts
+    toward, or None if no anti-ref is needed."""
     genus = sci.split()[0]
     for genera, key, exclude in ANTI_REF_TRIGGERS:
         if genus in genera and sci != exclude:
@@ -393,184 +376,186 @@ def select_anti_ref_key(sci: str) -> str | None:
 
 
 def load_species_notes(notes_path: Path) -> dict[str, str]:
-    """Load per-species prompt addenda. Keys are scientific names; values
-    are 1-2 sentence clarifications to inject when generating that
-    species. Returns {} if the notes file doesn't exist."""
+    """Load per-species prompt addenda keyed by scientific name. Returns
+    {} if the notes file doesn't exist."""
     if not notes_path.exists():
         return {}
     raw = json.loads(notes_path.read_text())
     return {k: v for k, v in raw.items() if not k.startswith("_") and isinstance(v, str)}
 
 
-def load_anti_ref(refs_dir: Path, key: str = "bluejay") -> Path | None:
-    """Return path to the bundled anti-reference for the given key,
-    if present. Known keys: bluejay, barnswallow."""
-    p = refs_dir / f"_anti_{key}.jpg"
-    return p if p.exists() else None
-
-
 def _anti_ref_line(anti_ref_key: str | None) -> str:
-    """Render the `{anti_ref_line}` substitution for the prompt body.
-    Returns the IMAGE 2 bullet describing which species is attached and
-    which of its features the model must avoid - or an empty string
-    when no anti-ref is attached for this species."""
+    """Render the `{anti_ref_line}` substitution for the prompt body."""
     info = ANTI_REFS.get(anti_ref_key or "")
     if not info:
         return ""
     return (
-        f"- IMAGE 2 (negative, when attached) is a {info['common_name']} "
-        f"({info['sci_name']}). It is NOT what you are drawing. Do NOT "
-        f"copy {info['do_not_copy']}. If your output looks more like "
-        f"IMAGE 2 than IMAGE 1, the output is wrong."
+        f"- The species must NOT resemble a {info['common_name']} "
+        f"({info['sci_name']}). Do NOT give it {info['do_not_copy']}. "
+        f"If the output looks more like a {info['common_name']} than the "
+        f"target species, the output is wrong."
     )
 
 
-def gen_one(
-    api_key: str,
-    prompt: str,
-    sci: str,
-    com: str,
-    pose: int,
-    positive_ref: Path | None = None,
-    anti_ref: Path | None = None,
-    anti_ref_key: str | None = None,
-    species_note: str | None = None,
-    style_ref: Path | None = None,
-) -> bytes:
-    """Single Gemini call with bounded retry on 429 + transient 5xx.
-    Returns raw PNG bytes.
-
-    positive_ref: Wikipedia/Audubon photo of the target species.
-    anti_ref: lookalike photo to attach as IMAGE 2. The companion
-              anti_ref_key (a key into ANTI_REFS) must match what's in
-              the file - it drives the IMAGE 2 caption and the
-              {anti_ref_line} substitution in the prompt body. Pass
-              both or neither; passing the path without the key would
-              caption the image as an unnamed "another species".
-    species_note: optional 1-2 sentence clarifier for difficult species,
-                  appended as the last paragraph before the reference
-                  block.
-    """
+def build_prompt_body(prompt: str, sci: str, com: str, pose: int, anti_ref_key: str | None, species_note: str | None) -> str:
+    """Substitute the per-species fields into the prompt template body."""
     body = prompt.replace("{sci_name}", sci).replace("{com_name}", com).replace("{pose}", POSES[pose]).replace("{anti_ref_line}", _anti_ref_line(anti_ref_key))
     if species_note:
         body = body + "\n\nSpecies-specific note: " + species_note
+    return body
 
-    parts: list[dict] = [{"text": body}]
-    if positive_ref:
-        try:
-            from io import BytesIO
 
-            from PIL import Image
+class FluxGenerator:
+    """Local FLUX.1-dev renderer with FLUX.1 Redux image conditioning.
 
-            img = Image.open(positive_ref).convert("RGB")
-            w, h = img.size
-            if max(w, h) > 384:
-                scale = 384 / max(w, h)
-                img = img.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
-            buf = BytesIO()
-            img.save(buf, format="PNG", optimize=True)
-            ref_bytes = buf.getvalue()
-            ref_mime = "image/png"
-        except Exception:
-            ref_bytes = positive_ref.read_bytes()
-            ref_mime = _mime_for(positive_ref)
-        parts.append({"text": "IMAGE 1 (positive, target species):"})
-        parts.append(
-            {
-                "inline_data": {
-                    "mime_type": ref_mime,
-                    "data": base64.b64encode(ref_bytes).decode(),
-                }
-            }
+    The transformer and T5 text encoder load in 4-bit (bitsandbytes nf4)
+    and both pipelines use model CPU offload, so the whole graph fits a
+    12-16GB card. The target-species photo and the kachō-e style plate are
+    fed through Redux as positive image conditioning, balanced against the
+    text prompt by the redux embed scales.
+    """
+
+    def __init__(
+        self,
+        base_id: str = BASE_MODEL,
+        redux_id: str = REDUX_MODEL,
+        height: int = 1024,
+        width: int = 1024,
+        steps: int = 28,
+        guidance: float = 3.5,
+        pos_scale: float = 0.6,
+        style_scale: float = 0.35,
+        seed: int | None = None,
+    ) -> None:
+        import torch
+        from diffusers import (
+            BitsAndBytesConfig as DiffusersBnb,
         )
-    if anti_ref:
-        anti_name = (ANTI_REFS.get(anti_ref_key or "") or {}).get("common_name", "lookalike species")
-        parts.append({"text": f"IMAGE 2 (negative, {anti_name}, do NOT copy):"})
-        parts.append(
-            {
-                "inline_data": {
-                    "mime_type": _mime_for(anti_ref),
-                    "data": base64.b64encode(anti_ref.read_bytes()).decode(),
-                }
-            }
+        from diffusers import (
+            FluxPipeline,
+            FluxPriorReduxPipeline,
+            FluxTransformer2DModel,
         )
-    if style_ref:
-        parts.append(
-            {
-                "text": (
-                    "IMAGE 3 (positive STYLE reference - Edo-period kachō-e woodblock "
-                    "print). The species in IMAGE 3 is irrelevant; only its painting "
-                    "technique is borrowed (flat washes, confident outlines, tonal "
-                    "mineral-pigment ground). DO NOT copy any branches, leaves, water, "
-                    "moon, or scenery from IMAGE 3."
-                )
-            }
+        from transformers import (
+            AutoTokenizer,
+            CLIPTextModel,
+            T5EncoderModel,
         )
-        parts.append(
-            {
-                "inline_data": {
-                    "mime_type": _mime_for(style_ref),
-                    "data": base64.b64encode(style_ref.read_bytes()).decode(),
-                }
-            }
+        from transformers import (
+            BitsAndBytesConfig as TransformersBnb,
         )
 
-    payload = {
-        "contents": [{"parts": parts}],
-        "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]},
-    }
+        self.torch = torch
+        self.height = height
+        self.width = width
+        self.steps = steps
+        self.guidance = guidance
+        self.pos_scale = pos_scale
+        self.style_scale = style_scale
+        self.seed = seed
+        dtype = torch.bfloat16
 
-    req = urllib.request.Request(
-        GEMINI_URL,
-        data=json.dumps(payload).encode(),
-        headers={"Content-Type": "application/json", "x-goog-api-key": api_key},
-        method="POST",
-    )
+        transformer = FluxTransformer2DModel.from_pretrained(
+            base_id,
+            subfolder="transformer",
+            quantization_config=DiffusersBnb(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=dtype),
+            torch_dtype=dtype,
+        )
+        text_encoder_2 = T5EncoderModel.from_pretrained(
+            base_id,
+            subfolder="text_encoder_2",
+            quantization_config=TransformersBnb(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=dtype),
+            torch_dtype=dtype,
+        )
+        text_encoder = CLIPTextModel.from_pretrained(base_id, subfolder="text_encoder", torch_dtype=dtype)
+        tokenizer = AutoTokenizer.from_pretrained(base_id, subfolder="tokenizer")
+        tokenizer_2 = AutoTokenizer.from_pretrained(base_id, subfolder="tokenizer_2")
 
-    backoff = 4.0
-    for attempt in range(4):
-        try:
-            with urllib.request.urlopen(req, timeout=180) as r:
-                resp = json.loads(r.read())
-            break
-        except urllib.error.HTTPError as e:
-            if e.code in (429, 500, 502, 503, 504) and attempt < 3:
-                ra = e.headers.get("Retry-After")
-                try:
-                    retry_after = float(ra) if ra else backoff
-                except (TypeError, ValueError):
-                    retry_after = backoff
-                time.sleep(retry_after)
-                backoff *= 2
-                continue
-            raise
-        except urllib.error.URLError:
-            if attempt < 3:
-                time.sleep(backoff)
-                backoff *= 2
-                continue
-            raise
+        self.prior = FluxPriorReduxPipeline.from_pretrained(
+            redux_id,
+            text_encoder=text_encoder,
+            text_encoder_2=text_encoder_2,
+            tokenizer=tokenizer,
+            tokenizer_2=tokenizer_2,
+            torch_dtype=dtype,
+        )
+        self.base = FluxPipeline.from_pretrained(
+            base_id,
+            transformer=transformer,
+            text_encoder=None,
+            text_encoder_2=None,
+            torch_dtype=dtype,
+        )
+        self.prior.enable_model_cpu_offload()
+        self.base.enable_model_cpu_offload()
 
-    for cand in resp.get("candidates", []):
-        for part in cand.get("content", {}).get("parts", []):
-            inline = part.get("inlineData") or part.get("inline_data")
-            if inline and inline.get("data"):
-                return base64.b64decode(inline["data"])
+    def _load_image(self, path: Path):
+        from PIL import Image
 
-    finish = (resp.get("candidates", [{}])[0]).get("finishReason", "?")
-    block = resp.get("promptFeedback", {}).get("blockReason", "")
-    raise RuntimeError(f"no image (finish={finish} block={block})")
+        return Image.open(path).convert("RGB")
 
+    def _blank_ground(self):
+        from PIL import Image
 
-def _mime_for(p: Path) -> str:
-    ext = p.suffix.lower()
-    if ext in (".jpg", ".jpeg"):
-        return "image/jpeg"
-    if ext == ".png":
-        return "image/png"
-    if ext == ".webp":
-        return "image/webp"
-    return "application/octet-stream"
+        return Image.new("RGB", (768, 768), (244, 236, 219))
+
+    def generate(
+        self,
+        prompt: str,
+        sci: str,
+        com: str,
+        pose: int,
+        positive_ref: Path | None = None,
+        anti_ref: Path | None = None,
+        anti_ref_key: str | None = None,
+        species_note: str | None = None,
+        style_ref: Path | None = None,
+    ) -> bytes:
+        """Render one (species, pose). Returns raw PNG bytes.
+
+        positive_ref steers the species; style_ref steers the painting
+        technique. The anti-reference is text-only here: Redux conditioning
+        is additive, so the lookalike can only be excluded through the
+        prompt body, never attached as a negative image.
+        """
+        body = build_prompt_body(prompt, sci, com, pose, anti_ref_key, species_note)
+
+        images = []
+        scales = []
+        if positive_ref is not None:
+            images.append(self._load_image(positive_ref))
+            scales.append(self.pos_scale)
+        if style_ref is not None:
+            images.append(self._load_image(style_ref))
+            scales.append(self.style_scale)
+        if not images:
+            images.append(self._blank_ground())
+            scales.append(0.1)
+
+        prior_output = self.prior(
+            image=images,
+            prompt=body,
+            prompt_2=body,
+            prompt_embeds_scale=scales,
+            pooled_prompt_embeds_scale=scales,
+        )
+
+        generator = None
+        if self.seed is not None:
+            generator = self.torch.Generator(device="cpu").manual_seed(self.seed)
+
+        result = self.base(
+            guidance_scale=self.guidance,
+            num_inference_steps=self.steps,
+            height=self.height,
+            width=self.width,
+            generator=generator,
+            **prior_output,
+        )
+
+        buf = BytesIO()
+        result.images[0].save(buf, format="PNG")
+        return buf.getvalue()
 
 
 def main() -> int:
@@ -584,7 +569,15 @@ def main() -> int:
     src.add_argument("--stdin", action="store_true", help="Read Sci|Com lines from stdin")
     ap.add_argument("--ebird-region", help="eBird region code (e.g. US-CA, US-CA-085) to filter labels")
     ap.add_argument("--ebird-key", help="eBird API key (or EBIRD_API_KEY env)")
-    ap.add_argument("--gemini-key", help="Gemini API key (or GEMINI_API_KEY env)")
+    ap.add_argument("--hf-token", help="Hugging Face token for gated FLUX models (or HF_TOKEN env)")
+    ap.add_argument("--base-model", default=BASE_MODEL, help=f"FLUX base model id (default: {BASE_MODEL})")
+    ap.add_argument("--redux-model", default=REDUX_MODEL, help=f"FLUX Redux model id (default: {REDUX_MODEL})")
+    ap.add_argument("--steps", type=int, default=28, help="Denoising steps (default: 28)")
+    ap.add_argument("--guidance", type=float, default=3.5, help="Guidance scale (default: 3.5)")
+    ap.add_argument("--size", type=int, default=1024, help="Output edge length in px (default: 1024)")
+    ap.add_argument("--pos-scale", type=float, default=0.6, help="Redux embed scale for the species photo (default: 0.6)")
+    ap.add_argument("--style-scale", type=float, default=0.35, help="Redux embed scale for the style plate (default: 0.35)")
+    ap.add_argument("--seed", type=int, default=0, help="Seed for reproducible output (0 = random per render)")
     ap.add_argument(
         "--out",
         type=Path,
@@ -614,15 +607,13 @@ def main() -> int:
         "--poses", nargs="+", type=int, default=[1, 2], choices=list(POSES.keys()), help="Which poses to render. 1=perched, 2=flight. Default: both."
     )
     ap.add_argument("--force", action="store_true", help="Re-render even if file exists")
-    ap.add_argument("--no-refs", action="store_true", help="Skip the Wikipedia reference fetch (faster, lower-quality output)")
-    ap.add_argument("--sleep", type=float, default=6.0, help="Seconds between API calls (default 6 = headroom under free-tier RPM cap)")
+    ap.add_argument("--no-refs", action="store_true", help="Skip the Wikipedia reference fetch (style plate only)")
     ap.add_argument("--limit", type=int, default=0, help="Cap species count for testing")
     args = ap.parse_args()
 
-    gemini_key = args.gemini_key or os.environ.get("GEMINI_API_KEY", "")
-    if not gemini_key:
-        print("error: GEMINI_API_KEY required (--gemini-key or env)", file=sys.stderr)
-        return 2
+    hf_token = args.hf_token or os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN", "")
+    if hf_token:
+        os.environ["HF_TOKEN"] = hf_token
 
     if args.labels:
         species, skipped = parse_species_list(args.labels.read_text().splitlines())
@@ -649,24 +640,36 @@ def main() -> int:
 
     prompt = load_prompt(args.prompt)
     args.out.mkdir(parents=True, exist_ok=True)
-    anti_paths: dict[str, Path] = {}
-    if not args.no_refs:
-        for key in ANTI_REFS:
-            p = load_anti_ref(args.refs, key)
-            if p:
-                anti_paths[key] = p
     notes = load_species_notes(args.notes)
     if notes:
         print(f"[notes] loaded per-species addenda for {len(notes)} species")
 
     total = len(species) * len(args.poses)
+    print(f"loading FLUX ({args.base_model} + Redux), this takes a minute on first run...")
+    try:
+        generator = FluxGenerator(
+            base_id=args.base_model,
+            redux_id=args.redux_model,
+            height=args.size,
+            width=args.size,
+            steps=args.steps,
+            guidance=args.guidance,
+            pos_scale=args.pos_scale,
+            style_scale=args.style_scale,
+            seed=args.seed or None,
+        )
+    except ImportError as e:
+        print(f"error: FLUX dependencies missing ({e}). Run on the generate-cuda image.", file=sys.stderr)
+        return 2
+    except Exception as e:
+        print(f"error: failed to load FLUX ({e}). Check HF_TOKEN and that both model licenses are accepted.", file=sys.stderr)
+        return 2
+
     print(f"generating up to {total} illustrations into {args.out}/")
-    for key, p in anti_paths.items():
-        print(f"[refs] {ANTI_REFS[key]['common_name']} anti-reference: {p.name}")
 
     done = skipped_existing = failed = 0
     first_fail = None
-    for idx, (sci, com) in enumerate(species):
+    for sci, com in species:
         slug = slugify(sci)
         pos_ref = None
         if not args.no_refs:
@@ -674,9 +677,6 @@ def main() -> int:
             if not pos_ref:
                 print(f"  [warn] no Wikipedia photo for {sci} - proceeding without positive ref", file=sys.stderr)
         anti_key = select_anti_ref_key(sci)
-        anti = anti_paths.get(anti_key) if anti_key else None
-
-        anti_key_for_call = anti_key if anti else None
 
         for pose in args.poses:
             fname = f"{slug}.png" if pose == 1 else f"{slug}-{pose}.png"
@@ -688,31 +688,29 @@ def main() -> int:
                 style_ref_path = args.styles / select_style_ref(sci, pose)
                 if not style_ref_path.exists():
                     style_ref_path = None
-                data = gen_one(
-                    gemini_key,
+                started = time.monotonic()
+                data = generator.generate(
                     prompt,
                     sci,
                     com,
                     pose,
                     positive_ref=pos_ref,
-                    anti_ref=anti,
-                    anti_ref_key=anti_key_for_call,
+                    anti_ref=None,
+                    anti_ref_key=anti_key,
                     species_note=notes.get(sci),
                     style_ref=style_ref_path,
                 )
                 path.write_bytes(data)
                 done += 1
                 refs_tag = "+ref" if pos_ref else ""
-                anti_tag = "+anti" if anti else ""
+                anti_tag = "+anti" if anti_key else ""
                 note_tag = "+note" if notes.get(sci) else ""
-                print(f"  [ok]   {fname} ({len(data) // 1024} KB){refs_tag}{anti_tag}{note_tag}")
-            except (urllib.error.HTTPError, urllib.error.URLError, RuntimeError) as e:
+                elapsed = time.monotonic() - started
+                print(f"  [ok]   {fname} ({len(data) // 1024} KB, {elapsed:.0f}s){refs_tag}{anti_tag}{note_tag}")
+            except Exception as e:
                 failed += 1
                 first_fail = first_fail or fname
                 print(f"  [fail] {fname}: {e}", file=sys.stderr)
-
-            if not (idx == len(species) - 1 and pose == args.poses[-1]):
-                time.sleep(args.sleep)
 
     print(f"\ngenerated {done} · skipped {skipped_existing} · failed {failed}")
     if first_fail:

@@ -1,7 +1,7 @@
 [project]
 name = "avianvisitors-generation"
 version = "0.0.1"
-description = "Gemini illustration + BiRefNet cutout pipeline for the AvianVisitors collage."
+description = "FLUX.1-dev illustration + BiRefNet cutout pipeline for the AvianVisitors collage."
 requires-python = ">=3.13"
 dependencies = [
     "pillow>=11.0",

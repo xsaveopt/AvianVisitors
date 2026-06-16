@@ -1,4 +1,5 @@
 x-generate-env: &env
+  HF_TOKEN: "${HF_TOKEN:-}"
   GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
   EBIRD_API_KEY: "${EBIRD_API_KEY:-}"
 
@@ -29,6 +30,7 @@ services:
       args:
         BASE: nvidia/cuda:12.9.2-cudnn-runtime-ubuntu24.04
         REMBG_EXTRA: gpu
+        WITH_FLUX: "1"
     image: avianvisitors-generate:cuda
     gpus: all
 

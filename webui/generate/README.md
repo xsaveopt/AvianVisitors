@@ -8,7 +8,7 @@ You only need anything in here if you want to restyle that set or generate the b
 
 ## Pipeline
 
-- pregen.py draws each bird with Gemini 2.5 Flash Image on a flat cream ground.
+- pregen.py draws each bird with FLUX.1-dev on your NVIDIA GPU, on a flat cream ground.
 - cutout.py removes that ground with BiRefNet and crops to the bird.
 - build_masks.py rebuilds the collage silhouette masks in frontend/src/collage/data/.
 - verify.py is optional and runs an adversarial species-id and anatomy check.
@@ -21,60 +21,44 @@ You only need anything in here if you want to restyle that set or generate the b
 
 Everything runs in Docker.
 compose.yaml has two services that share one Dockerfile: generate for a CPU and generate-cuda for an NVIDIA GPU.
-Only the cutout step uses the GPU, so pregen, verify, and build_masks run on any machine.
+pregen draws with FLUX on the GPU, so it needs the generate-cuda service; cutout, build_masks, and verify run on either.
 
-A Gemini api key is only needed for pregen and verify.
-cutout and build_masks run without one.
+FLUX.1-dev and FLUX.1-Redux-dev are gated models.
+Accept both licenses on Hugging Face, then put your token in HF_TOKEN so pregen can pull the weights.
+The first pregen run downloads about 24GB of weights into the models volume, where they stay cached for later runs.
+A 12-16GB card is enough: the transformer and the text encoder load in 4-bit and both pipelines offload to system RAM between steps, so a render takes a minute or two rather than seconds.
+
+A Hugging Face token is only needed for pregen, and a Gemini api key only for verify.
+cutout and build_masks need neither.
 An eBird api key is only needed for --ebird-region.
 
-Build the image for your machine:
+Build the GPU image on an NVIDIA box with the [container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed:
 
 ```sh
 cd webui/generate
-docker compose build generate
-```
-
-On an NVIDIA box with the [container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed, build the cuda one instead:
-
-```sh
 docker compose --profile cuda build generate-cuda
 ```
 
-Then run any script against that service.
-The repo is mounted at /repo, so the pictures and masks land back in your working tree, and the cutout model is cached after the first run.
+The repo is mounted at /repo, so the pictures and masks land back in your working tree, and both the FLUX weights and the cutout model are cached after the first run.
 
 ```sh
-export GEMINI_API_KEY=your-key
-docker compose run --rm generate python pregen.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt --ebird-region US-CA
-docker compose run --rm generate python cutout.py
-docker compose run --rm generate python build_masks.py
+export HF_TOKEN=your-hf-token
+docker compose --profile cuda run --rm generate-cuda python pregen.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt --ebird-region US-CA
+docker compose --profile cuda run --rm generate-cuda python cutout.py
+docker compose --profile cuda run --rm generate-cuda python build_masks.py
 ```
 
-To use the GPU, run the same scripts against generate-cuda with --profile cuda:
+The render knobs all have flags: --steps, --guidance, --size, --seed, and --pos-scale / --style-scale to balance how hard the species photo and the style plate pull against the text prompt.
+
+cutout and build_masks also run on the CPU image when you have no GPU handy:
 
 ```sh
-docker compose --profile cuda run --rm generate-cuda python cutout.py
+docker compose build generate
+docker compose run --rm generate python cutout.py
 ```
 
 cutout uses the GPU when it is there and the CPU when it is not, so there is nothing to set.
-It fits comfortably on a 16GB card and onnxruntime grows its memory as it goes, so there is nothing to tune either.
-
-On a Mac there is no GPU path.
-Docker runs a Linux vm that cannot reach Metal, so cutout runs on the CPU.
-It is slower, but it works.
-
-If you would rather not use Docker, the scripts run with uv straight from this folder:
-
-```sh
-uv sync
-export GEMINI_API_KEY=your-key
-uv run python pregen.py --labels ~/BirdNET-Pi/model/labels.txt --ebird-region US-CA
-uv run python cutout.py
-uv run python build_masks.py
-```
-
-uv sync installs the CPU runtime.
-On an NVIDIA box install onnxruntime-gpu instead and cutout picks it up.
+pregen has no CPU path: FLUX needs CUDA, so it only runs against generate-cuda.
 
 ## Why a cream ground
 
@@ -84,22 +68,23 @@ cutout.py is the step that makes the backgrounds transparent.
 
 ## The prompt
 
-prompt.template.md is the kachō-e prompt, sent verbatim per request with {sci_name}, {com_name}, and {pose} substituted.
+prompt.template.md is the kachō-e prompt, sent verbatim per render with {sci_name}, {com_name}, and {pose} substituted.
 Edit it to change the style.
-pregen.py attaches up to three reference images per request.
+pregen.py steers each render with FLUX.1 Redux image conditioning on top of that prompt.
 
 The anatomy image is a Wikipedia photo of the target species, auto-fetched and cached in assets/references/, which anchors identity and markings.
 Drop your own references/<slug>.jpg to override it.
 
-The anti-reference is optional: a photo of a look-alike the model drifts toward, captioned with what not to copy.
-It is wired for blue corvids against the Blue Jay and swallows against the Barn Swallow; add more in the ANTI_REFS table and place photos at references/_anti_<key>.jpg.
-
-The style image is optional: a real Edo-period kachō-e print whose technique is borrowed.
+The style image is a real Edo-period kachō-e print whose technique is borrowed.
 The genus-to-print mapping is in pregen.py's STYLE_REFS.
 The prints are not bundled because they are someone else's art, so put your own in assets/references/styles/.
 The Koson and Yoshida prints used originally are easy to find on the public web by the filenames in STYLE_REFS.
 
-A missing reference is simply not attached, so all three degrade gracefully.
+The anti-reference is text, not an image: Redux conditioning is additive, so a look-alike can only be excluded through the prompt.
+It is wired for blue corvids against the Blue Jay and swallows against the Barn Swallow, and the rewritten line names what not to draw.
+Add more in the ANTI_REFS table.
+
+A missing reference is simply not attached, so the species photo, the style plate, and the anti-line all degrade gracefully.
 
 ## Hard species
 
@@ -113,8 +98,8 @@ verify.py sends each illustration back through Gemini Vision without telling it 
 It catches drift a quick eyeball misses.
 
 ```sh
-docker compose run --rm generate python verify.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt
-docker compose run --rm generate python verify.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt calypte-anna
+docker compose --profile cuda run --rm generate-cuda python verify.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt
+docker compose --profile cuda run --rm generate-cuda python verify.py --labels /repo/birdnet/model/BirdNET_GLOBAL_6K_V2.4_Model_FP16_Labels.txt calypte-anna
 ```
 
 It writes verify-results.csv for the whole library, or takes a slug to check just one bird.
@@ -126,7 +111,7 @@ Perched raptors often come back gripping a twig the prompt forbade, so generate 
 
 Species drift.
 The model collapses an uncommon species toward a common look-alike, so a swift becomes a swallow.
-The fixes, in order, are a sharper species-notes.json note with anti-feature language, then an anti-reference, then a different style print, then a one-off --species regen.
+The fixes, in order, are a sharper species-notes.json note with anti-feature language, then a lower --pos-scale so the photo pulls harder, then a different style print, then a one-off --species regen.
 
 Matched pair.
 The perched and flight poses must read as the same individual, so review them side by side before locking.
