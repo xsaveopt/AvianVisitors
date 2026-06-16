@@ -427,6 +427,7 @@ class FluxGenerator:
         style_scale: float = 0.9,
         seed: int | None = None,
         lora: str = "",
+        lora_weight: str = "",
         lora_scale: float = 0.9,
     ) -> None:
         import torch
@@ -491,7 +492,7 @@ class FluxGenerator:
             torch_dtype=dtype,
         )
         if lora:
-            self.base.load_lora_weights(lora)
+            self.base.load_lora_weights(lora, **({"weight_name": lora_weight} if lora_weight else {}))
 
         self.prior.enable_model_cpu_offload()
         self.base.enable_model_cpu_offload()
@@ -587,6 +588,7 @@ def main() -> int:
     ap.add_argument("--pos-scale", type=float, default=0.2, help="Redux embed scale for the species photo, 0 disables it (default: 0.2)")
     ap.add_argument("--style-scale", type=float, default=0.9, help="Redux embed scale for the style plate, 0 disables it (default: 0.9)")
     ap.add_argument("--lora", default="", help="Style LoRA: a HF repo id or a local .safetensors path (e.g. /repo/webui/generate/loras/ukiyo-e.safetensors)")
+    ap.add_argument("--lora-weight", default="", help="Filename within the LoRA repo, when it is not the diffusers default (e.g. Ukiyo-e_LoRa.safetensors)")
     ap.add_argument("--lora-scale", type=float, default=0.9, help="LoRA strength (default: 0.9)")
     ap.add_argument("--seed", type=int, default=0, help="Seed for reproducible output (0 = random per render)")
     ap.add_argument(
@@ -676,6 +678,7 @@ def main() -> int:
             style_scale=args.style_scale,
             seed=args.seed or None,
             lora=args.lora,
+            lora_weight=args.lora_weight,
             lora_scale=args.lora_scale,
         )
     except ImportError as e:
