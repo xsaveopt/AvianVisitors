@@ -492,7 +492,15 @@ class FluxGenerator:
             torch_dtype=dtype,
         )
         if lora:
-            self.base.load_lora_weights(lora, **({"weight_name": lora_weight} if lora_weight else {}))
+            kwargs = {"weight_name": lora_weight} if lora_weight else {}
+            state_dict = self.base.lora_state_dict(lora, **kwargs)
+            if isinstance(state_dict, tuple):
+                state_dict = state_dict[0]
+            transformer_sd = {k: v for k, v in state_dict.items() if "text_encoder" not in k and "lora_te" not in k and "text_model" not in k}
+            try:
+                self.base.load_lora_into_transformer(transformer_sd, network_alphas=None, transformer=self.base.transformer, adapter_name="style")
+            except TypeError:
+                self.base.load_lora_into_transformer(transformer_sd, transformer=self.base.transformer, adapter_name="style")
 
         self.prior.enable_model_cpu_offload()
         self.base.enable_model_cpu_offload()
