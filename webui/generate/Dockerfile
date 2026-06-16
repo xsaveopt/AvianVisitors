@@ -27,7 +27,7 @@ RUN uv venv --python 3.13 /opt/venv \
       "pillow>=11" "rembg[${REMBG_EXTRA}]>=2.0.76"
 
 RUN if [ "$WITH_FLUX" = "1" ]; then \
-      apt-get update && apt-get install -y --no-install-recommends gcc \
+      apt-get update && apt-get install -y --no-install-recommends build-essential \
       && rm -rf /var/lib/apt/lists/* \
       && uv pip install --python /opt/venv/bin/python \
         --extra-index-url https://download.pytorch.org/whl/cu124 \
