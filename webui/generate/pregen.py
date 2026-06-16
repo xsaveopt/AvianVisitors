@@ -259,7 +259,12 @@ def slugify(sci: str) -> str:
 
 
 def parse_species_line(line: str) -> tuple[str, str] | None:
-    """Accept any of: 'Sci|Com', 'Sci_Com', 'Sci,Com'. Skip blanks + #."""
+    """Accept 'Sci|Com', 'Sci_Com', 'Sci,Com', or a bare 'Genus species'.
+
+    BirdNET's FP16/GLOBAL label files list only the scientific name, so a
+    separator-less line is taken as the species with the common name left
+    equal to it; ebird_filter fills the real common name from the taxonomy.
+    Skip blanks and # comments."""
     line = line.strip()
     if not line or line.startswith("#"):
         return None
@@ -269,6 +274,8 @@ def parse_species_line(line: str) -> tuple[str, str] | None:
             sci, com = sci.strip(), com.strip()
             if sci and com:
                 return (sci, com)
+    if " " in line:
+        return (line, line)
     return None
 
 
@@ -304,9 +311,13 @@ def ebird_filter(species, region: str, key: str):
     req2 = urllib.request.Request(tax_url, headers={"X-eBirdApiToken": key})
     with urllib.request.urlopen(req2, timeout=60) as r:
         taxonomy = json.loads(r.read())
-    code_to_sci = {t["speciesCode"]: t["sciName"] for t in taxonomy}
-    allowed = {code_to_sci[c] for c in ebird_codes if c in code_to_sci}
-    return [(s, c) for s, c in species if s in allowed]
+    code_to = {t["speciesCode"]: (t["sciName"], t.get("comName", "")) for t in taxonomy}
+    allowed = {}
+    for c in ebird_codes:
+        if c in code_to:
+            sci_name, com_name = code_to[c]
+            allowed[sci_name] = com_name
+    return [(s, allowed[s] or c) for s, c in species if s in allowed]
 
 
 REF_EXTS = (".jpg", ".png")
