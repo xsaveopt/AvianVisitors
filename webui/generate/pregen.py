@@ -389,12 +389,7 @@ def _anti_ref_line(anti_ref_key: str | None) -> str:
     info = ANTI_REFS.get(anti_ref_key or "")
     if not info:
         return ""
-    return (
-        f"- The species must NOT resemble a {info['common_name']} "
-        f"({info['sci_name']}). Do NOT give it {info['do_not_copy']}. "
-        f"If the output looks more like a {info['common_name']} than the "
-        f"target species, the output is wrong."
-    )
+    return f"Not a {info['common_name']}; avoid {info['do_not_copy']}."
 
 
 def build_prompt_body(prompt: str, sci: str, com: str, pose: int, anti_ref_key: str | None, species_note: str | None) -> str:

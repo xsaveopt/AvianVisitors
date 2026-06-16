@@ -1,23 +1,18 @@
 # Bird illustration prompt
 
-The prompt used by FLUX for every illustration.
+The prompt used by FLUX for every render.
 
-Three text placeholders get replaced per render:
+Three placeholders get replaced per render:
 
 - `{sci_name}` is the binomial Latin name, e.g. `Calypte anna`
 - `{com_name}` is the English common name, e.g. `Anna's Hummingbird`
 - `{pose}` is either `perched` (pose 1) or `in flight with wings spread` (pose 2)
+- `{anti_ref_line}` is a short per-species clause that forbids a famous look-alike, empty for most species
 
-`pregen.py` also steers each render through FLUX.1 Redux image conditioning:
-
-- A POSITIVE anatomy reference (Wikipedia photo of the target species) anchors species identity, markings, and plumage.
-- A POSITIVE style reference (a real Edo-period kachō-e print by Ohara Koson or Hiroshi Yoshida) anchors the painting technique; its species is irrelevant.
-- The anti-reference is text only. For genera where the model drifts toward a famous lookalike (a Blue Jay for small blue corvids, a Barn Swallow for other swallows) the `{anti_ref_line}` placeholder is rewritten per-species to forbid that lookalike's diagnostic features.
-
-The reference photos are blended into the conditioning, not captioned, so the prompt body never refers to a numbered image.
+Keep this short. FLUX runs the prompt through CLIP, which only reads the first 77 tokens and collapses them into a single pooled vector that carries the overall style, so a long prompt with many clauses muddies the style and the tail is discarded outright. One tight style-first sentence renders a far cleaner kachō-e look than a paragraph of negations.
 
 ---
 
 ## Prompt
 
-Flat Edo-period Japanese kachō-e woodblock print of a {pose} {com_name} ({sci_name}). Ukiyo-e style: bold confident sumi-e ink outlines, flat unshaded color fills, very few marks, minimal internal detail. NOT a photo, NOT realistic, NOT 3D: no shading, no gradients, no feather texture, no depth. Restrained mineral palette of burnt umber, ochre, indigo, vermillion, and muted green. Accurate diagnostic breeding plumage and colors of the {com_name}. The single bird floats on a flat warm cream mulberry-paper ground filling the whole frame: no branch, no perch, no leaves, no scenery, no shadow, no border, no text. The entire bird is in frame with generous cream margin. {anti_ref_line}
+A {pose} {com_name} ({sci_name}) as a flat Edo-period Japanese kachō-e ukiyo-e woodblock print. Bold sumi-e ink outlines, flat unshaded color, minimal detail, plain warm cream paper background. Not a photo, no shading, no 3D. Accurate {com_name} breeding plumage. {anti_ref_line}
