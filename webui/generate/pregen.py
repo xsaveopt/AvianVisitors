@@ -406,29 +406,23 @@ def build_prompt_body(prompt: str, sci: str, com: str, pose: int, anti_ref_key: 
 
 
 class FluxGenerator:
-    """Local FLUX.1-dev renderer with FLUX.1 Redux image conditioning.
+    """Local FLUX.1-dev text-to-image renderer.
 
     The transformer and T5 text encoder load in 4-bit (bitsandbytes nf4)
-    and both pipelines use model CPU offload, so the whole graph fits a
-    12-16GB card. The target-species photo and the kachō-e style plate are
-    fed through Redux as positive image conditioning, balanced against the
-    text prompt by the redux embed scales.
+    and the pipeline uses model CPU offload, so it fits a 12-16GB card. The
+    kachō-e style comes entirely from the text prompt; no reference images
+    are used, which is what keeps the output flat and drawn rather than
+    photographic.
     """
 
     def __init__(
         self,
         base_id: str = BASE_MODEL,
-        redux_id: str = REDUX_MODEL,
         height: int = 1024,
         width: int = 1024,
         steps: int = 28,
         guidance: float = 3.5,
-        pos_scale: float = 0.2,
-        style_scale: float = 0.9,
         seed: int | None = None,
-        lora: str = "",
-        lora_weight: str = "",
-        lora_scale: float = 0.9,
     ) -> None:
         import torch
         from diffusers import (
@@ -436,16 +430,13 @@ class FluxGenerator:
         )
         from diffusers import (
             FluxPipeline,
-            FluxPriorReduxPipeline,
             FluxTransformer2DModel,
         )
         from transformers import (
-            AutoTokenizer,
-            CLIPTextModel,
-            T5EncoderModel,
+            BitsAndBytesConfig as TransformersBnb,
         )
         from transformers import (
-            BitsAndBytesConfig as TransformersBnb,
+            T5EncoderModel,
         )
 
         self.torch = torch
@@ -453,11 +444,7 @@ class FluxGenerator:
         self.width = width
         self.steps = steps
         self.guidance = guidance
-        self.pos_scale = pos_scale
-        self.style_scale = style_scale
         self.seed = seed
-        self.lora_scale = lora_scale
-        self.has_lora = bool(lora)
         dtype = torch.bfloat16
 
         transformer = FluxTransformer2DModel.from_pretrained(
@@ -472,48 +459,13 @@ class FluxGenerator:
             quantization_config=TransformersBnb(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=dtype),
             torch_dtype=dtype,
         )
-        text_encoder = CLIPTextModel.from_pretrained(base_id, subfolder="text_encoder", torch_dtype=dtype)
-        tokenizer = AutoTokenizer.from_pretrained(base_id, subfolder="tokenizer")
-        tokenizer_2 = AutoTokenizer.from_pretrained(base_id, subfolder="tokenizer_2")
-
-        self.prior = FluxPriorReduxPipeline.from_pretrained(
-            redux_id,
-            text_encoder=text_encoder,
-            text_encoder_2=text_encoder_2,
-            tokenizer=tokenizer,
-            tokenizer_2=tokenizer_2,
-            torch_dtype=dtype,
-        )
-        self.base = FluxPipeline.from_pretrained(
+        self.pipe = FluxPipeline.from_pretrained(
             base_id,
             transformer=transformer,
-            text_encoder=None,
-            text_encoder_2=None,
+            text_encoder_2=text_encoder_2,
             torch_dtype=dtype,
         )
-        if lora:
-            kwargs = {"weight_name": lora_weight} if lora_weight else {}
-            state_dict = self.base.lora_state_dict(lora, **kwargs)
-            if isinstance(state_dict, tuple):
-                state_dict = state_dict[0]
-            transformer_sd = {k: v for k, v in state_dict.items() if "text_encoder" not in k and "lora_te" not in k and "text_model" not in k}
-            try:
-                self.base.load_lora_into_transformer(transformer_sd, network_alphas=None, transformer=self.base.transformer, adapter_name="style")
-            except TypeError:
-                self.base.load_lora_into_transformer(transformer_sd, transformer=self.base.transformer, adapter_name="style")
-
-        self.prior.enable_model_cpu_offload()
-        self.base.enable_model_cpu_offload()
-
-    def _load_image(self, path: Path):
-        from PIL import Image
-
-        return Image.open(path).convert("RGB")
-
-    def _blank_ground(self):
-        from PIL import Image
-
-        return Image.new("RGB", (768, 768), (244, 236, 219))
+        self.pipe.enable_model_cpu_offload()
 
     def generate(
         self,
@@ -521,54 +473,24 @@ class FluxGenerator:
         sci: str,
         com: str,
         pose: int,
-        positive_ref: Path | None = None,
-        anti_ref: Path | None = None,
         anti_ref_key: str | None = None,
         species_note: str | None = None,
-        style_ref: Path | None = None,
     ) -> bytes:
-        """Render one (species, pose). Returns raw PNG bytes.
-
-        positive_ref steers the species; style_ref steers the painting
-        technique. The anti-reference is text-only here: Redux conditioning
-        is additive, so the lookalike can only be excluded through the
-        prompt body, never attached as a negative image.
-        """
+        """Render one (species, pose) from the text prompt. Returns PNG bytes."""
         body = build_prompt_body(prompt, sci, com, pose, anti_ref_key, species_note)
-
-        images = []
-        scales = []
-        if style_ref is not None and self.style_scale > 0:
-            images.append(self._load_image(style_ref))
-            scales.append(self.style_scale)
-        if positive_ref is not None and self.pos_scale > 0:
-            images.append(self._load_image(positive_ref))
-            scales.append(self.pos_scale)
-        if not images:
-            images.append(self._blank_ground())
-            scales.append(0.1)
-
-        prior_output = self.prior(
-            image=images,
-            prompt=body,
-            prompt_2=body,
-            prompt_embeds_scale=scales,
-            pooled_prompt_embeds_scale=scales,
-        )
 
         generator = None
         if self.seed is not None:
             generator = self.torch.Generator(device="cpu").manual_seed(self.seed)
 
-        extra = {"joint_attention_kwargs": {"scale": self.lora_scale}} if self.has_lora else {}
-        result = self.base(
+        result = self.pipe(
+            prompt=body,
             guidance_scale=self.guidance,
             num_inference_steps=self.steps,
             height=self.height,
             width=self.width,
+            max_sequence_length=512,
             generator=generator,
-            **extra,
-            **prior_output,
         )
 
         buf = BytesIO()
@@ -589,33 +511,15 @@ def main() -> int:
     ap.add_argument("--ebird-key", help="eBird API key (or EBIRD_API_KEY env)")
     ap.add_argument("--hf-token", help="Hugging Face token for gated FLUX models (or HF_TOKEN env)")
     ap.add_argument("--base-model", default=BASE_MODEL, help=f"FLUX base model id (default: {BASE_MODEL})")
-    ap.add_argument("--redux-model", default=REDUX_MODEL, help=f"FLUX Redux model id (default: {REDUX_MODEL})")
     ap.add_argument("--steps", type=int, default=28, help="Denoising steps (default: 28)")
     ap.add_argument("--guidance", type=float, default=3.5, help="Guidance scale (default: 3.5)")
     ap.add_argument("--size", type=int, default=1024, help="Output edge length in px (default: 1024)")
-    ap.add_argument("--pos-scale", type=float, default=0.2, help="Redux embed scale for the species photo, 0 disables it (default: 0.2)")
-    ap.add_argument("--style-scale", type=float, default=0.9, help="Redux embed scale for the style plate, 0 disables it (default: 0.9)")
-    ap.add_argument("--lora", default="", help="Style LoRA: a HF repo id or a local .safetensors path (e.g. /repo/webui/generate/loras/ukiyo-e.safetensors)")
-    ap.add_argument("--lora-weight", default="", help="Filename within the LoRA repo, when it is not the diffusers default (e.g. Ukiyo-e_LoRa.safetensors)")
-    ap.add_argument("--lora-scale", type=float, default=0.9, help="LoRA strength (default: 0.9)")
     ap.add_argument("--seed", type=int, default=0, help="Seed for reproducible output (0 = random per render)")
     ap.add_argument(
         "--out",
         type=Path,
         default=Path(__file__).resolve().parents[1] / "assets" / "illustrations",
         help="Output directory (default: webui/assets/illustrations/)",
-    )
-    ap.add_argument(
-        "--refs",
-        type=Path,
-        default=Path(__file__).resolve().parents[1] / "assets" / "references",
-        help="Reference photo cache directory (default: webui/assets/references/)",
-    )
-    ap.add_argument(
-        "--styles",
-        type=Path,
-        default=Path(__file__).resolve().parents[1] / "assets" / "references" / "styles",
-        help="Style reference directory (default: webui/assets/references/styles/)",
     )
     ap.add_argument("--prompt", type=Path, default=Path(__file__).resolve().parent / "prompt.template.md", help="Prompt template path")
     ap.add_argument(
@@ -628,7 +532,6 @@ def main() -> int:
         "--poses", nargs="+", type=int, default=[1, 2], choices=list(POSES.keys()), help="Which poses to render. 1=perched, 2=flight. Default: both."
     )
     ap.add_argument("--force", action="store_true", help="Re-render even if file exists")
-    ap.add_argument("--no-refs", action="store_true", help="Skip the Wikipedia reference fetch (style plate only)")
     ap.add_argument("--limit", type=int, default=0, help="Cap species count for testing")
     args = ap.parse_args()
 
@@ -673,21 +576,15 @@ def main() -> int:
         print(f"[notes] loaded per-species addenda for {len(notes)} species")
 
     total = len(species) * len(args.poses)
-    print(f"loading FLUX ({args.base_model} + Redux), this takes a minute on first run...")
+    print(f"loading FLUX ({args.base_model}), this takes a minute on first run...")
     try:
         generator = FluxGenerator(
             base_id=args.base_model,
-            redux_id=args.redux_model,
             height=args.size,
             width=args.size,
             steps=args.steps,
             guidance=args.guidance,
-            pos_scale=args.pos_scale,
-            style_scale=args.style_scale,
             seed=args.seed or None,
-            lora=args.lora,
-            lora_weight=args.lora_weight,
-            lora_scale=args.lora_scale,
         )
     except ImportError as e:
         print(f"error: FLUX dependencies missing ({e}). Run on the generate-cuda image.", file=sys.stderr)
@@ -702,11 +599,6 @@ def main() -> int:
     first_fail = None
     for sci, com in species:
         slug = slugify(sci)
-        pos_ref = None
-        if not args.no_refs:
-            pos_ref = ensure_reference(args.refs, slug, sci, com)
-            if not pos_ref:
-                print(f"  [warn] no Wikipedia photo for {sci} - proceeding without positive ref", file=sys.stderr)
         anti_key = select_anti_ref_key(sci)
 
         for pose in args.poses:
@@ -716,28 +608,21 @@ def main() -> int:
                 skipped_existing += 1
                 continue
             try:
-                style_ref_path = args.styles / select_style_ref(sci, pose)
-                if not style_ref_path.exists():
-                    style_ref_path = None
                 started = time.monotonic()
                 data = generator.generate(
                     prompt,
                     sci,
                     com,
                     pose,
-                    positive_ref=pos_ref,
-                    anti_ref=None,
                     anti_ref_key=anti_key,
                     species_note=notes.get(sci),
-                    style_ref=style_ref_path,
                 )
                 path.write_bytes(data)
                 done += 1
-                refs_tag = "+ref" if pos_ref else ""
                 anti_tag = "+anti" if anti_key else ""
                 note_tag = "+note" if notes.get(sci) else ""
                 elapsed = time.monotonic() - started
-                print(f"  [ok]   {fname} ({len(data) // 1024} KB, {elapsed:.0f}s){refs_tag}{anti_tag}{note_tag}")
+                print(f"  [ok]   {fname} ({len(data) // 1024} KB, {elapsed:.0f}s){anti_tag}{note_tag}")
             except Exception as e:
                 failed += 1
                 first_fail = first_fail or fname
