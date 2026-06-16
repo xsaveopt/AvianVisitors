@@ -531,8 +531,8 @@ def main() -> int:
     ap.add_argument(
         "--notes",
         type=Path,
-        default=Path(__file__).resolve().parent / "species-notes.json",
-        help="Per-species prompt addenda for difficult cases (e.g. similar-species drift)",
+        default=None,
+        help="Optional per-species prompt addenda JSON. Off by default; keep any notes short or they overflow the CLIP/T5 token windows.",
     )
     ap.add_argument(
         "--poses", nargs="+", type=int, default=[1, 2], choices=list(POSES.keys()), help="Which poses to render. 1=perched, 2=flight. Default: both."
@@ -577,7 +577,7 @@ def main() -> int:
 
     prompt = load_prompt(args.prompt)
     args.out.mkdir(parents=True, exist_ok=True)
-    notes = load_species_notes(args.notes)
+    notes = load_species_notes(args.notes) if args.notes else {}
     if notes:
         print(f"[notes] loaded per-species addenda for {len(notes)} species")
 
