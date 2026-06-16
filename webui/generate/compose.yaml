@@ -1,5 +1,6 @@
 x-generate-env: &env
   HF_TOKEN: "${HF_TOKEN:-}"
+  HF_HUB_DISABLE_XET: "1"
   GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
   EBIRD_API_KEY: "${EBIRD_API_KEY:-}"
 

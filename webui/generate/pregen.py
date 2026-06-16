@@ -423,9 +423,11 @@ class FluxGenerator:
         width: int = 1024,
         steps: int = 28,
         guidance: float = 3.5,
-        pos_scale: float = 0.6,
-        style_scale: float = 0.35,
+        pos_scale: float = 0.2,
+        style_scale: float = 0.9,
         seed: int | None = None,
+        lora: str = "",
+        lora_scale: float = 0.9,
     ) -> None:
         import torch
         from diffusers import (
@@ -453,6 +455,8 @@ class FluxGenerator:
         self.pos_scale = pos_scale
         self.style_scale = style_scale
         self.seed = seed
+        self.lora_scale = lora_scale
+        self.has_lora = bool(lora)
         dtype = torch.bfloat16
 
         transformer = FluxTransformer2DModel.from_pretrained(
@@ -486,6 +490,9 @@ class FluxGenerator:
             text_encoder_2=None,
             torch_dtype=dtype,
         )
+        if lora:
+            self.base.load_lora_weights(lora)
+
         self.prior.enable_model_cpu_offload()
         self.base.enable_model_cpu_offload()
 
@@ -522,12 +529,12 @@ class FluxGenerator:
 
         images = []
         scales = []
-        if positive_ref is not None:
-            images.append(self._load_image(positive_ref))
-            scales.append(self.pos_scale)
-        if style_ref is not None:
+        if style_ref is not None and self.style_scale > 0:
             images.append(self._load_image(style_ref))
             scales.append(self.style_scale)
+        if positive_ref is not None and self.pos_scale > 0:
+            images.append(self._load_image(positive_ref))
+            scales.append(self.pos_scale)
         if not images:
             images.append(self._blank_ground())
             scales.append(0.1)
@@ -544,12 +551,14 @@ class FluxGenerator:
         if self.seed is not None:
             generator = self.torch.Generator(device="cpu").manual_seed(self.seed)
 
+        extra = {"joint_attention_kwargs": {"scale": self.lora_scale}} if self.has_lora else {}
         result = self.base(
             guidance_scale=self.guidance,
             num_inference_steps=self.steps,
             height=self.height,
             width=self.width,
             generator=generator,
+            **extra,
             **prior_output,
         )
 
@@ -575,8 +584,10 @@ def main() -> int:
     ap.add_argument("--steps", type=int, default=28, help="Denoising steps (default: 28)")
     ap.add_argument("--guidance", type=float, default=3.5, help="Guidance scale (default: 3.5)")
     ap.add_argument("--size", type=int, default=1024, help="Output edge length in px (default: 1024)")
-    ap.add_argument("--pos-scale", type=float, default=0.6, help="Redux embed scale for the species photo (default: 0.6)")
-    ap.add_argument("--style-scale", type=float, default=0.35, help="Redux embed scale for the style plate (default: 0.35)")
+    ap.add_argument("--pos-scale", type=float, default=0.2, help="Redux embed scale for the species photo, 0 disables it (default: 0.2)")
+    ap.add_argument("--style-scale", type=float, default=0.9, help="Redux embed scale for the style plate, 0 disables it (default: 0.9)")
+    ap.add_argument("--lora", default="", help="Style LoRA: a HF repo id or a local .safetensors path (e.g. /repo/webui/generate/loras/ukiyo-e.safetensors)")
+    ap.add_argument("--lora-scale", type=float, default=0.9, help="LoRA strength (default: 0.9)")
     ap.add_argument("--seed", type=int, default=0, help="Seed for reproducible output (0 = random per render)")
     ap.add_argument(
         "--out",
@@ -612,8 +623,15 @@ def main() -> int:
     args = ap.parse_args()
 
     hf_token = args.hf_token or os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN", "")
-    if hf_token:
-        os.environ["HF_TOKEN"] = hf_token
+    if not hf_token:
+        print(
+            "error: HF_TOKEN is empty. FLUX.1-dev is gated, so pregen needs a token with both "
+            "model licenses accepted. If you ran with sudo, the env was stripped: use `sudo -E` "
+            "or `sudo env HF_TOKEN=... docker compose ...`.",
+            file=sys.stderr,
+        )
+        return 2
+    os.environ["HF_TOKEN"] = hf_token
 
     if args.labels:
         species, skipped = parse_species_list(args.labels.read_text().splitlines())
@@ -657,6 +675,8 @@ def main() -> int:
             pos_scale=args.pos_scale,
             style_scale=args.style_scale,
             seed=args.seed or None,
+            lora=args.lora,
+            lora_scale=args.lora_scale,
         )
     except ImportError as e:
         print(f"error: FLUX dependencies missing ({e}). Run on the generate-cuda image.", file=sys.stderr)
