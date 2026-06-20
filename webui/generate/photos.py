@@ -185,12 +185,19 @@ def _min_side(info: dict) -> int:
 def _page_images(title: str) -> dict:
     """Every file on the article, keyed by normalised title, each with its
     imageinfo (size, mime, capped thumb URL, licence metadata)."""
-    q = urllib.parse.urlencode({
-        "action": "query", "format": "json", "redirects": "1",
-        "generator": "images", "gimlimit": "100", "titles": title,
-        "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata",
-        "iiurlwidth": str(WIKI_THUMB_WIDTH),
-    })
+    q = urllib.parse.urlencode(
+        {
+            "action": "query",
+            "format": "json",
+            "redirects": "1",
+            "generator": "images",
+            "gimlimit": "100",
+            "titles": title,
+            "prop": "imageinfo",
+            "iiprop": "url|size|mime|extmetadata",
+            "iiurlwidth": str(WIKI_THUMB_WIDTH),
+        }
+    )
     raw = _get(f"https://en.wikipedia.org/w/api.php?{q}", 30)
     if not raw:
         return {}
@@ -208,10 +215,16 @@ def _page_images(title: str) -> dict:
 
 def _lead_title(title: str) -> str | None:
     """The article's representative image (PageImages' pick), normalised."""
-    q = urllib.parse.urlencode({
-        "action": "query", "format": "json", "redirects": "1",
-        "titles": title, "prop": "pageimages", "piprop": "name",
-    })
+    q = urllib.parse.urlencode(
+        {
+            "action": "query",
+            "format": "json",
+            "redirects": "1",
+            "titles": title,
+            "prop": "pageimages",
+            "piprop": "name",
+        }
+    )
     raw = _get(f"https://en.wikipedia.org/w/api.php?{q}", 30)
     if not raw:
         return None
@@ -230,10 +243,15 @@ def _page_order(title: str) -> dict:
     """Map of normalised file title -> its position in the article, so the
     cover and the photos near the top of the page (the ones editors put first,
     usually the best) can be preferred over images buried lower down."""
-    q = urllib.parse.urlencode({
-        "action": "parse", "format": "json", "redirects": "1",
-        "page": title, "prop": "images",
-    })
+    q = urllib.parse.urlencode(
+        {
+            "action": "parse",
+            "format": "json",
+            "redirects": "1",
+            "page": title,
+            "prop": "images",
+        }
+    )
     raw = _get(f"https://en.wikipedia.org/w/api.php?{q}", 30)
     if not raw:
         return {}
@@ -314,10 +332,9 @@ def fetch_wiki(sci: str, com: str, session, blocked: set) -> dict | None:
         lead_key = _lead_title(title)
         order = _page_order(title)
         cands = {
-            key: info for key, info in images.items()
-            if info.get("mime") in ("image/jpeg", "image/png")
-            and not _NON_PHOTO.search(key)
-            and _min_side(info) >= MIN_FRAME
+            key: info
+            for key, info in images.items()
+            if info.get("mime") in ("image/jpeg", "image/png") and not _NON_PHOTO.search(key) and _min_side(info) >= MIN_FRAME
         }
         dropped = {k for k, v in cands.items() if blocked & {v.get("url"), v.get("descriptionurl")}}
         if dropped:
@@ -356,6 +373,7 @@ def fetch_wiki(sci: str, com: str, session, blocked: set) -> dict | None:
             return best[1]
         step("no single-bird photo found on the page")
     return None
+
 
 SAMPLE = [
     ("Cyanistes caeruleus", "Eurasian Blue Tit"),
@@ -404,6 +422,7 @@ def _classifier():
         return _bird_session or None
     try:
         import onnxruntime as ort
+
         cache = Path(os.environ.get("AVIAN_MODEL_DIR") or Path.home() / ".cache" / "avianvisitors")
         cache.mkdir(parents=True, exist_ok=True)
         model = cache / "mobilenetv2-12.onnx"
@@ -563,10 +582,12 @@ def cutout(data: bytes, session, margin: float, alpha_matting: bool, max_size: i
 def avif_ok() -> bool:
     try:
         import pillow_avif  # noqa: F401
+
         return True
     except ImportError:
         try:
             from PIL import features
+
             return features.check("avif")
         except Exception:
             return False

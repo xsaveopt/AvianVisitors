@@ -27,9 +27,13 @@ final class Runtime
         @mkdir($base . '/BirdSongs/Extracted/By_Date', 0o777, true);
         @mkdir($base . '/BirdNET-Pi/birdnet/model', 0o777, true);
 
-        $illustration = $webui . '/assets/illustrations/passer-domesticus.avif';
-        if (is_file($illustration)) {
-            copy($illustration, $docroot . '/webui/assets/illustrations/passer-domesticus.avif');
+        $bundled = glob($webui . '/assets/illustrations/*.avif');
+        sort($bundled);
+        foreach ($bundled as $illustration) {
+            if (filesize($illustration) > 1024) {
+                copy($illustration, $docroot . '/webui/assets/illustrations/' . basename($illustration));
+                break;
+            }
         }
 
         @mkdir($docroot . '/birdnet/model', 0o777, true);

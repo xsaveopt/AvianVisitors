@@ -87,7 +87,15 @@ final class SlimPublicApiTest extends SlimTestCase
 
     public function testCutoutServesBundledIllustration(): void
     {
-        $res = $this->request('GET', '/api/illustration?sci=' . rawurlencode('Passer domesticus'));
+        $files = glob(getenv('AV_APP_DIR') . '/webui/assets/illustrations/*.avif');
+        if ($files === [] || $files === false) {
+            $this->markTestSkipped('no bundled illustration to serve');
+        }
+
+        $parts = explode('-', basename($files[0], '.avif'));
+        $sci = ucfirst($parts[0]) . ' ' . implode(' ', array_slice($parts, 1));
+
+        $res = $this->request('GET', '/api/illustration?sci=' . rawurlencode($sci));
         $this->assertSame(200, $res['status']);
         $this->assertSame('image/avif', $res['headers']['Content-Type'][0]);
     }
