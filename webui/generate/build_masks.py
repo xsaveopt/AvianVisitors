@@ -30,6 +30,8 @@ import re
 import sys
 from pathlib import Path
 
+import archive
+
 DIM_MAX = 560
 MASK_MAX = 93
 ALPHA_ON = 127
@@ -70,6 +72,10 @@ def main() -> int:
     ap.add_argument("--data", type=Path, default=data_dir, help="Output directory (default: webui/frontend/src/collage/data/)")
     ap.add_argument("--check", action="store_true", help="Report counts and don't write")
     args = ap.parse_args()
+
+    restored = archive.unpack(args.illustrations)
+    if restored:
+        print(f"[archive] restored {restored} cutout(s) from {archive.tar_for(args.illustrations).name}")
 
     dims, masks = build_tables(args.illustrations)
     perched = sum(1 for k in dims if not k.endswith("-2"))

@@ -17,3 +17,6 @@ webui/frontend/dist
 **/playwright-report
 dev-data
 docker-compose.dev.yml
+webui/assets/illustrations/*.avif
+webui/assets/illustrations/raw
+webui/assets/illustrations/rejected

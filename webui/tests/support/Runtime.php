@@ -27,12 +27,27 @@ final class Runtime
         @mkdir($base . '/BirdSongs/Extracted/By_Date', 0o777, true);
         @mkdir($base . '/BirdNET-Pi/birdnet/model', 0o777, true);
 
+        $dest = $docroot . '/webui/assets/illustrations/';
         $bundled = glob($webui . '/assets/illustrations/*.avif');
         sort($bundled);
+        $copied = false;
         foreach ($bundled as $illustration) {
             if (filesize($illustration) > 1024) {
-                copy($illustration, $docroot . '/webui/assets/illustrations/' . basename($illustration));
+                copy($illustration, $dest . basename($illustration));
+                $copied = true;
                 break;
+            }
+        }
+        $tar = $webui . '/assets/illustrations.tar';
+        if (!$copied && is_file($tar) && class_exists(\PharData::class)) {
+            try {
+                foreach (new \PharData($tar) as $entry) {
+                    if ($entry->getSize() > 1024 && str_ends_with($entry->getFilename(), '.avif')) {
+                        copy($entry->getPathname(), $dest . $entry->getFilename());
+                        break;
+                    }
+                }
+            } catch (\Throwable) {
             }
         }
 

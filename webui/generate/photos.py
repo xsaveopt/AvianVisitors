@@ -29,6 +29,8 @@ import urllib.request
 from io import BytesIO
 from pathlib import Path
 
+import archive
+
 USER_AGENT = "AvianVisitors/1.0 (https://github.com/Twarner491/AvianVisitors)"
 
 VERBOSE = True
@@ -613,6 +615,7 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="Re-do species that already have a cutout.")
     ap.add_argument("--limit", type=int, help="Stop after N species.")
     ap.add_argument("--quiet", action="store_true", help="Only print the per-species result and final summary, not each step.")
+    ap.add_argument("--no-archive", action="store_true", help="Work on loose files only; don't unpack from or repack the illustrations.tar.")
     args = ap.parse_args()
 
     global VERBOSE
@@ -653,6 +656,10 @@ def main() -> int:
 
     licenses = [s.strip() for s in args.licenses.split(",") if s.strip()]
     args.out.mkdir(parents=True, exist_ok=True)
+    if not args.no_archive:
+        restored = archive.unpack(args.out)
+        if restored:
+            print(f"[archive] restored {restored} cutout(s) from {archive.tar_for(args.out).name}")
     raw_dir = args.out / "raw"
 
     credits_path = args.out / "credits.json"
@@ -667,48 +674,69 @@ def main() -> int:
 
     session = make_session(args.model, args.threads)
     done = skipped = missed = 0
-    for sci, com in species:
-        slug = slugify(sci)
-        avif = args.out / f"{slug}.avif"
-        if avif.exists() and not args.force:
-            skipped += 1
-            continue
-        print(f"{slug}  ({sci})")
-        hit = fetch_photo(sci, com, licenses, session, set(rejected.get(slug, [])))
-        if not hit:
-            step("no Creative-Commons photo found, skipping")
-            missed += 1
-            continue
-        step(f"using {hit['source']} ({hit['license']})")
-        try:
-            if args.keep_raw:
-                raw_dir.mkdir(parents=True, exist_ok=True)
-                (raw_dir / f"{slug}{hit['ext']}").write_bytes(hit["data"])
-            step("cutting out the bird")
-            cut = cutout(hit["data"], session, args.margin, args.alpha_matting, args.max_size)
-            cut.save(avif, format="AVIF", quality=args.avif_quality)
-            step(f"saved {cut.width}x{cut.height}")
-        except Exception as e:
-            step(f"failed: {type(e).__name__}: {e}")
-            missed += 1
-            continue
-        credits[slug] = {
-            "scientific_name": sci,
-            "common_name": com,
-            "source": hit["source"],
-            "license": hit["license"],
-            "license_url": hit.get("license_url", ""),
-            "attribution": hit["attribution"],
-            "url": hit["url"],
-            "image_url": hit.get("image_url", ""),
-        }
-        write_credits(credits_path, credits)
-        done += 1
+    interrupted = False
+    try:
+        for sci, com in species:
+            slug = slugify(sci)
+            avif = args.out / f"{slug}.avif"
+            if avif.exists() and not args.force:
+                skipped += 1
+                continue
+            print(f"{slug}  ({sci})")
+            hit = fetch_photo(sci, com, licenses, session, set(rejected.get(slug, [])))
+            if not hit:
+                step("no Creative-Commons photo found, skipping")
+                missed += 1
+                continue
+            step(f"using {hit['source']} ({hit['license']})")
+            try:
+                if args.keep_raw:
+                    raw_dir.mkdir(parents=True, exist_ok=True)
+                    (raw_dir / f"{slug}{hit['ext']}").write_bytes(hit["data"])
+                step("cutting out the bird")
+                cut = cutout(hit["data"], session, args.margin, args.alpha_matting, args.max_size)
+                tmp = avif.with_suffix(".avif.tmp")
+                try:
+                    cut.save(tmp, format="AVIF", quality=args.avif_quality)
+                    tmp.replace(avif)
+                finally:
+                    tmp.unlink(missing_ok=True)
+                step(f"saved {cut.width}x{cut.height}")
+            except Exception as e:
+                step(f"failed: {type(e).__name__}: {e}")
+                missed += 1
+                continue
+            credits[slug] = {
+                "scientific_name": sci,
+                "common_name": com,
+                "source": hit["source"],
+                "license": hit["license"],
+                "license_url": hit.get("license_url", ""),
+                "attribution": hit["attribution"],
+                "url": hit["url"],
+                "image_url": hit.get("image_url", ""),
+            }
+            write_credits(credits_path, credits)
+            done += 1
+    except KeyboardInterrupt:
+        interrupted = True
+        print("\n[interrupted] stopping; cutouts and credits finished so far are kept")
 
     print(f"\ncut {done} · skipped {skipped} (already have) · missed {missed}")
     print(f"credits -> {credits_path}")
-    return 0
+    if not args.no_archive:
+        try:
+            packed = archive.pack(args.out)
+            print(f"[archive] packed {packed} cutout(s) -> {archive.tar_for(args.out)}")
+        except KeyboardInterrupt:
+            print("[interrupted] tar left unchanged; rerun to repack")
+            return 130
+    return 130 if interrupted else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        print("\n[interrupted]", file=sys.stderr)
+        sys.exit(130)
