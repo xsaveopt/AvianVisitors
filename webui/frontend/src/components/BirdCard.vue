@@ -9,7 +9,7 @@ import type { LifelistSpecies } from '@/api/types';
 const props = defineProps<{ species: LifelistSpecies }>();
 const emit = defineEmits<{ open: [sci: string] }>();
 
-const IMG_VERSION = 'r10';
+const IMG_VERSION = 'r11';
 const auth = useAuthStore();
 const birds = useBirdsStore();
 const player = usePlayer();

@@ -109,46 +109,34 @@ Everything else lives in the config file at /data/birdnet.conf inside the data v
 
 ## Making more bird pictures
 
-The illustrations are generated with Gemini, not drawn by hand.
-The repo already ships a full set, but you can make your own, for your region or in a different style.
-This part is heavy and downloads a big cutout model, so do it on your computer, not the pi.
+The pictures are real Creative-Commons photographs with the background cut away, not drawn by hand.
+The repo already ships a full set, but you can make your own for your region.
+This part downloads a big cutout model, so do it on your computer, not the pi.
 
-You need uv (https://docs.astral.sh/uv/) and a Gemini api key from Google AI Studio.
+It runs in Docker and the two steps are:
 
-The three steps are:
-
-- pregen.py draws each bird with Gemini on a flat cream background
-- cutout.py removes that background and crops to the bird
+- photos.py fetches a photo per species, cuts the bird out, and credits the source
 - build_masks.py rebuilds the collage shapes from the finished pictures
 
-The easiest way is one bird at a time:
+Look at a sample set first:
 
 ```sh
 cd webui/generate
-uv sync
-export GEMINI_API_KEY=your-key
-
-uv run python pregen.py --species "Calypte anna|Anna's Hummingbird"
-uv run python cutout.py
-uv run python build_masks.py
+docker compose build generate
+docker compose run --rm generate python photos.py --keep-raw
+docker compose run --rm generate python build_masks.py
 ```
 
-To do a whole set, make a text file with one `scientific name|common name` per line (commas or underscores work too) and point --labels at it:
-
-```sh
-uv run python pregen.py --labels my-birds.txt
-uv run python cutout.py
-uv run python build_masks.py
-```
-
-If you have an eBird api key you can filter a list down to the birds actually seen in your area:
+To do a whole set, make a text file with one `scientific name|common name` per line (commas or underscores work too) and point --labels at it.
+With an eBird api key you can filter that list down to the birds actually seen in your area:
 
 ```sh
 export EBIRD_API_KEY=your-key
-uv run python pregen.py --labels my-birds.txt --ebird-region US-CA
+docker compose run --rm generate python photos.py --labels my-birds.txt --ebird-region US-CA
+docker compose run --rm generate python build_masks.py
 ```
 
-Add --force to redo a bird you already have.
+Re-running only fetches birds you don't already have; add --force to redo one.
 
 The new pictures land in webui/assets/.
 To show them in the collage, rebuild the container:

@@ -67,16 +67,6 @@ final class Config
         return $this->appDir . '/webui/assets/illustrations';
     }
 
-    public function bundledCutoutsDir(): string
-    {
-        return $this->appDir . '/webui/assets/cutouts';
-    }
-
-    public function cutoutCacheDir(): string
-    {
-        return $this->birdsongsDir . '/Extracted/cutouts';
-    }
-
     public function streamDir(): string
     {
         return $this->birdsongsDir . '/StreamData';

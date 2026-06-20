@@ -5,7 +5,7 @@ import { useBirdsStore } from '@/stores/birds';
 import { layoutCollage, type Tile } from '@/collage/algorithm';
 import { fmtN } from '@/utils/format';
 
-const IMG_VERSION = 'r10';
+const IMG_VERSION = 'r11';
 
 const birds = useBirdsStore();
 const emit = defineEmits<{ open: [sci: string] }>();

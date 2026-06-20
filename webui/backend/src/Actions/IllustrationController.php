@@ -34,29 +34,26 @@ final class IllustrationController
         }
         $suffix = $pose === 1 ? '' : "-{$pose}";
 
-        $candidates = [
-            $this->config->illustrationsDir() . "/{$slug}{$suffix}.png",
-        ];
+        $dir = $this->config->illustrationsDir();
+        $candidates = ["{$dir}/{$slug}{$suffix}.avif"];
         if ($pose !== 1) {
-            $candidates[] = $this->config->illustrationsDir() . "/{$slug}.png";
+            $candidates[] = "{$dir}/{$slug}.avif";
         }
-        $candidates[] = $this->config->bundledCutoutsDir() . "/{$slug}.png";
-        $candidates[] = $this->config->cutoutCacheDir() . "/{$slug}.png";
 
         foreach ($candidates as $path) {
             if (is_file($path) && filesize($path) > 1024) {
-                return $this->servePng($response, $path);
+                return $this->serveImage($response, $path);
             }
         }
 
         return $this->placeholder($response, $sci, (string) ($params['com'] ?? ''));
     }
 
-    private function servePng(Response $response, string $path): Response
+    private function serveImage(Response $response, string $path): Response
     {
         $stream = (new StreamFactory())->createStreamFromFile($path);
         return $response
-            ->withHeader('Content-Type', 'image/png')
+            ->withHeader('Content-Type', 'image/avif')
             ->withHeader('Cache-Control', 'public, max-age=86400')
             ->withHeader('Content-Length', (string) filesize($path))
             ->withBody($stream);

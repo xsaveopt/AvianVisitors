@@ -87,9 +87,9 @@ final class SlimPublicApiTest extends SlimTestCase
 
     public function testCutoutServesBundledIllustration(): void
     {
-        $res = $this->request('GET', '/api/illustration?sci=' . rawurlencode('Calypte anna'));
+        $res = $this->request('GET', '/api/illustration?sci=' . rawurlencode('Passer domesticus'));
         $this->assertSame(200, $res['status']);
-        $this->assertSame('image/png', $res['headers']['Content-Type'][0]);
+        $this->assertSame('image/avif', $res['headers']['Content-Type'][0]);
     }
 
     public function testCutoutPlaceholderWhenMissing(): void

@@ -27,9 +27,9 @@ final class Runtime
         @mkdir($base . '/BirdSongs/Extracted/By_Date', 0o777, true);
         @mkdir($base . '/BirdNET-Pi/birdnet/model', 0o777, true);
 
-        $illustration = $webui . '/assets/illustrations/calypte-anna.png';
+        $illustration = $webui . '/assets/illustrations/passer-domesticus.avif';
         if (is_file($illustration)) {
-            copy($illustration, $docroot . '/webui/assets/illustrations/calypte-anna.png');
+            copy($illustration, $docroot . '/webui/assets/illustrations/passer-domesticus.avif');
         }
 
         @mkdir($docroot . '/birdnet/model', 0o777, true);

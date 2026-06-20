@@ -31,7 +31,7 @@ describe('layoutCollage', () => {
   });
 
   it('places known species with finite coordinates and a valid pose', () => {
-    const tiles = layoutCollage([species('Calypte anna', 10), species('Agelaius phoeniceus', 3)], 1000, 800);
+    const tiles = layoutCollage([species('Cyanistes caeruleus', 10), species('Parus major', 3)], 1000, 800);
     expect(tiles.length).toBe(2);
     for (const tile of tiles) {
       expect(Number.isFinite(tile.x)).toBe(true);

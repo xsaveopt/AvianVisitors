@@ -1,0 +1,2662 @@
+{
+  "acanthis-flammea": {
+    "scientific_name": "Acanthis flammea",
+    "common_name": "Redpoll",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Cephas",
+    "url": "https://commons.wikimedia.org/wiki/File:Carduelis_flammea_CT6.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Carduelis_flammea_CT6.jpg"
+  },
+  "accipiter-nisus": {
+    "scientific_name": "Accipiter nisus",
+    "common_name": "Eurasian Sparrowhawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Dion Art",
+    "url": "https://commons.wikimedia.org/wiki/File:%D0%AF%D1%81%D1%82%D1%80%D0%B5%D0%B1-%D0%BF%D0%B5%D1%80%D0%B5%D0%BF%D0%B5%D0%BB%D1%8F%D1%82%D0%BD%D0%B8%D0%BA_(Accipiter_nisus,_m),_%D0%98%D0%B7%D0%BC%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/%D0%AF%D1%81%D1%82%D1%80%D0%B5%D0%B1-%D0%BF%D0%B5%D1%80%D0%B5%D0%BF%D0%B5%D0%BB%D1%8F%D1%82%D0%BD%D0%B8%D0%BA_%28Accipiter_nisus%2C_m%29%2C_%D0%98%D0%B7%D0%BC%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B0%D1%80%D0%BA.jpg"
+  },
+  "accipiter-striatus": {
+    "scientific_name": "Accipiter striatus",
+    "common_name": "Sharp-shinned Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "ALAN SCHMIERER from near Patagonia, AZ, USA",
+    "url": "https://commons.wikimedia.org/wiki/File:Accipiter_striatus,_Canet_Road,_San_Luis_Obispo_1.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Accipiter_striatus%2C_Canet_Road%2C_San_Luis_Obispo_1.jpg"
+  },
+  "acridotheres-cristatellus": {
+    "scientific_name": "Acridotheres cristatellus",
+    "common_name": "Crested Myna",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Laitche",
+    "url": "https://commons.wikimedia.org/wiki/File:Crested_myna,_Osaka,_Japan.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Crested_myna%2C_Osaka%2C_Japan.jpg"
+  },
+  "acridotheres-fuscus": {
+    "scientific_name": "Acridotheres fuscus",
+    "common_name": "Jungle Myna",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "J.M.Garg",
+    "url": "https://commons.wikimedia.org/wiki/File:Jungle_Myna_(Acridotheres_fuscus)_on_Kapok_(Ceiba_pentandra)_in_Kolkata_I_IMG_1340.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Jungle_Myna_%28Acridotheres_fuscus%29_on_Kapok_%28Ceiba_pentandra%29_in_Kolkata_I_IMG_1340.jpg"
+  },
+  "acridotheres-ginginianus": {
+    "scientific_name": "Acridotheres ginginianus",
+    "common_name": "Bank Myna",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Bank_myna_(Acridotheres_ginginianus).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Bank_myna_%28Acridotheres_ginginianus%29.jpg"
+  },
+  "acridotheres-tristis": {
+    "scientific_name": "Acridotheres tristis",
+    "common_name": "Common Myna",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Summerdrought",
+    "url": "https://commons.wikimedia.org/wiki/File:Acridotheres_tristis_40973073.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Acridotheres_tristis_40973073.jpg"
+  },
+  "acrocephalus-agricola": {
+    "scientific_name": "Acrocephalus agricola",
+    "common_name": "Paddyfield Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Shino jacob koottanad",
+    "url": "https://commons.wikimedia.org/wiki/File:Paddyfield_warbler_(Acrocephalus_agricola).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Paddyfield_warbler_%28Acrocephalus_agricola%29.jpg"
+  },
+  "acrocephalus-arundinaceus": {
+    "scientific_name": "Acrocephalus arundinaceus",
+    "common_name": "Great Reed Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Andreas Trepte",
+    "url": "https://commons.wikimedia.org/wiki/File:Drosselrohrs%C3%A4nger_Great_reed_warbler.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/03/Drosselrohrs%C3%A4nger_Great_reed_warbler.jpg"
+  },
+  "acrocephalus-dumetorum": {
+    "scientific_name": "Acrocephalus dumetorum",
+    "common_name": "Blyth's Reed Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Tisha Mukherjee",
+    "url": "https://commons.wikimedia.org/wiki/File:Blyth%27s_Reed_Warbler_in_Baruipur_December_2024_by_Tisha_Mukherjee_02.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Blyth%27s_Reed_Warbler_in_Baruipur_December_2024_by_Tisha_Mukherjee_02.jpg"
+  },
+  "acrocephalus-melanopogon": {
+    "scientific_name": "Acrocephalus melanopogon",
+    "common_name": "Moustached Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Dr. Raju Kasambe",
+    "url": "https://commons.wikimedia.org/wiki/File:Moustached_Warbler_Acrocephalus_melanopogon_by_Dr._Raju_Kasambe_(2).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Moustached_Warbler_Acrocephalus_melanopogon_by_Dr._Raju_Kasambe_%282%29.jpg"
+  },
+  "acrocephalus-paludicola": {
+    "scientific_name": "Acrocephalus paludicola",
+    "common_name": "Aquatic Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Kniz1000",
+    "url": "https://commons.wikimedia.org/wiki/File:Aquatic_Warbler_Chicks.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Aquatic_Warbler_Chicks.jpg"
+  },
+  "acrocephalus-palustris": {
+    "scientific_name": "Acrocephalus palustris",
+    "common_name": "Marsh Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Аимаина хикари",
+    "url": "https://commons.wikimedia.org/wiki/File:Acrocephalus_palustris_Irpin6.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/96/Acrocephalus_palustris_Irpin6.JPG"
+  },
+  "acrocephalus-schoenobaenus": {
+    "scientific_name": "Acrocephalus schoenobaenus",
+    "common_name": "Sedge Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Sedge_warbler_(Acrocephalus_schoenobaenus)_3.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Sedge_warbler_%28Acrocephalus_schoenobaenus%29_3.jpg"
+  },
+  "acrocephalus-scirpaceus": {
+    "scientific_name": "Acrocephalus scirpaceus",
+    "common_name": "Common Reed Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "Jürgen Freisinger",
+    "url": "https://commons.wikimedia.org/wiki/File:PleidelsheimerWiesentalTeichrohrsaenger.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/PleidelsheimerWiesentalTeichrohrsaenger.jpg"
+  },
+  "actitis-hypoleucos": {
+    "scientific_name": "Actitis hypoleucos",
+    "common_name": "Common Sandpiper",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "JJ Harrison (https://www.jjharrison.com.au/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Actitis_hypoleucos_-_Laem_Pak_Bia.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Actitis_hypoleucos_-_Laem_Pak_Bia.jpg"
+  },
+  "actitis-macularius": {
+    "scientific_name": "Actitis macularius",
+    "common_name": "Spotted Sandpiper",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "No machine-readable author provided. Factumquintus assumed (based on copyright claims).",
+    "url": "https://commons.wikimedia.org/wiki/File:Actitis-macularia-005.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Actitis-macularia-005.jpg"
+  },
+  "actophilornis-africanus": {
+    "scientific_name": "Actophilornis africanus",
+    "common_name": "African Jacana",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:African_jacana_actophilornis_africanus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/76/African_jacana_actophilornis_africanus.jpg"
+  },
+  "aechmophorus-clarkii": {
+    "scientific_name": "Aechmophorus clarkii",
+    "common_name": "Clark's Grebe",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "LHPT",
+    "url": "https://commons.wikimedia.org/wiki/File:Rushing_Clark%27s_Grebes.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Rushing_Clark%27s_Grebes.jpg"
+  },
+  "aechmophorus-occidentalis": {
+    "scientific_name": "Aechmophorus occidentalis",
+    "common_name": "Western Grebe",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "dominic sherony",
+    "url": "https://commons.wikimedia.org/wiki/File:Western_Grebe_swimming.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Western_Grebe_swimming.jpg"
+  },
+  "aegithalos-caudatus": {
+    "scientific_name": "Aegithalos caudatus",
+    "common_name": "Long-tailed Tit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Ігор Червоненко",
+    "url": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%BE%D0%B2%D0%B3%D0%BE%D1%85%D0%B2%D0%BE%D1%81%D1%82%D0%B0_2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/%D0%94%D0%BE%D0%B2%D0%B3%D0%BE%D1%85%D0%B2%D0%BE%D1%81%D1%82%D0%B0_2.jpg"
+  },
+  "aegolius-acadicus": {
+    "scientific_name": "Aegolius acadicus",
+    "common_name": "Northern Saw-whet Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Kameron Perensovich",
+    "url": "https://commons.wikimedia.org/wiki/File:Male_Northern_Saw-whet_Owl_(7364047820).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Male_Northern_Saw-whet_Owl_%287364047820%29.jpg"
+  },
+  "aegolius-funereus": {
+    "scientific_name": "Aegolius funereus",
+    "common_name": "Boreal Owl",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Denali National Park and Preserve",
+    "url": "https://commons.wikimedia.org/wiki/File:Boreal_Owl_(Aegolius_funereus)_(8615263478).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Boreal_Owl_%28Aegolius_funereus%29_%288615263478%29.jpg"
+  },
+  "aegolius-ridgwayi": {
+    "scientific_name": "Aegolius ridgwayi",
+    "common_name": "Unspotted Saw-whet Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "aegypius-monachus": {
+    "scientific_name": "Aegypius monachus",
+    "common_name": "Cinereous Vulture",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Juan Lacruz",
+    "url": "https://commons.wikimedia.org/wiki/File:Buitre_negro_(1).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Buitre_negro_%281%29.jpg"
+  },
+  "aerodramus-bartschi": {
+    "scientific_name": "Aerodramus bartschi",
+    "common_name": "Mariana Swiftlet",
+    "source": "iNaturalist",
+    "license": "cc-by",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "(c) Damien Wallace, some rights reserved (CC BY), uploaded by Damien Wallace",
+    "url": "https://www.inaturalist.org/photos/555443620",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/555443620/large.jpg"
+  },
+  "aeronautes-saxatalis": {
+    "scientific_name": "Aeronautes saxatalis",
+    "common_name": "White-throated Swift",
+    "source": "iNaturalist",
+    "license": "cc-by-nc",
+    "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "attribution": "(c) Tom Mills, some rights reserved (CC BY-NC), uploaded by Tom Mills",
+    "url": "https://www.inaturalist.org/photos/345683365",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/345683365/large.jpg"
+  },
+  "aethia-pusilla": {
+    "scientific_name": "Aethia pusilla",
+    "common_name": "Least Auklet",
+    "source": "iNaturalist",
+    "license": "cc-by-nc",
+    "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "attribution": "(c) James A. Giroux, some rights reserved (CC BY-NC), uploaded by James A. Giroux",
+    "url": "https://www.inaturalist.org/photos/9814354",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/9814354/large.jpg"
+  },
+  "aethia-pygmaea": {
+    "scientific_name": "Aethia pygmaea",
+    "common_name": "Whiskered Auklet",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Mckenzie Mudge/US Fish and Wildlife Service",
+    "url": "https://commons.wikimedia.org/wiki/File:Whiskered_Auklet.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Whiskered_Auklet.jpg"
+  },
+  "agapornis-canus": {
+    "scientific_name": "Agapornis canus",
+    "common_name": "Gray-headed Lovebird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Tony Austin",
+    "url": "https://commons.wikimedia.org/wiki/File:Agapornis_cana_-Beale_Park_-Berkshire-6a.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Agapornis_cana_-Beale_Park_-Berkshire-6a.jpg"
+  },
+  "agapornis-fischeri": {
+    "scientific_name": "Agapornis fischeri",
+    "common_name": "Fischer's Lovebird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Giles Laurent",
+    "url": "https://commons.wikimedia.org/wiki/File:046_Fischer%27s_lovebird_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/046_Fischer%27s_lovebird_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg"
+  },
+  "agapornis-personatus": {
+    "scientific_name": "Agapornis personatus",
+    "common_name": "Yellow-collared Lovebird",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Thomask0",
+    "url": "https://commons.wikimedia.org/wiki/File:Escaped_Yellow_Collared_Lovebird,_Austin_Texas,_May_2013.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Escaped_Yellow_Collared_Lovebird%2C_Austin_Texas%2C_May_2013.jpg"
+  },
+  "agapornis-roseicollis": {
+    "scientific_name": "Agapornis roseicollis",
+    "common_name": "Rosy-faced Lovebird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Rosy-faced_lovebird_(Agapornis_roseicollis_roseicollis)_2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Rosy-faced_lovebird_%28Agapornis_roseicollis_roseicollis%29_2.jpg"
+  },
+  "agelaius-phoeniceus": {
+    "scientific_name": "Agelaius phoeniceus",
+    "common_name": "Red-winged Blackbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler, Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Red-Winged_Blackbird.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Red-Winged_Blackbird.png"
+  },
+  "agelaius-tricolor": {
+    "scientific_name": "Agelaius tricolor",
+    "common_name": "Tricolored Blackbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Tsuru8",
+    "url": "https://commons.wikimedia.org/wiki/File:Blackbird_tricolored_male_summer_california_monte-m-taylor.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Blackbird_tricolored_male_summer_california_monte-m-taylor.jpg"
+  },
+  "agropsar-sturninus": {
+    "scientific_name": "Agropsar sturninus",
+    "common_name": "Daurian Starling",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "JJ Harrison (https://tiny.jjharrison.com.au/t/QglPolx8Ymh0999o)",
+    "url": "https://commons.wikimedia.org/wiki/File:Agropsar_sturninus_-_Kent_Ridge_Park.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Agropsar_sturninus_-_Kent_Ridge_Park.jpg"
+  },
+  "aimophila-notosticta": {
+    "scientific_name": "Aimophila notosticta",
+    "common_name": "Oaxaca Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "aimophila-rufescens": {
+    "scientific_name": "Aimophila rufescens",
+    "common_name": "Rusty Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Nigel Voaden from UK",
+    "url": "https://commons.wikimedia.org/wiki/File:Rusty_Sparrow,_El_Triunfo,_Mexico_(16583752214).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Rusty_Sparrow%2C_El_Triunfo%2C_Mexico_%2816583752214%29.jpg"
+  },
+  "aimophila-ruficeps": {
+    "scientific_name": "Aimophila ruficeps",
+    "common_name": "Rufous-crowned Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Jerry Ting",
+    "url": "https://commons.wikimedia.org/wiki/File:Rufous-crowned_Sparrow.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Rufous-crowned_Sparrow.jpg"
+  },
+  "aix-galericulata": {
+    "scientific_name": "Aix galericulata",
+    "common_name": "Mandarin Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.5",
+    "license_url": "https://creativecommons.org/licenses/by/2.5",
+    "attribution": "Rovdyr",
+    "url": "https://commons.wikimedia.org/wiki/File:Aix_galericulata_(wild_living_in_Warsaw).JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Aix_galericulata_%28wild_living_in_Warsaw%29.JPG"
+  },
+  "aix-sponsa": {
+    "scientific_name": "Aix sponsa",
+    "common_name": "Wood Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler d/b/a FocusOnwWildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Wood_Duck_Wissahickon_Creek.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Wood_Duck_Wissahickon_Creek.png"
+  },
+  "alaemon-alaudipes": {
+    "scientific_name": "Alaemon alaudipes",
+    "common_name": "Greater Hoopoe-Lark",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Sumeet Moghe",
+    "url": "https://commons.wikimedia.org/wiki/File:Greater_Hoopoe_Lark,_crop.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Greater_Hoopoe_Lark%2C_crop.jpg"
+  },
+  "alauda-arvensis": {
+    "scientific_name": "Alauda arvensis",
+    "common_name": "Eurasian Skylark",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "User:Diliff",
+    "url": "https://commons.wikimedia.org/wiki/File:Skylark_2,_Lake_District,_England_-_June_2009.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Skylark_2%2C_Lake_District%2C_England_-_June_2009.jpg"
+  },
+  "alauda-gulgula": {
+    "scientific_name": "Alauda gulgula",
+    "common_name": "Oriental Skylark",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Hari K Patibanda",
+    "url": "https://commons.wikimedia.org/wiki/File:Oriental_Lark_(49172375968).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Oriental_Lark_%2849172375968%29.jpg"
+  },
+  "alaudala-heinei": {
+    "scientific_name": "Alaudala heinei",
+    "common_name": "Turkestan Short-toed Lark",
+    "source": "iNaturalist",
+    "license": "cc-by",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "(c) egorbirder, some rights reserved (CC BY)",
+    "url": "https://www.inaturalist.org/photos/128546465",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/128546465/large.jpg"
+  },
+  "alaudala-rufescens": {
+    "scientific_name": "Alaudala rufescens",
+    "common_name": "Mediterranean Short-toed Lark",
+    "source": "iNaturalist",
+    "license": "cc-by",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "(c) Mourad Harzallah, some rights reserved (CC BY), uploaded by Mourad Harzallah",
+    "url": "https://www.inaturalist.org/photos/77058327",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/77058327/large.jpeg"
+  },
+  "alca-torda": {
+    "scientific_name": "Alca torda",
+    "common_name": "Razorbill",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "neekoh.fi",
+    "url": "https://commons.wikimedia.org/wiki/File:Razorbill_with_a_nice_catch.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Razorbill_with_a_nice_catch.jpg"
+  },
+  "alcedo-atthis": {
+    "scientific_name": "Alcedo atthis",
+    "common_name": "Common Kingfisher",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Tony Wood",
+    "url": "https://commons.wikimedia.org/wiki/File:Alcedo_atthis_-England-8_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Alcedo_atthis_-England-8_%28cropped%29.jpg"
+  },
+  "alectoris-barbara": {
+    "scientific_name": "Alectoris barbara",
+    "common_name": "Barbary Partridge",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Frits van der Meer from Utrecht, Nederland",
+    "url": "https://commons.wikimedia.org/wiki/File:Alectoris_barbara_Tenerife.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Alectoris_barbara_Tenerife.jpg"
+  },
+  "alectoris-chukar": {
+    "scientific_name": "Alectoris chukar",
+    "common_name": "Chukar",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Olaf Oliviero Riemer",
+    "url": "https://commons.wikimedia.org/wiki/File:Chukarhuhn_Weltvogelpark_Walsrode_2010.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Chukarhuhn_Weltvogelpark_Walsrode_2010.jpg"
+  },
+  "alectoris-graeca": {
+    "scientific_name": "Alectoris graeca",
+    "common_name": "Rock Partridge",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Richard Bartz, Munich aka Makro Freak",
+    "url": "https://commons.wikimedia.org/wiki/File:Steinhuhn_Alectoris_graeca.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Steinhuhn_Alectoris_graeca.jpg"
+  },
+  "alectoris-rufa": {
+    "scientific_name": "Alectoris rufa",
+    "common_name": "Red-legged Partridge",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Pierre Dalous",
+    "url": "https://commons.wikimedia.org/wiki/File:Perdrix_rouge.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Perdrix_rouge.jpg"
+  },
+  "alipiopsitta-xanthops": {
+    "scientific_name": "Alipiopsitta xanthops",
+    "common_name": "Yellow-faced Parrot",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Jairmoreirafotografia",
+    "url": "https://commons.wikimedia.org/wiki/File:Papagaio-galego.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Papagaio-galego.jpg"
+  },
+  "alisterus-scapularis": {
+    "scientific_name": "Alisterus scapularis",
+    "common_name": "Australian King-Parrot",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "JJ Harrison",
+    "url": "https://commons.wikimedia.org/wiki/File:Australian_King_Parrot_male_4737.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/96/Australian_King_Parrot_male_4737.jpg"
+  },
+  "alopochen-aegyptiaca": {
+    "scientific_name": "Alopochen aegyptiaca",
+    "common_name": "Egyptian Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Egyptian_goose_(Alopochen_aegyptiaca)_London.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Egyptian_goose_%28Alopochen_aegyptiaca%29_London.jpg"
+  },
+  "amandava-amandava": {
+    "scientific_name": "Amandava amandava",
+    "common_name": "Red Avadavat",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Tisha Mukherjee",
+    "url": "https://commons.wikimedia.org/wiki/File:Red_Avadavat_in_Baruipur_September_2025_by_Tisha_Mukherjee_04.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Red_Avadavat_in_Baruipur_September_2025_by_Tisha_Mukherjee_04.jpg"
+  },
+  "amaurolimnas-concolor": {
+    "scientific_name": "Amaurolimnas concolor",
+    "common_name": "Uniform Crake",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Hector Bottai",
+    "url": "https://commons.wikimedia.org/wiki/File:Amaurolimnas_concolor_-_Uniform_crake;_Dourado,_S%C3%A3o_Paulo,_Brazil.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Amaurolimnas_concolor_-_Uniform_crake%3B_Dourado%2C_S%C3%A3o_Paulo%2C_Brazil.jpg"
+  },
+  "amaurospiza-concolor": {
+    "scientific_name": "Amaurospiza concolor",
+    "common_name": "Blue Seedeater",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Bruno Conjeaud",
+    "url": "https://commons.wikimedia.org/wiki/File:Amaurospiza_concolor_Blue_Seedeater;_Turrialba,_Costa_Rica.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Amaurospiza_concolor_Blue_Seedeater%3B_Turrialba%2C_Costa_Rica.jpg"
+  },
+  "amazilia-rutila": {
+    "scientific_name": "Amazilia rutila",
+    "common_name": "Cinnamon Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Cinnamon_hummingbird_(Amazilia_rutila)_in_flight_Los_Tarrales.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Cinnamon_hummingbird_%28Amazilia_rutila%29_in_flight_Los_Tarrales.jpg"
+  },
+  "amazilia-tzacatl": {
+    "scientific_name": "Amazilia tzacatl",
+    "common_name": "Rufous-tailed Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Rufous-tailed_hummingbird_(Amazilia_tzacatl_fuscicaudata)_male_Las_Tangaras.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Rufous-tailed_hummingbird_%28Amazilia_tzacatl_fuscicaudata%29_male_Las_Tangaras.jpg"
+  },
+  "amazilia-yucatanensis": {
+    "scientific_name": "Amazilia yucatanensis",
+    "common_name": "Buff-bellied Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "TonyCastro",
+    "url": "https://commons.wikimedia.org/wiki/File:Buff-bellied_Hummingbird_Tex.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Buff-bellied_Hummingbird_Tex.jpg"
+  },
+  "amazona-aestiva": {
+    "scientific_name": "Amazona aestiva",
+    "common_name": "Turquoise-fronted Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Turquoise-fronted_amazon_(Amazona_aestiva)_older_adult.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Turquoise-fronted_amazon_%28Amazona_aestiva%29_older_adult.JPG"
+  },
+  "amazona-albifrons": {
+    "scientific_name": "Amazona albifrons",
+    "common_name": "White-fronted Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Christoph Anton Mitterer",
+    "url": "https://commons.wikimedia.org/wiki/File:White-fronted_amazon_(Amazona_albifrons)_1.jpeg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/03/White-fronted_amazon_%28Amazona_albifrons%29_1.jpeg"
+  },
+  "amazona-amazonica": {
+    "scientific_name": "Amazona amazonica",
+    "common_name": "Orange-winged Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Diego Delso",
+    "url": "https://commons.wikimedia.org/wiki/File:Loro_guaro_(Amazona_amazonica),_Quito,_Ecuador,_2015-07-22,_DD_180.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Loro_guaro_%28Amazona_amazonica%29%2C_Quito%2C_Ecuador%2C_2015-07-22%2C_DD_180.jpg"
+  },
+  "amazona-auropalliata": {
+    "scientific_name": "Amazona auropalliata",
+    "common_name": "Yellow-naped Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Yellow-naped_parrot_(Amazona_auropalliata)_Los_Tarrales.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Yellow-naped_parrot_%28Amazona_auropalliata%29_Los_Tarrales.jpg"
+  },
+  "amazona-autumnalis": {
+    "scientific_name": "Amazona autumnalis",
+    "common_name": "Red-lored Amazon",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Virgilrm at English Wikipedia",
+    "url": "https://commons.wikimedia.org/wiki/File:Amazona_autumnalis_-upper_body-8a.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Amazona_autumnalis_-upper_body-8a.jpg"
+  },
+  "amazona-farinosa": {
+    "scientific_name": "Amazona farinosa",
+    "common_name": "Mealy Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "D. Gordon E. Robertson",
+    "url": "https://commons.wikimedia.org/wiki/File:Mealy_Parrot,_Peru.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Mealy_Parrot%2C_Peru.jpg"
+  },
+  "amazona-finschi": {
+    "scientific_name": "Amazona finschi",
+    "common_name": "Lilac-crowned Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Tomasz Wagner from Burnaby, BC, Canada",
+    "url": "https://commons.wikimedia.org/wiki/File:Amazona_finschi_-Xcaret_Eco_Park_-Mexico-8a.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Amazona_finschi_-Xcaret_Eco_Park_-Mexico-8a.jpg"
+  },
+  "amazona-ochrocephala": {
+    "scientific_name": "Amazona ochrocephala",
+    "common_name": "Yellow-crowned Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Noop1958 at German Wikipedia",
+    "url": "https://commons.wikimedia.org/wiki/File:Gelbscheitelamazone.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Gelbscheitelamazone.jpg"
+  },
+  "amazona-oratrix": {
+    "scientific_name": "Amazona oratrix",
+    "common_name": "Yellow-headed Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Amazona_oratrix_-Vancouver_Aquarium-8a.jpg: Lizzy Foulkes derivative work: Snowmanradio (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Amazona_oratrix_-Vancouver_Aquarium-8a-4c.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Amazona_oratrix_-Vancouver_Aquarium-8a-4c.jpg"
+  },
+  "amazona-ventralis": {
+    "scientific_name": "Amazona ventralis",
+    "common_name": "Hispaniolan Amazon",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Yolanda M. León",
+    "url": "https://commons.wikimedia.org/wiki/File:Amazona_ventralis_-Parque_Nacional_Jaragua,_Republica_Dominicana-8.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Amazona_ventralis_-Parque_Nacional_Jaragua%2C_Republica_Dominicana-8.jpg"
+  },
+  "amazona-viridigenalis": {
+    "scientific_name": "Amazona viridigenalis",
+    "common_name": "Red-crowned Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Mike's Birds from Riverside, CA, US",
+    "url": "https://commons.wikimedia.org/wiki/File:Parrot_(32953393963).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Parrot_%2832953393963%29.jpg"
+  },
+  "amazona-xantholora": {
+    "scientific_name": "Amazona xantholora",
+    "common_name": "Yellow-lored Amazon",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Andreas Mueller Pfgst",
+    "url": "https://commons.wikimedia.org/wiki/File:Goldzuegelamazone.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Goldzuegelamazone.JPG"
+  },
+  "amazonetta-brasiliensis": {
+    "scientific_name": "Amazonetta brasiliensis",
+    "common_name": "Brazilian Teal",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Peterwchen",
+    "url": "https://commons.wikimedia.org/wiki/File:Amazonetta_brasiliensis-male.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Amazonetta_brasiliensis-male.jpg"
+  },
+  "amblycercus-holosericeus": {
+    "scientific_name": "Amblycercus holosericeus",
+    "common_name": "Yellow-billed Cacique",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "https://www.flickr.com/photos/neilorlandodiazmartinez",
+    "url": "https://commons.wikimedia.org/wiki/File:Amblycercus_holosericeus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Amblycercus_holosericeus.jpg"
+  },
+  "amblyramphus-holosericeus": {
+    "scientific_name": "Amblyramphus holosericeus",
+    "common_name": "Scarlet-headed Blackbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "DickDaniels (http://theworldbirds.org/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Scarlet-headed_Blackbird_RWD4.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Scarlet-headed_Blackbird_RWD4.jpg"
+  },
+  "ammodramus-savannarum": {
+    "scientific_name": "Ammodramus savannarum",
+    "common_name": "Grasshopper Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Bettina Arrigoni",
+    "url": "https://commons.wikimedia.org/wiki/File:Grasshopper_Sparrow_Pawnee_National_Grasslands_CO_2018-06-06_17-33-21_(40892558283).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Grasshopper_Sparrow_Pawnee_National_Grasslands_CO_2018-06-06_17-33-21_%2840892558283%29.jpg"
+  },
+  "ammomanes-cinctura": {
+    "scientific_name": "Ammomanes cinctura",
+    "common_name": "Bar-tailed Lark",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "El Golli Mohamed",
+    "url": "https://commons.wikimedia.org/wiki/File:Ammomane_%C3%A9l%C3%A9gante_Jbil.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Ammomane_%C3%A9l%C3%A9gante_Jbil.jpg"
+  },
+  "ammospiza-caudacuta": {
+    "scientific_name": "Ammospiza caudacuta",
+    "common_name": "Saltmarsh Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "U.S. Fish and Wildlife Service Northeast Region",
+    "url": "https://commons.wikimedia.org/wiki/File:Saltmarsh_sparrow_perched_in_the_marsh_(50140976278)_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Saltmarsh_sparrow_perched_in_the_marsh_%2850140976278%29_%28cropped%29.jpg"
+  },
+  "ammospiza-leconteii": {
+    "scientific_name": "Ammospiza leconteii",
+    "common_name": "LeConte's Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "Laura Erickson",
+    "url": "https://commons.wikimedia.org/wiki/File:LESP-Erickson.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/LESP-Erickson.jpg"
+  },
+  "ammospiza-maritima": {
+    "scientific_name": "Ammospiza maritima",
+    "common_name": "Seaside Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "P. W. Sykes",
+    "url": "https://commons.wikimedia.org/wiki/File:Dusky_Seaside_Sparrow.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Dusky_Seaside_Sparrow.jpg"
+  },
+  "ammospiza-nelsoni": {
+    "scientific_name": "Ammospiza nelsoni",
+    "common_name": "Nelson's Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Remydee1",
+    "url": "https://commons.wikimedia.org/wiki/File:Nelson%27s_sparrow_in_marsh.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Nelson%27s_sparrow_in_marsh.jpg"
+  },
+  "amphispiza-bilineata": {
+    "scientific_name": "Amphispiza bilineata",
+    "common_name": "Black-throated Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Elaine R. Wilson",
+    "url": "https://commons.wikimedia.org/wiki/File:Amphispiza_bilineata.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Amphispiza_bilineata.jpg"
+  },
+  "amphispizopsis-quinquestriata": {
+    "scientific_name": "Amphispizopsis quinquestriata",
+    "common_name": "Five-striped Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Christoph Moning",
+    "url": "https://commons.wikimedia.org/wiki/File:Amphispiza_quinquestriata_104590213_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Amphispiza_quinquestriata_104590213_%28cropped%29.jpg"
+  },
+  "anabacerthia-variegaticeps": {
+    "scientific_name": "Anabacerthia variegaticeps",
+    "common_name": "Scaly-throated Foliage-gleaner",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "anas-acuta": {
+    "scientific_name": "Anas acuta",
+    "common_name": "Northern Pintail",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Kaushik mailbox",
+    "url": "https://commons.wikimedia.org/wiki/File:Northern_Pintail_(Female).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Northern_Pintail_%28Female%29.jpg"
+  },
+  "anas-castanea": {
+    "scientific_name": "Anas castanea",
+    "common_name": "Chestnut Teal",
+    "source": "Wikimedia Commons",
+    "license": "GFDL 1.2",
+    "license_url": "http://www.gnu.org/licenses/old-licenses/fdl-1.2.html",
+    "attribution": "Fir0002",
+    "url": "https://commons.wikimedia.org/wiki/File:Female_Chestnut_Teal_duck.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Female_Chestnut_Teal_duck.jpg"
+  },
+  "anas-crecca": {
+    "scientific_name": "Anas crecca",
+    "common_name": "Green-winged Teal",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Eurasian_teal_(Anas_crecca_crecca)_male_Qingshui.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Eurasian_teal_%28Anas_crecca_crecca%29_male_Qingshui.jpg"
+  },
+  "anas-diazi": {
+    "scientific_name": "Anas diazi",
+    "common_name": "Mexican Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Gary L. Clark",
+    "url": "https://commons.wikimedia.org/wiki/File:Mexican_duck_(female).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Mexican_duck_%28female%29.jpg"
+  },
+  "anas-flavirostris": {
+    "scientific_name": "Anas flavirostris",
+    "common_name": "Yellow-billed Teal",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Yellow-billed_teal_(Anas_flavirostris)_Chiloe.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Yellow-billed_teal_%28Anas_flavirostris%29_Chiloe.jpg"
+  },
+  "anas-fulvigula": {
+    "scientific_name": "Anas fulvigula",
+    "common_name": "Mottled Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "JeffreyGammon",
+    "url": "https://commons.wikimedia.org/wiki/File:MottledDuck_Gam.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/MottledDuck_Gam.jpg"
+  },
+  "anas-georgica": {
+    "scientific_name": "Anas georgica",
+    "common_name": "Yellow-billed Pintail",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "DickDaniels (http://carolinabirds.org/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Yellow-billed_Pintail_RWD2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Yellow-billed_Pintail_RWD2.jpg"
+  },
+  "anas-platyrhynchos": {
+    "scientific_name": "Anas platyrhynchos",
+    "common_name": "Mallard",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Dennis G. Jarvis",
+    "url": "https://commons.wikimedia.org/wiki/File:Drake_mallard_flight_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Drake_mallard_flight_%28cropped%29.jpg"
+  },
+  "anas-poecilorhyncha": {
+    "scientific_name": "Anas poecilorhyncha",
+    "common_name": "Indian Spot-billed Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Dr. Raju Kasambe",
+    "url": "https://commons.wikimedia.org/wiki/File:Indian_Spot-billed_Duck_Anas_poecilorhyncha_by_Dr._Raju_Kasambe_DSCN3821_(11).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Indian_Spot-billed_Duck_Anas_poecilorhyncha_by_Dr._Raju_Kasambe_DSCN3821_%2811%29.jpg"
+  },
+  "anas-rubripes": {
+    "scientific_name": "Anas rubripes",
+    "common_name": "American Black Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Rhododendrites",
+    "url": "https://commons.wikimedia.org/wiki/File:American_Black_Duck_pair_at_Green_Wood_Cemetery,_Brooklyn_(62110).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/American_Black_Duck_pair_at_Green_Wood_Cemetery%2C_Brooklyn_%2862110%29.jpg"
+  },
+  "anas-superciliosa": {
+    "scientific_name": "Anas superciliosa",
+    "common_name": "Pacific Black Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Pacific_black_duck_(Anas_superciliosa)_male_swimming_Sydney.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/13/Pacific_black_duck_%28Anas_superciliosa%29_male_swimming_Sydney.jpg"
+  },
+  "anas-undulata": {
+    "scientific_name": "Anas undulata",
+    "common_name": "Yellow-billed Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "unknown",
+    "url": "https://commons.wikimedia.org/wiki/File:Gelbschnabelente_Anas_undulata_0505273_Wikiausschnitt.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Gelbschnabelente_Anas_undulata_0505273_Wikiausschnitt.jpg"
+  },
+  "anas-wyvilliana": {
+    "scientific_name": "Anas wyvilliana",
+    "common_name": "Hawaiian Duck",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Photo courtesy of USDA Natural Resources Conservation Service.",
+    "url": "https://commons.wikimedia.org/wiki/File:Hawaiian_duck.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/Hawaiian_duck.jpg"
+  },
+  "anas-zonorhyncha": {
+    "scientific_name": "Anas zonorhyncha",
+    "common_name": "Eastern Spot-billed Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Alpsdake",
+    "url": "https://commons.wikimedia.org/wiki/File:Anas_zonorhyncha_swimming.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Anas_zonorhyncha_swimming.jpg"
+  },
+  "anhinga-anhinga": {
+    "scientific_name": "Anhinga anhinga",
+    "common_name": "Anhinga",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Tim from Ithaca",
+    "url": "https://commons.wikimedia.org/wiki/File:Anhinga_anhinga_-Costa_Rica-8.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Anhinga_anhinga_-Costa_Rica-8.jpg"
+  },
+  "anodorhynchus-hyacinthinus": {
+    "scientific_name": "Anodorhynchus hyacinthinus",
+    "common_name": "Hyacinth Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Giles Laurent",
+    "url": "https://commons.wikimedia.org/wiki/File:008_Hyacinth_macaw_couple_kissing_under_Pink_Ip%C3%AA_tree_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/05/008_Hyacinth_macaw_couple_kissing_under_Pink_Ip%C3%AA_tree_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg"
+  },
+  "anous-ceruleus": {
+    "scientific_name": "Anous ceruleus",
+    "common_name": "Blue-gray Noddy",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Duncan Wright, USFWS",
+    "url": "https://commons.wikimedia.org/wiki/File:Blue-grey_Noddy.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Blue-grey_Noddy.jpg"
+  },
+  "anous-minutus": {
+    "scientific_name": "Anous minutus",
+    "common_name": "Black Noddy",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Black_noddy_(Anous_minutus_marcusi)_in_flight_Rock_Islands.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Black_noddy_%28Anous_minutus_marcusi%29_in_flight_Rock_Islands.jpg"
+  },
+  "anous-stolidus": {
+    "scientific_name": "Anous stolidus",
+    "common_name": "Brown Noddy",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Common_noddy_(Anous_stolidus_pileatus)_in_flight_Michaelmas_Cay.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Common_noddy_%28Anous_stolidus_pileatus%29_in_flight_Michaelmas_Cay.jpg"
+  },
+  "anser-albifrons": {
+    "scientific_name": "Anser albifrons",
+    "common_name": "Greater White-fronted Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Frank Schulenburg",
+    "url": "https://commons.wikimedia.org/wiki/File:Greater_white-fronted_goose_in_flight-1045.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Greater_white-fronted_goose_in_flight-1045.jpg"
+  },
+  "anser-anser": {
+    "scientific_name": "Anser anser",
+    "common_name": "Graylag Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Diliff",
+    "url": "https://commons.wikimedia.org/wiki/File:Greylag_Goose_-_St_James%27s_Park,_London_-_Nov_2006.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Greylag_Goose_-_St_James%27s_Park%2C_London_-_Nov_2006.jpg"
+  },
+  "anser-brachyrhynchus": {
+    "scientific_name": "Anser brachyrhynchus",
+    "common_name": "Pink-footed Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "MPF",
+    "url": "https://commons.wikimedia.org/wiki/File:2019-03-25_Anser_brachyrhynchus,_Killingworth_Lake,_Northumberland_1.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/2019-03-25_Anser_brachyrhynchus%2C_Killingworth_Lake%2C_Northumberland_1.jpg"
+  },
+  "anser-caerulescens": {
+    "scientific_name": "Anser caerulescens",
+    "common_name": "Snow Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Rhododendrites",
+    "url": "https://commons.wikimedia.org/wiki/File:Snow_goose_in_Central_Park_(33138).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Snow_goose_in_Central_Park_%2833138%29.jpg"
+  },
+  "anser-canagicus": {
+    "scientific_name": "Anser canagicus",
+    "common_name": "Emperor Goose",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Alaska Region U.S. Fish &amp; Wildlife Service from Anchorage, United States",
+    "url": "https://commons.wikimedia.org/wiki/File:Emperor_goose_on_a_tundra_pond_(53707932863).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Emperor_goose_on_a_tundra_pond_%2853707932863%29.jpg"
+  },
+  "anser-cygnoides": {
+    "scientific_name": "Anser cygnoides",
+    "common_name": "Swan Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Kmonsoor",
+    "url": "https://commons.wikimedia.org/wiki/File:Swan_Duckling.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Swan_Duckling.JPG"
+  },
+  "anser-erythropus": {
+    "scientific_name": "Anser erythropus",
+    "common_name": "Lesser White-fronted Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "unknown",
+    "url": "https://commons.wikimedia.org/wiki/File:Anser_erythropus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Anser_erythropus.jpg"
+  },
+  "anser-fabalis": {
+    "scientific_name": "Anser fabalis",
+    "common_name": "Taiga Bean-Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Andrey Gulivanov",
+    "url": "https://commons.wikimedia.org/wiki/File:Taiga_bean_goose_(54312538416).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Taiga_bean_goose_%2854312538416%29.jpg"
+  },
+  "anser-indicus": {
+    "scientific_name": "Anser indicus",
+    "common_name": "Bar-headed Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Tisha Mukherjee",
+    "url": "https://commons.wikimedia.org/wiki/File:Bar-headed_Goose_in_Kaziranga_National_Park_March_2025_by_Tisha_Mukherjee_02.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Bar-headed_Goose_in_Kaziranga_National_Park_March_2025_by_Tisha_Mukherjee_02.jpg"
+  },
+  "anser-rossii": {
+    "scientific_name": "Anser rossii",
+    "common_name": "Ross's Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Andrew C",
+    "url": "https://commons.wikimedia.org/wiki/File:Ross%27s_Goose_(Chen_rossii)_(23321411711).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Ross%27s_Goose_%28Chen_rossii%29_%2823321411711%29.jpg"
+  },
+  "anser-serrirostris": {
+    "scientific_name": "Anser serrirostris",
+    "common_name": "Tundra Bean-Goose",
+    "source": "iNaturalist",
+    "license": "cc-by",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "(c) Troy B, some rights reserved (CC BY), uploaded by Troy B",
+    "url": "https://www.inaturalist.org/photos/110151375",
+    "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/110151375/large.jpeg"
+  },
+  "anseranas-semipalmata": {
+    "scientific_name": "Anseranas semipalmata",
+    "common_name": "Magpie Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Magpie_goose_(Anseranas_semipalmata)_immature_Fogg_Dam.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Magpie_goose_%28Anseranas_semipalmata%29_immature_Fogg_Dam.jpg"
+  },
+  "anthracoceros-albirostris": {
+    "scientific_name": "Anthracoceros albirostris",
+    "common_name": "Oriental Pied-Hornbill",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Gossipguy",
+    "url": "https://commons.wikimedia.org/wiki/File:Oriental_Pied_Hornbill.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Oriental_Pied_Hornbill.jpg"
+  },
+  "anthus-berthelotii": {
+    "scientific_name": "Anthus berthelotii",
+    "common_name": "Berthelot's Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Andreas Reuland",
+    "url": "https://commons.wikimedia.org/wiki/File:Kanarenpieper.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Kanarenpieper.jpg"
+  },
+  "anthus-campestris": {
+    "scientific_name": "Anthus campestris",
+    "common_name": "Tawny Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Afsarnayakkan",
+    "url": "https://commons.wikimedia.org/wiki/File:Tawny_pipit_47.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Tawny_pipit_47.jpg"
+  },
+  "anthus-cervinus": {
+    "scientific_name": "Anthus cervinus",
+    "common_name": "Red-throated Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Andreas Trepte",
+    "url": "https://commons.wikimedia.org/wiki/File:Red-throated_Pipit.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Red-throated_Pipit.jpg"
+  },
+  "anthus-godlewskii": {
+    "scientific_name": "Anthus godlewskii",
+    "common_name": "Blyth's Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Andreas Trepte",
+    "url": "https://commons.wikimedia.org/wiki/File:Blyth_s_Pipit_Anthus_godlewskii.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Blyth_s_Pipit_Anthus_godlewskii.jpg"
+  },
+  "anthus-gustavi": {
+    "scientific_name": "Anthus gustavi",
+    "common_name": "Pechora Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Валерия Ковалева",
+    "url": "https://commons.wikimedia.org/wiki/File:Anthus_gustavi_214075656.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Anthus_gustavi_214075656.jpg"
+  },
+  "anthus-hodgsoni": {
+    "scientific_name": "Anthus hodgsoni",
+    "common_name": "Olive-backed Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Khoitran1957",
+    "url": "https://commons.wikimedia.org/wiki/File:4G4A5167.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/4G4A5167.jpg"
+  },
+  "anthus-petrosus": {
+    "scientific_name": "Anthus petrosus",
+    "common_name": "Rock Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "MPF",
+    "url": "https://commons.wikimedia.org/wiki/File:2015-04-22_Anthus_petrosus,_Portsoy.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/2015-04-22_Anthus_petrosus%2C_Portsoy.jpg"
+  },
+  "anthus-pratensis": {
+    "scientific_name": "Anthus pratensis",
+    "common_name": "Meadow Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Andreas Trepte",
+    "url": "https://commons.wikimedia.org/wiki/File:Wiesenpieper_Meadow_pipit.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Wiesenpieper_Meadow_pipit.jpg"
+  },
+  "anthus-richardi": {
+    "scientific_name": "Anthus richardi",
+    "common_name": "Richard's Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "JJ Harrison (https://www.jjharrison.com.au/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Anthus_richardi_-_Laem_Pak_Bia.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Anthus_richardi_-_Laem_Pak_Bia.jpg"
+  },
+  "anthus-rubescens": {
+    "scientific_name": "Anthus rubescens",
+    "common_name": "American Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Kathy &amp; Sam from Beaverton OR, USA",
+    "url": "https://commons.wikimedia.org/wiki/File:Anthus_rubescens_-Harney_County,_Oregon,_USA-8.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Anthus_rubescens_-Harney_County%2C_Oregon%2C_USA-8.jpg"
+  },
+  "anthus-rufulus": {
+    "scientific_name": "Anthus rufulus",
+    "common_name": "Paddyfield Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Paddyfield_pipit_(Anthus_rufulus_rufulus).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Paddyfield_pipit_%28Anthus_rufulus_rufulus%29.jpg"
+  },
+  "anthus-spinoletta": {
+    "scientific_name": "Anthus spinoletta",
+    "common_name": "Water Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Zeynel Cebeci",
+    "url": "https://commons.wikimedia.org/wiki/File:Anthus_spinoletta_-_Water_Pipit,_Kahramanmara%C5%9F_2016-11-18_01-10.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Anthus_spinoletta_-_Water_Pipit%2C_Kahramanmara%C5%9F_2016-11-18_01-10.jpg"
+  },
+  "anthus-spragueii": {
+    "scientific_name": "Anthus spragueii",
+    "common_name": "Sprague's Pipit",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "James Graham Cooper",
+    "url": "https://commons.wikimedia.org/wiki/File:Anthus_spragueii_1870.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/76/Anthus_spragueii_1870.jpg"
+  },
+  "anthus-trivialis": {
+    "scientific_name": "Anthus trivialis",
+    "common_name": "Tree Pipit",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "T. R. Shankar Raman",
+    "url": "https://commons.wikimedia.org/wiki/File:TreePipit_DSCN2295.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/TreePipit_DSCN2295.jpg"
+  },
+  "antigone-antigone": {
+    "scientific_name": "Antigone antigone",
+    "common_name": "Sarus Crane",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Sarus_crane_(Grus_antigone).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Sarus_crane_%28Grus_antigone%29.jpg"
+  },
+  "antigone-canadensis": {
+    "scientific_name": "Antigone canadensis",
+    "common_name": "Sandhill Crane",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "JeffreyGammon",
+    "url": "https://commons.wikimedia.org/wiki/File:Sandhill_Crane_JG.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Sandhill_Crane_JG.jpg"
+  },
+  "antigone-vipio": {
+    "scientific_name": "Antigone vipio",
+    "common_name": "White-naped Crane",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Spaceaero2",
+    "url": "https://commons.wikimedia.org/wiki/File:White-naped_Crane_at_Saijyo_Ehime2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/White-naped_Crane_at_Saijyo_Ehime2.jpg"
+  },
+  "antrostomus-arizonae": {
+    "scientific_name": "Antrostomus arizonae",
+    "common_name": "Mexican Whip-poor-will",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Alan Schmierer",
+    "url": "https://commons.wikimedia.org/wiki/File:Antrostomus_arizonae.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Antrostomus_arizonae.jpg"
+  },
+  "antrostomus-badius": {
+    "scientific_name": "Antrostomus badius",
+    "common_name": "Yucatan Nightjar",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Blake Ross",
+    "url": "https://commons.wikimedia.org/wiki/File:Antrostomus_badius_-_Blake_Ross_-_362922236.jpeg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Antrostomus_badius_-_Blake_Ross_-_362922236.jpeg"
+  },
+  "antrostomus-carolinensis": {
+    "scientific_name": "Antrostomus carolinensis",
+    "common_name": "Chuck-will's-widow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "DickDaniels (http://theworldbirds.org/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Chuck-will%27s-widow_RWD5.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Chuck-will%27s-widow_RWD5.jpg"
+  },
+  "antrostomus-ridgwayi": {
+    "scientific_name": "Antrostomus ridgwayi",
+    "common_name": "Buff-collared Nightjar",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "antrostomus-salvini": {
+    "scientific_name": "Antrostomus salvini",
+    "common_name": "Tawny-collared Nightjar",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Juan Cruzado Cortés",
+    "url": "https://commons.wikimedia.org/wiki/File:Antrostomus_salvini_344449.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Antrostomus_salvini_344449.jpg"
+  },
+  "antrostomus-vociferus": {
+    "scientific_name": "Antrostomus vociferus",
+    "common_name": "Eastern Whip-poor-will",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "TonyCastro",
+    "url": "https://commons.wikimedia.org/wiki/File:EasternWhip-poor-will.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/EasternWhip-poor-will.jpg"
+  },
+  "aphelocoma-californica": {
+    "scientific_name": "Aphelocoma californica",
+    "common_name": "California Scrub-Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Becky Matsubara from El Sobrante, California",
+    "url": "https://commons.wikimedia.org/wiki/File:California_Scrub_Jay,_Richmond,_Contra_Costa,_California_(30644196597).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/California_Scrub_Jay%2C_Richmond%2C_Contra_Costa%2C_California_%2830644196597%29.jpg"
+  },
+  "aphelocoma-coerulescens": {
+    "scientific_name": "Aphelocoma coerulescens",
+    "common_name": "Florida Scrub-Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "VvAndromedavV",
+    "url": "https://commons.wikimedia.org/wiki/File:Adult_Florida_scrub_jay.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Adult_Florida_scrub_jay.jpg"
+  },
+  "aphelocoma-ultramarina": {
+    "scientific_name": "Aphelocoma ultramarina",
+    "common_name": "Transvolcanic Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Henggang Cui (@cuihenggang)",
+    "url": "https://commons.wikimedia.org/wiki/File:Transvolcanic_jay_by_Henggang_Cui.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/03/Transvolcanic_jay_by_Henggang_Cui.jpg"
+  },
+  "aphelocoma-unicolor": {
+    "scientific_name": "Aphelocoma unicolor",
+    "common_name": "Unicolored Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "aphelocoma-wollweberi": {
+    "scientific_name": "Aphelocoma wollweberi",
+    "common_name": "Mexican Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Alan Vernon",
+    "url": "https://commons.wikimedia.org/wiki/File:Mexican_Jay_Aphelocoma_wollweberi_3.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Mexican_Jay_Aphelocoma_wollweberi_3.jpg"
+  },
+  "aphelocoma-woodhouseii": {
+    "scientific_name": "Aphelocoma woodhouseii",
+    "common_name": "Woodhouse's Scrub-Jay",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Peter Wallack",
+    "url": "https://commons.wikimedia.org/wiki/File:Western_Scrub_Jay,_Santa_Fe.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Western_Scrub_Jay%2C_Santa_Fe.jpg"
+  },
+  "apus-affinis": {
+    "scientific_name": "Apus affinis",
+    "common_name": "Little Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Derek Keats",
+    "url": "https://commons.wikimedia.org/wiki/File:Little_swift,_Apus_affinis,_at_Kruger_National_Park,_South_Africa,_crop.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Little_swift%2C_Apus_affinis%2C_at_Kruger_National_Park%2C_South_Africa%2C_crop.jpg"
+  },
+  "apus-apus": {
+    "scientific_name": "Apus apus",
+    "common_name": "Common Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Alexis Lours",
+    "url": "https://commons.wikimedia.org/wiki/File:Common_Swift_2025_07_18_02_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Common_Swift_2025_07_18_02_%28cropped%29.jpg"
+  },
+  "apus-caffer": {
+    "scientific_name": "Apus caffer",
+    "common_name": "White-rumped Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Bernard DUPONT from FRANCE",
+    "url": "https://commons.wikimedia.org/wiki/File:White-rumped_Swift_(Apus_caffer)_(6041288566).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/White-rumped_Swift_%28Apus_caffer%29_%286041288566%29.jpg"
+  },
+  "apus-pacificus": {
+    "scientific_name": "Apus pacificus",
+    "common_name": "Pacific Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "ozma",
+    "url": "https://commons.wikimedia.org/wiki/File:Apus_pacificus_-Japan_-flying-8.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Apus_pacificus_-Japan_-flying-8.jpg"
+  },
+  "apus-pallidus": {
+    "scientific_name": "Apus pallidus",
+    "common_name": "Pallid Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Ismael Olea",
+    "url": "https://commons.wikimedia.org/wiki/File:Vencejo_p%C3%A1lido_20250901_04_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Vencejo_p%C3%A1lido_20250901_04_%28cropped%29.jpg"
+  },
+  "apus-unicolor": {
+    "scientific_name": "Apus unicolor",
+    "common_name": "Plain Swift",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Hobbyfotowiki",
+    "url": "https://commons.wikimedia.org/wiki/File:Einfarbsegler.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Einfarbsegler.jpg"
+  },
+  "aquila-adalberti": {
+    "scientific_name": "Aquila adalberti",
+    "common_name": "Spanish Eagle",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Antonio Lucio Carrasco Gómez",
+    "url": "https://commons.wikimedia.org/wiki/File:Aquila_adalberti.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Aquila_adalberti.jpg"
+  },
+  "aquila-chrysaetos": {
+    "scientific_name": "Aquila chrysaetos",
+    "common_name": "Golden Eagle",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Giles Laurent",
+    "url": "https://commons.wikimedia.org/wiki/File:015_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/015_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_%28Switzerland%29_Photo_by_Giles_Laurent.jpg"
+  },
+  "aquila-heliaca": {
+    "scientific_name": "Aquila heliaca",
+    "common_name": "Imperial Eagle",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "user:AngMoKio",
+    "url": "https://commons.wikimedia.org/wiki/File:Kaiseradler_Aquila_heliaca_2_amk.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Kaiseradler_Aquila_heliaca_2_amk.jpg"
+  },
+  "aquila-nipalensis": {
+    "scientific_name": "Aquila nipalensis",
+    "common_name": "Steppe Eagle",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Sumeet Moghe",
+    "url": "https://commons.wikimedia.org/wiki/File:Steppe_Eagle_Portrait.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Steppe_Eagle_Portrait.jpg"
+  },
+  "ara-ambiguus": {
+    "scientific_name": "Ara ambiguus",
+    "common_name": "Great Green Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "Alois Staudacher",
+    "url": "https://commons.wikimedia.org/wiki/File:Ara_ambigua.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Ara_ambigua.JPG"
+  },
+  "ara-ararauna": {
+    "scientific_name": "Ara ararauna",
+    "common_name": "Blue-and-yellow Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Luc Viatour",
+    "url": "https://commons.wikimedia.org/wiki/File:Ara_ararauna_Luc_Viatour.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Ara_ararauna_Luc_Viatour.jpg"
+  },
+  "ara-chloropterus": {
+    "scientific_name": "Ara chloropterus",
+    "common_name": "Red-and-green Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Arjan Haverkamp",
+    "url": "https://commons.wikimedia.org/wiki/File:Ara_chloropterus_-Apenheul_Primate_Park_-Netherlands-8a.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Ara_chloropterus_-Apenheul_Primate_Park_-Netherlands-8a.jpg"
+  },
+  "ara-macao": {
+    "scientific_name": "Ara macao",
+    "common_name": "Scarlet Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Scarlet_macaw_(Ara_macao_cyanopterus)_Copan.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Scarlet_macaw_%28Ara_macao_cyanopterus%29_Copan.jpg"
+  },
+  "ara-militaris": {
+    "scientific_name": "Ara militaris",
+    "common_name": "Military Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "neiljs",
+    "url": "https://commons.wikimedia.org/wiki/File:Ara_militaris_-London_Zoo-8a.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Ara_militaris_-London_Zoo-8a.jpg"
+  },
+  "ara-severus": {
+    "scientific_name": "Ara severus",
+    "common_name": "Chestnut-fronted Macaw",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Félix Uribe from Rionegro, Antioquia, Colombia",
+    "url": "https://commons.wikimedia.org/wiki/File:Ara_severus_-_Guacamaya_cariseca_-_Chestnut-Fronted_Macaw_(7503884654).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Ara_severus_-_Guacamaya_cariseca_-_Chestnut-Fronted_Macaw_%287503884654%29.jpg"
+  },
+  "aramides-albiventris": {
+    "scientific_name": "Aramides albiventris",
+    "common_name": "Russet-naped Wood-Rail",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Russet-naped_wood-rail_(Aramides_albiventris_albiventris)_Cayo.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Russet-naped_wood-rail_%28Aramides_albiventris_albiventris%29_Cayo.jpg"
+  },
+  "aramides-axillaris": {
+    "scientific_name": "Aramides axillaris",
+    "common_name": "Rufous-necked Wood-Rail",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "aramides-ypecaha": {
+    "scientific_name": "Aramides ypecaha",
+    "common_name": "Giant Wood-Rail",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Giant_wood-rail_(Aramides_ypecaha)_Campana.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Giant_wood-rail_%28Aramides_ypecaha%29_Campana.jpg"
+  },
+  "aramus-guarauna": {
+    "scientific_name": "Aramus guarauna",
+    "common_name": "Limpkin",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "VJAnderson",
+    "url": "https://commons.wikimedia.org/wiki/File:Limpkin,_Florida_05.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Limpkin%2C_Florida_05.jpg"
+  },
+  "aratinga-jandaya": {
+    "scientific_name": "Aratinga jandaya",
+    "common_name": "Jandaya Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Chris Gladis from Kyoto, Japan",
+    "url": "https://commons.wikimedia.org/wiki/File:Aratinga_jandaya_and_solstitialis.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Aratinga_jandaya_and_solstitialis.jpg"
+  },
+  "aratinga-nenday": {
+    "scientific_name": "Aratinga nenday",
+    "common_name": "Nanday Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "J. Patrick Fischer",
+    "url": "https://commons.wikimedia.org/wiki/File:2011-4_parrot_in_Strasbourg.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/2011-4_parrot_in_Strasbourg.jpg"
+  },
+  "aratinga-weddellii": {
+    "scientific_name": "Aratinga weddellii",
+    "common_name": "Dusky-headed Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Joseph C Boone",
+    "url": "https://commons.wikimedia.org/wiki/File:Dusky-headed_Parakeet_JCB.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Dusky-headed_Parakeet_JCB.jpg"
+  },
+  "archilochus-alexandri": {
+    "scientific_name": "Archilochus alexandri",
+    "common_name": "Black-chinned Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution": "unknown",
+    "url": "https://commons.wikimedia.org/wiki/File:Archilochus-alexandri-003.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Archilochus-alexandri-003.jpg"
+  },
+  "archilochus-colubris": {
+    "scientific_name": "Archilochus colubris",
+    "common_name": "Ruby-throated Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "jeffreyw",
+    "url": "https://commons.wikimedia.org/wiki/File:Archilochus_colubris_-flying_-male-8.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Archilochus_colubris_-flying_-male-8.jpg"
+  },
+  "ardea-alba": {
+    "scientific_name": "Ardea alba",
+    "common_name": "Great Egret",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler (FocusOnWildlife.Me)",
+    "url": "https://commons.wikimedia.org/wiki/File:Great_Egret_(Ardea_alba)_in_Breeding_Plumage,_Cape_May_County,_New_Jersey,_USA_(cropped).png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Great_Egret_%28Ardea_alba%29_in_Breeding_Plumage%2C_Cape_May_County%2C_New_Jersey%2C_USA_%28cropped%29.png"
+  },
+  "ardea-cinerea": {
+    "scientific_name": "Ardea cinerea",
+    "common_name": "Gray Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Alexis Lours",
+    "url": "https://commons.wikimedia.org/wiki/File:Grey_heron_2022_03_18_01.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Grey_heron_2022_03_18_01.jpg"
+  },
+  "ardea-herodias": {
+    "scientific_name": "Ardea herodias",
+    "common_name": "Great Blue Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "DallasPenner",
+    "url": "https://commons.wikimedia.org/wiki/File:GreatBlueHeronInARiver.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/GreatBlueHeronInARiver.jpg"
+  },
+  "ardea-intermedia": {
+    "scientific_name": "Ardea intermedia",
+    "common_name": "Medium Egret",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Rison Thumboor from Thrissur, India",
+    "url": "https://commons.wikimedia.org/wiki/File:Intermediate_Egret_(23385032726).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Intermediate_Egret_%2823385032726%29.jpg"
+  },
+  "ardea-purpurea": {
+    "scientific_name": "Ardea purpurea",
+    "common_name": "Purple Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "José Prego from Moura, Portugal",
+    "url": "https://commons.wikimedia.org/wiki/File:Gar%C3%A7a-vermelha_(Ardea_purpurea)_(53812618173).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Gar%C3%A7a-vermelha_%28Ardea_purpurea%29_%2853812618173%29.jpg"
+  },
+  "ardenna-bulleri": {
+    "scientific_name": "Ardenna bulleri",
+    "common_name": "Buller's Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "JJ Harrison",
+    "url": "https://commons.wikimedia.org/wiki/File:Buller%27s_Shearwater_0A2A8858.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Buller%27s_Shearwater_0A2A8858.jpg"
+  },
+  "ardenna-carneipes": {
+    "scientific_name": "Ardenna carneipes",
+    "common_name": "Flesh-footed Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Duncan",
+    "url": "https://commons.wikimedia.org/wiki/File:Puffinus_carneipes.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Puffinus_carneipes.jpg"
+  },
+  "ardenna-creatopus": {
+    "scientific_name": "Ardenna creatopus",
+    "common_name": "Pink-footed Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Justin Benttinen",
+    "url": "https://commons.wikimedia.org/wiki/File:Pink-footed_Shearwater_(Ardenna_creatopus).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Pink-footed_Shearwater_%28Ardenna_creatopus%29.jpg"
+  },
+  "ardenna-grisea": {
+    "scientific_name": "Ardenna grisea",
+    "common_name": "Sooty Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Sabine's Sunbird",
+    "url": "https://commons.wikimedia.org/wiki/File:Sooty_shearwater_kaikoura.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Sooty_shearwater_kaikoura.jpg"
+  },
+  "ardenna-pacifica": {
+    "scientific_name": "Ardenna pacifica",
+    "common_name": "Wedge-tailed Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "Forest &amp; Kim Starr",
+    "url": "https://commons.wikimedia.org/wiki/File:Starr_031124-0008_Sporobolus_virginicus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Starr_031124-0008_Sporobolus_virginicus.jpg"
+  },
+  "ardenna-tenuirostris": {
+    "scientific_name": "Ardenna tenuirostris",
+    "common_name": "Short-tailed Shearwater",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "JJ Harrison (https://www.jjharrison.com.au/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Puffinus_tenuirostris_-_SE_Tasmania.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Puffinus_tenuirostris_-_SE_Tasmania.jpg"
+  },
+  "ardeola-bacchus": {
+    "scientific_name": "Ardeola bacchus",
+    "common_name": "Chinese Pond-Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "JJ Harrison (https://www.jjharrison.com.au/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Ardeola_bacchus_winter_plumage_-_Laem_Phak_Bia.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Ardeola_bacchus_winter_plumage_-_Laem_Phak_Bia.jpg"
+  },
+  "ardeola-grayii": {
+    "scientific_name": "Ardeola grayii",
+    "common_name": "Indian Pond-Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Indian_pond_heron_(Ardeola_grayii)_non_breeding.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Indian_pond_heron_%28Ardeola_grayii%29_non_breeding.jpg"
+  },
+  "ardeola-ralloides": {
+    "scientific_name": "Ardeola ralloides",
+    "common_name": "Squacco Heron",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Pierre Dalous",
+    "url": "https://commons.wikimedia.org/wiki/File:Crabier_chevelu.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Crabier_chevelu.jpg"
+  },
+  "arenaria-interpres": {
+    "scientific_name": "Arenaria interpres",
+    "common_name": "Ruddy Turnstone",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler d/b/a Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Ruddy_turnstone_(Arenaria_interpres)_Breeding_Plumage_Heislerville_WMA,_Cumberland_County,_New_Jersey,_USA.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Ruddy_turnstone_%28Arenaria_interpres%29_Breeding_Plumage_Heislerville_WMA%2C_Cumberland_County%2C_New_Jersey%2C_USA.jpg"
+  },
+  "arenaria-melanocephala": {
+    "scientific_name": "Arenaria melanocephala",
+    "common_name": "Black Turnstone",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "ADJ82",
+    "url": "https://commons.wikimedia.org/wiki/File:BlackTurnstone-18FEB2017.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/BlackTurnstone-18FEB2017.jpg"
+  },
+  "arremon-aurantiirostris": {
+    "scientific_name": "Arremon aurantiirostris",
+    "common_name": "Orange-billed Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "arremon-brunneinucha": {
+    "scientific_name": "Arremon brunneinucha",
+    "common_name": "Chestnut-capped Brushfinch",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Chestnut-capped_brushfinch_(Arremon_brunneinucha_elsae).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Chestnut-capped_brushfinch_%28Arremon_brunneinucha_elsae%29.jpg"
+  },
+  "arremon-virenticeps": {
+    "scientific_name": "Arremon virenticeps",
+    "common_name": "Green-striped Brushfinch",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Alberto Sánchez",
+    "url": "https://commons.wikimedia.org/wiki/File:Arremon_virenticeps_193245496.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/85/Arremon_virenticeps_193245496.jpg"
+  },
+  "arremonops-chloronotus": {
+    "scientific_name": "Arremonops chloronotus",
+    "common_name": "Green-backed Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Dominic Sherony",
+    "url": "https://commons.wikimedia.org/wiki/File:Arremonops_chloronotus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Arremonops_chloronotus.jpg"
+  },
+  "arremonops-rufivirgatus": {
+    "scientific_name": "Arremonops rufivirgatus",
+    "common_name": "Olive Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler d/b/a Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Olive_Sparrow_(Arremonops_rufivirgatus)_Edinbug,_Texas,_USA.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Olive_Sparrow_%28Arremonops_rufivirgatus%29_Edinbug%2C_Texas%2C_USA.png"
+  },
+  "artemisiospiza-belli": {
+    "scientific_name": "Artemisiospiza belli",
+    "common_name": "Bell's Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "ALAN SCHMIERER",
+    "url": "https://commons.wikimedia.org/wiki/File:BELL%27S_SPARROW_(canescens%3F)_9-18-05_(bird_3a)_Carrizo_Plain_Nat_Mon,_SLO_County,_CA_(1544042599).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/11/BELL%27S_SPARROW_%28canescens%3F%29_9-18-05_%28bird_3a%29_Carrizo_Plain_Nat_Mon%2C_SLO_County%2C_CA_%281544042599%29.jpg"
+  },
+  "artemisiospiza-nevadensis": {
+    "scientific_name": "Artemisiospiza nevadensis",
+    "common_name": "Sagebrush Sparrow",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Nomdeploom",
+    "url": "https://commons.wikimedia.org/wiki/File:Sagebrush_Sparrow.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Sagebrush_Sparrow.jpg"
+  },
+  "arundinax-aedon": {
+    "scientific_name": "Arundinax aedon",
+    "common_name": "Thick-billed Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Khoitran1957",
+    "url": "https://commons.wikimedia.org/wiki/File:Ch%C3%ADch_m%E1%BB%8F_r%E1%BB%99ng.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Ch%C3%ADch_m%E1%BB%8F_r%E1%BB%99ng.jpg"
+  },
+  "asio-clamator": {
+    "scientific_name": "Asio clamator",
+    "common_name": "Striped Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "DavidStarIsrael7",
+    "url": "https://commons.wikimedia.org/wiki/File:Coruja-orelhuda_no_Zool%C3%B3gico_de_Sorocaba.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Coruja-orelhuda_no_Zool%C3%B3gico_de_Sorocaba.JPG"
+  },
+  "asio-flammeus": {
+    "scientific_name": "Asio flammeus",
+    "common_name": "Short-eared Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Sumeet Moghe",
+    "url": "https://commons.wikimedia.org/wiki/File:Short_Eared_Owl_on_the_Ground.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Short_Eared_Owl_on_the_Ground.jpg"
+  },
+  "asio-otus": {
+    "scientific_name": "Asio otus",
+    "common_name": "Long-eared Owl",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "USFWS Mountain-Prairie",
+    "url": "https://commons.wikimedia.org/wiki/File:Long-Eared_Owl_on_Seedskadee_NWR_(24684373661).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Long-Eared_Owl_on_Seedskadee_NWR_%2824684373661%29.jpg"
+  },
+  "asio-stygius": {
+    "scientific_name": "Asio stygius",
+    "common_name": "Stygian Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "aspatha-gularis": {
+    "scientific_name": "Aspatha gularis",
+    "common_name": "Blue-throated Motmot",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "in Alcide Dessalines d'Orbigny",
+    "url": "https://commons.wikimedia.org/wiki/File:Pharomachrus_antisianus_1847.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/17/Pharomachrus_antisianus_1847.jpg"
+  },
+  "athene-cunicularia": {
+    "scientific_name": "Athene cunicularia",
+    "common_name": "Burrowing Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Southern_burrowing_owl_(Athene_cunicularia_cunicularia)_Colonia.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Southern_burrowing_owl_%28Athene_cunicularia_cunicularia%29_Colonia.jpg"
+  },
+  "athene-noctua": {
+    "scientific_name": "Athene noctua",
+    "common_name": "Little Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Максат79",
+    "url": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%BE%D0%BC%D0%BE%D0%B2%D1%8B%D0%B9_%D1%81%D1%8B%D1%87._%D0%A1%D0%BE%D0%B2%D0%B0_%D0%B2_%D0%BA%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD%D0%B5_%D1%83%D1%80%D0%BE%D1%87%D0%B8%D1%89%D0%B0_%D0%91%D0%BE%D0%B7%D0%B6%D1%8B%D1%80%D0%B0._01.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/%D0%94%D0%BE%D0%BC%D0%BE%D0%B2%D1%8B%D0%B9_%D1%81%D1%8B%D1%87._%D0%A1%D0%BE%D0%B2%D0%B0_%D0%B2_%D0%BA%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD%D0%B5_%D1%83%D1%80%D0%BE%D1%87%D0%B8%D1%89%D0%B0_%D0%91%D0%BE%D0%B7%D0%B6%D1%8B%D1%80%D0%B0._01.jpg"
+  },
+  "atlapetes-albinucha": {
+    "scientific_name": "Atlapetes albinucha",
+    "common_name": "White-naped Brushfinch",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "atlapetes-pileatus": {
+    "scientific_name": "Atlapetes pileatus",
+    "common_name": "Rufous-capped Brushfinch",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Francesco Veronesi from Italy",
+    "url": "https://commons.wikimedia.org/wiki/File:Rufous-capped_Brush-Finch_-_Sinaloa_-_Mexico_S4E1209_(23283476602).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Rufous-capped_Brush-Finch_-_Sinaloa_-_Mexico_S4E1209_%2823283476602%29.jpg"
+  },
+  "atticora-pileata": {
+    "scientific_name": "Atticora pileata",
+    "common_name": "Black-capped Swallow",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Spiza_americana_male_94_231051626_13e01e8125_o.jpg: Patti McNeal from Katy, TX, USA derivative work: Totodu74 (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Spiza_americana_male_94_231051626_13e01e8125_o_cropped_flipped.png"
+  },
+  "attila-spadiceus": {
+    "scientific_name": "Attila spadiceus",
+    "common_name": "Bright-rumped Attila",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "AMMuench",
+    "url": "https://commons.wikimedia.org/wiki/File:Bright-rumped_Attila_-_January_24,_2023.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Bright-rumped_Attila_-_January_24%2C_2023.jpg"
+  },
+  "aulacorhynchus-prasinus": {
+    "scientific_name": "Aulacorhynchus prasinus",
+    "common_name": "Northern Emerald-Toucanet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Giles Laurent",
+    "url": "https://commons.wikimedia.org/wiki/File:063_Northern_Emerald-toucanet_in_Los_Quetzales_National_Park_Photo_by_Giles_Laurent.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/063_Northern_Emerald-toucanet_in_Los_Quetzales_National_Park_Photo_by_Giles_Laurent.jpg"
+  },
+  "auriparus-flaviceps": {
+    "scientific_name": "Auriparus flaviceps",
+    "common_name": "Verdin",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Alan D. Wilson",
+    "url": "https://commons.wikimedia.org/wiki/File:Auriparus_flaviceps.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Auriparus_flaviceps.jpg"
+  },
+  "aythya-affinis": {
+    "scientific_name": "Aythya affinis",
+    "common_name": "Lesser Scaup",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Basar",
+    "url": "https://commons.wikimedia.org/wiki/File:Aythya_affinis.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Aythya_affinis.JPG"
+  },
+  "aythya-americana": {
+    "scientific_name": "Aythya americana",
+    "common_name": "Redhead",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Judy Gallagher",
+    "url": "https://commons.wikimedia.org/wiki/File:Redhead_-_Aythya_americana,_Oakley_Street,_Cambridge,_Maryland.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Redhead_-_Aythya_americana%2C_Oakley_Street%2C_Cambridge%2C_Maryland.jpg"
+  },
+  "aythya-collaris": {
+    "scientific_name": "Aythya collaris",
+    "common_name": "Ring-necked Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Polinova",
+    "url": "https://commons.wikimedia.org/wiki/File:Ring-Necked_Duck.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Ring-Necked_Duck.jpg"
+  },
+  "aythya-ferina": {
+    "scientific_name": "Aythya ferina",
+    "common_name": "Common Pochard",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Alexis Lours",
+    "url": "https://commons.wikimedia.org/wiki/File:Common_Pochard_2025_11_15_04.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Common_Pochard_2025_11_15_04.jpg"
+  },
+  "aythya-fuligula": {
+    "scientific_name": "Aythya fuligula",
+    "common_name": "Tufted Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Alexis Lours",
+    "url": "https://commons.wikimedia.org/wiki/File:Tufted_Duck_09_05_2025_02.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Tufted_Duck_09_05_2025_02.jpg"
+  },
+  "aythya-marila": {
+    "scientific_name": "Aythya marila",
+    "common_name": "Greater Scaup",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler d/b/a Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Drake_Greater_scaup_(Aythya_marila)_Barnegat_Inlet,_New_Jersey,_USA.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Drake_Greater_scaup_%28Aythya_marila%29_Barnegat_Inlet%2C_New_Jersey%2C_USA.jpg"
+  },
+  "aythya-nyroca": {
+    "scientific_name": "Aythya nyroca",
+    "common_name": "Ferruginous Duck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Francis Franklin",
+    "url": "https://commons.wikimedia.org/wiki/File:Aythya_nyroca_at_Martin_Mere_1.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Aythya_nyroca_at_Martin_Mere_1.jpg"
+  },
+  "aythya-valisineria": {
+    "scientific_name": "Aythya valisineria",
+    "common_name": "Canvasback",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Dick Daniels (http://theworldbirds.org/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Canvasaback_(Aythya_valisineria)_RWD2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Canvasaback_%28Aythya_valisineria%29_RWD2.jpg"
+  },
+  "baeolophus-atricristatus": {
+    "scientific_name": "Baeolophus atricristatus",
+    "common_name": "Black-crested Titmouse",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Dan Pancamo",
+    "url": "https://commons.wikimedia.org/wiki/File:Black-crested_Titmouse_in_Santa_Ana_National_Wildlife_Refuge.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Black-crested_Titmouse_in_Santa_Ana_National_Wildlife_Refuge.jpg"
+  },
+  "baeolophus-bicolor": {
+    "scientific_name": "Baeolophus bicolor",
+    "common_name": "Tufted Titmouse",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Rhododendrites",
+    "url": "https://commons.wikimedia.org/wiki/File:Tufted_titmouse_(84917).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Tufted_titmouse_%2884917%29.jpg"
+  },
+  "baeolophus-inornatus": {
+    "scientific_name": "Baeolophus inornatus",
+    "common_name": "Oak Titmouse",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Wookiemedia",
+    "url": "https://commons.wikimedia.org/wiki/File:AUB_1269_-_Oak_Titmouse.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/AUB_1269_-_Oak_Titmouse.jpg"
+  },
+  "baeolophus-ridgwayi": {
+    "scientific_name": "Baeolophus ridgwayi",
+    "common_name": "Juniper Titmouse",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Polinova",
+    "url": "https://commons.wikimedia.org/wiki/File:JuniperTitmouse.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/JuniperTitmouse.jpg"
+  },
+  "baeolophus-wollweberi": {
+    "scientific_name": "Baeolophus wollweberi",
+    "common_name": "Bridled Titmouse",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Dominic Sherony",
+    "url": "https://commons.wikimedia.org/wiki/File:Bridled_Titmouse_(Baeolophus_wollweberi)_(16875140301).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Bridled_Titmouse_%28Baeolophus_wollweberi%29_%2816875140301%29.jpg"
+  },
+  "balearica-regulorum": {
+    "scientific_name": "Balearica regulorum",
+    "common_name": "Gray Crowned-Crane",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Grey_crowned_crane_(Balearica_regulorum_gibbericeps).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Grey_crowned_crane_%28Balearica_regulorum_gibbericeps%29.jpg"
+  },
+  "barnardius-zonarius": {
+    "scientific_name": "Barnardius zonarius",
+    "common_name": "Australian Ringneck",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "attribution": "derivative work: Snowmanradio (talk) Twenty_eight_31_gnangarra.jpg: Gnangarra",
+    "url": "https://commons.wikimedia.org/wiki/File:Barnardius_zonarius_semitorquatus_-2c.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Barnardius_zonarius_semitorquatus_-2c.jpg"
+  },
+  "bartramia-longicauda": {
+    "scientific_name": "Bartramia longicauda",
+    "common_name": "Upland Sandpiper",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Johann Friedrich Naumann",
+    "url": "https://commons.wikimedia.org/wiki/File:Bartramia_longicauda.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Bartramia_longicauda.jpg"
+  },
+  "basileuterus-belli": {
+    "scientific_name": "Basileuterus belli",
+    "common_name": "Golden-browed Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Francesco Veronesi",
+    "url": "https://commons.wikimedia.org/wiki/File:Golden-browed_Warbler.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Golden-browed_Warbler.jpg"
+  },
+  "basileuterus-culicivorus": {
+    "scientific_name": "Basileuterus culicivorus",
+    "common_name": "Golden-crowned Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Golden-crowned_warbler_(Basileuterus_culicivorus_azarae)_Colonia.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Golden-crowned_warbler_%28Basileuterus_culicivorus_azarae%29_Colonia.jpg"
+  },
+  "basileuterus-delattrii": {
+    "scientific_name": "Basileuterus delattrii",
+    "common_name": "Chestnut-capped Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Cephas",
+    "url": "https://commons.wikimedia.org/wiki/File:Basileuterus_delattrii_03.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/15/Basileuterus_delattrii_03.jpg"
+  },
+  "basileuterus-rufifrons": {
+    "scientific_name": "Basileuterus rufifrons",
+    "common_name": "Rufous-capped Warbler",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Seabamirum on Flickr",
+    "url": "https://commons.wikimedia.org/wiki/File:Basileuterus_rufifrons_Arizona.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Basileuterus_rufifrons_Arizona.jpg"
+  },
+  "basilinna-leucotis": {
+    "scientific_name": "Basilinna leucotis",
+    "common_name": "White-eared Hummingbird",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:White-eared_hummingbird_(Basilinna_leucotis_leucotis)_male_Finca_El_Pilar.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/White-eared_hummingbird_%28Basilinna_leucotis_leucotis%29_male_Finca_El_Pilar.jpg"
+  },
+  "bolborhynchus-lineola": {
+    "scientific_name": "Bolborhynchus lineola",
+    "common_name": "Barred Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "FAL",
+    "license_url": "http://artlibre.org/licence/lal/en",
+    "attribution": "Danculiak",
+    "url": "https://commons.wikimedia.org/wiki/File:Bolborhynchus_lineola_kobalt.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Bolborhynchus_lineola_kobalt.JPG"
+  },
+  "bombycilla-cedrorum": {
+    "scientific_name": "Bombycilla cedrorum",
+    "common_name": "Cedar Waxwing",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Ken Thomas",
+    "url": "https://commons.wikimedia.org/wiki/File:Cedar_Waxwing-27527-2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Cedar_Waxwing-27527-2.jpg"
+  },
+  "bombycilla-garrulus": {
+    "scientific_name": "Bombycilla garrulus",
+    "common_name": "Bohemian Waxwing",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Tatiana Bulyonkova from Novosibirsk, Russia",
+    "url": "https://commons.wikimedia.org/wiki/File:Bombycilla_garrulus,_Novosibirsk_1.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Bombycilla_garrulus%2C_Novosibirsk_1.jpg"
+  },
+  "bonasa-umbellus": {
+    "scientific_name": "Bonasa umbellus",
+    "common_name": "Ruffed Grouse",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "USFWSmidwest",
+    "url": "https://commons.wikimedia.org/wiki/File:Ruffed_Grouse_(18645551408).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Ruffed_Grouse_%2818645551408%29.jpg"
+  },
+  "bostrychia-hagedash": {
+    "scientific_name": "Bostrychia hagedash",
+    "common_name": "Hadada Ibis",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Diego Delso",
+    "url": "https://commons.wikimedia.org/wiki/File:Ibis_hadada_(Bostrychia_hagedash),_parque_nacional_de_Tarangire,_Tanzania,_2024-05-24,_DD_23.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Ibis_hadada_%28Bostrychia_hagedash%29%2C_parque_nacional_de_Tarangire%2C_Tanzania%2C_2024-05-24%2C_DD_23.jpg"
+  },
+  "botaurus-lentiginosus": {
+    "scientific_name": "Botaurus lentiginosus",
+    "common_name": "American Bittern",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.5",
+    "license_url": "https://creativecommons.org/licenses/by/2.5",
+    "attribution": "Walter Siegmund",
+    "url": "https://commons.wikimedia.org/wiki/File:Botaurus_lentiginosus_28079.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Botaurus_lentiginosus_28079.JPG"
+  },
+  "botaurus-stellaris": {
+    "scientific_name": "Botaurus stellaris",
+    "common_name": "Eurasian Bittern",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Great_bittern_(Botaurus_stellaris)_in_flight_Vadu_3.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Great_bittern_%28Botaurus_stellaris%29_in_flight_Vadu_3.jpg"
+  },
+  "brachyramphus-marmoratus": {
+    "scientific_name": "Brachyramphus marmoratus",
+    "common_name": "Marbled Murrelet",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Vliet, Gus Van",
+    "url": "https://commons.wikimedia.org/wiki/File:Marbled_Murrelet_(smaller).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Marbled_Murrelet_%28smaller%29.jpg"
+  },
+  "branta-bernicla": {
+    "scientific_name": "Branta bernicla",
+    "common_name": "Brant",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Needsmoreritalin",
+    "url": "https://commons.wikimedia.org/wiki/File:Atlantic_Brant_Fly-By_Wiki.png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Atlantic_Brant_Fly-By_Wiki.png"
+  },
+  "branta-canadensis": {
+    "scientific_name": "Branta canadensis",
+    "common_name": "Canada Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Rror",
+    "url": "https://commons.wikimedia.org/wiki/File:Canada_goose.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Canada_goose.jpg"
+  },
+  "branta-hutchinsii": {
+    "scientific_name": "Branta hutchinsii",
+    "common_name": "Cackling Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Paul Danese",
+    "url": "https://commons.wikimedia.org/wiki/File:20260426_cackling_goose_ford_lake_PD07933.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/20260426_cackling_goose_ford_lake_PD07933.jpg"
+  },
+  "branta-leucopsis": {
+    "scientific_name": "Branta leucopsis",
+    "common_name": "Barnacle Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "attribution": "Andreas Trepte",
+    "url": "https://commons.wikimedia.org/wiki/File:Barnacle-Goose.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Barnacle-Goose.jpg"
+  },
+  "branta-sandvicensis": {
+    "scientific_name": "Branta sandvicensis",
+    "common_name": "Hawaiian Goose",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0 de",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "attribution": "Jörg Hempel",
+    "url": "https://commons.wikimedia.org/wiki/File:Branta_sandvicensis_LC399.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Branta_sandvicensis_LC399.jpg"
+  },
+  "brotogeris-chiriri": {
+    "scientific_name": "Brotogeris chiriri",
+    "common_name": "Yellow-chevroned Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Giles Laurent",
+    "url": "https://commons.wikimedia.org/wiki/File:132_Yellow-chevroned_parakeet_couple_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/132_Yellow-chevroned_parakeet_couple_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent_%28cropped%29.jpg"
+  },
+  "brotogeris-jugularis": {
+    "scientific_name": "Brotogeris jugularis",
+    "common_name": "Orange-chinned Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Fernan bth",
+    "url": "https://commons.wikimedia.org/wiki/File:Perico_Brotogeris_jugularis,_en_su_estado_natural_en_Honduras.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Perico_Brotogeris_jugularis%2C_en_su_estado_natural_en_Honduras.jpg"
+  },
+  "brotogeris-versicolurus": {
+    "scientific_name": "Brotogeris versicolurus",
+    "common_name": "White-winged Parakeet",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Richard Crossley",
+    "url": "https://commons.wikimedia.org/wiki/File:White-winged_Parakeet_From_The_Crossley_ID_Guide_Eastern_Birds.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/White-winged_Parakeet_From_The_Crossley_ID_Guide_Eastern_Birds.jpg"
+  },
+  "bubo-africanus": {
+    "scientific_name": "Bubo africanus",
+    "common_name": "Spotted Eagle-Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Spotted_eagle_owl_bubo_africanus.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Spotted_eagle_owl_bubo_africanus.jpg"
+  },
+  "bubo-bengalensis": {
+    "scientific_name": "Bubo bengalensis",
+    "common_name": "Rock Eagle-Owl",
+    "source": "Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "",
+    "attribution": "Photographed by uploader",
+    "url": "https://commons.wikimedia.org/wiki/File:Bengalese_Eagle_Owl.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bengalese_Eagle_Owl.jpg"
+  },
+  "bubo-bubo": {
+    "scientific_name": "Bubo bubo",
+    "common_name": "Eurasian Eagle-Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Rhododendrites",
+    "url": "https://commons.wikimedia.org/wiki/File:Eurasian_eagle-owl_(44088).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Eurasian_eagle-owl_%2844088%29.jpg"
+  },
+  "bubo-scandiacus": {
+    "scientific_name": "Bubo scandiacus",
+    "common_name": "Snowy Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Chuck Homler d/b/a Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:SnowyOwlAmericanBlackDuck.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/SnowyOwlAmericanBlackDuck.jpg"
+  },
+  "bubo-virginianus": {
+    "scientific_name": "Bubo virginianus",
+    "common_name": "Great Horned Owl",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Greg Hume",
+    "url": "https://commons.wikimedia.org/wiki/File:Bubo_virginianus_06.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Bubo_virginianus_06.jpg"
+  },
+  "bucanetes-githagineus": {
+    "scientific_name": "Bucanetes githagineus",
+    "common_name": "Trumpeter Finch",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Trumpeter_finch_(Bucanetes_githagineus_zedlitzi)_male_Kebili.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Trumpeter_finch_%28Bucanetes_githagineus_zedlitzi%29_male_Kebili.jpg"
+  },
+  "bucephala-albeola": {
+    "scientific_name": "Bucephala albeola",
+    "common_name": "Bufflehead",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Chuck Homler, Focus On Wildlife",
+    "url": "https://commons.wikimedia.org/wiki/File:Drake_Bufflehead_LBI_(cropped).png",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/11/Drake_Bufflehead_LBI_%28cropped%29.png"
+  },
+  "bucephala-clangula": {
+    "scientific_name": "Bucephala clangula",
+    "common_name": "Common Goldeneye",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Francis C. Franklin",
+    "url": "https://commons.wikimedia.org/wiki/File:Bucephala_clangula_male.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Bucephala_clangula_male.jpg"
+  },
+  "bucephala-islandica": {
+    "scientific_name": "Bucephala islandica",
+    "common_name": "Barrow's Goldeneye",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "DickDaniels (http://theworldbirds.org/)",
+    "url": "https://commons.wikimedia.org/wiki/File:Barrow%27s_Goldeneye_RWD2.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Barrow%27s_Goldeneye_RWD2.jpg"
+  },
+  "bucorvus-leadbeateri": {
+    "scientific_name": "Bucorvus leadbeateri",
+    "common_name": "Southern Ground-Hornbill",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Bernard DUPONT from FRANCE",
+    "url": "https://commons.wikimedia.org/wiki/File:Southern_Ground_Hornbill_(Bucorvus_leadbeateri)_male_(12714625605),_crop.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Southern_Ground_Hornbill_%28Bucorvus_leadbeateri%29_male_%2812714625605%29%2C_crop.jpg"
+  },
+  "bulweria-bulwerii": {
+    "scientific_name": "Bulweria bulwerii",
+    "common_name": "Bulwer's Petrel",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Jérémie Silvestro (If you can improve this photo development, ask me the RAW.)",
+    "url": "https://commons.wikimedia.org/wiki/File:P%C3%A9trel_de_Bulwer.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/P%C3%A9trel_de_Bulwer.jpg"
+  },
+  "burhinus-oedicnemus": {
+    "scientific_name": "Burhinus oedicnemus",
+    "common_name": "Eurasian Thick-knee",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Frank Vassen from Brussels, Belgium",
+    "url": "https://commons.wikimedia.org/wiki/File:Burhinus_oedicnemus_insularum_Lanzarote_1.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Burhinus_oedicnemus_insularum_Lanzarote_1.jpg"
+  },
+  "busarellus-nigricollis": {
+    "scientific_name": "Busarellus nigricollis",
+    "common_name": "Black-collared Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Charles J. Sharp",
+    "url": "https://commons.wikimedia.org/wiki/File:Black-collared_hawk_(Busarellus_nigricollis)_immature.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Black-collared_hawk_%28Busarellus_nigricollis%29_immature.JPG"
+  },
+  "buteo-albonotatus": {
+    "scientific_name": "Buteo albonotatus",
+    "common_name": "Zone-tailed Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "ALAN SCHMIERER",
+    "url": "https://commons.wikimedia.org/wiki/File:229_-_ZONE-TAILED_HAWK_(4-11-2015)_blue_haven_road,_patagonia,_santa_cruz_co,_az_-02_(16906279787).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/229_-_ZONE-TAILED_HAWK_%284-11-2015%29_blue_haven_road%2C_patagonia%2C_santa_cruz_co%2C_az_-02_%2816906279787%29.jpg"
+  },
+  "buteo-brachyurus": {
+    "scientific_name": "Buteo brachyurus",
+    "common_name": "Short-tailed Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Original uploader was Amendezg at en.wikipedia",
+    "url": "https://commons.wikimedia.org/wiki/File:Male_-_black_phase_-_short_tail_hawk.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Male_-_black_phase_-_short_tail_hawk.JPG"
+  },
+  "buteo-buteo": {
+    "scientific_name": "Buteo buteo",
+    "common_name": "Common Buzzard",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "caroline legg",
+    "url": "https://commons.wikimedia.org/wiki/File:Common_Buzzard_by_caroline_legg_(cropped).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Common_Buzzard_by_caroline_legg_%28cropped%29.jpg"
+  },
+  "buteo-jamaicensis": {
+    "scientific_name": "Buteo jamaicensis",
+    "common_name": "Red-tailed Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Becky Matsubara from El Sobrante, California",
+    "url": "https://commons.wikimedia.org/wiki/File:Red-tailed_Hawk_(45812546121).jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Red-tailed_Hawk_%2845812546121%29.jpg"
+  },
+  "buteo-lagopus": {
+    "scientific_name": "Buteo lagopus",
+    "common_name": "Rough-legged Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.5",
+    "license_url": "https://creativecommons.org/licenses/by/2.5",
+    "attribution": "Walter Siegmund (talk)",
+    "url": "https://commons.wikimedia.org/wiki/File:Buteo_lagopus_29283.JPG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Buteo_lagopus_29283.JPG"
+  },
+  "buteo-lineatus": {
+    "scientific_name": "Buteo lineatus",
+    "common_name": "Red-shouldered Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "Andy Morffew from Itchen Abbas, Hampshire, UK",
+    "url": "https://commons.wikimedia.org/wiki/File:Red-shouldered_Hawk_(Buteo_lineatus)_-_Blue_Cypress_Lake,_Florida.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Red-shouldered_Hawk_%28Buteo_lineatus%29_-_Blue_Cypress_Lake%2C_Florida.jpg"
+  },
+  "buteo-plagiatus": {
+    "scientific_name": "Buteo plagiatus",
+    "common_name": "Gray Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "The Lilac Breasted Roller from Sullivan's Island, United States",
+    "url": "https://commons.wikimedia.org/wiki/File:Buteo_plagiatus_Belize.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Buteo_plagiatus_Belize.jpg"
+  },
+  "buteo-platypterus": {
+    "scientific_name": "Buteo platypterus",
+    "common_name": "Broad-winged Hawk",
+    "source": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Paul Danese",
+    "url": "https://commons.wikimedia.org/wiki/File:20240508_broad_winged_hawk_south_meadows_PD203773.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/20240508_broad_winged_hawk_south_meadows_PD203773.jpg"
+  }
+}

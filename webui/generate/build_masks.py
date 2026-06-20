@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """AvianVisitors - rebuild the collage silhouette masks from the cutouts.
 
-Step 3 of the illustration pipeline (after pregen.py and cutout.py).
+Final step of the picture pipeline, run after photos.py.
 
 The collage packs birds by their actual silhouette, not bounding boxes,
-so the app ships a tiny 1-bit mask per illustration. This reads every
-cutout in webui/assets/illustrations/ and rewrites the data the collage
-loads from webui/frontend/src/collage/data/:
+so the app ships a tiny 1-bit mask per bird. This reads every cutout in
+webui/assets/illustrations/ and rewrites the data the collage loads from
+webui/frontend/src/collage/data/:
 
     dims.json   slug -> [w, h]  aspect, scaled so the long side is 560
     masks.json  slug -> {w, h, bits}  silhouette downscaled to <=93px,
@@ -36,11 +36,12 @@ ALPHA_ON = 127
 
 
 def build_tables(illus_dir: Path):
+    import pillow_avif  # noqa: F401
     from PIL import Image
 
     dims, masks = {}, {}
-    pngs = sorted(p for p in illus_dir.glob("*.png") if re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", p.stem))
-    for p in pngs:
+    files = sorted(p for p in illus_dir.glob("*.avif") if re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", p.stem))
+    for p in files:
         slug = p.stem
         im = Image.open(p).convert("RGBA")
         w, h = im.size

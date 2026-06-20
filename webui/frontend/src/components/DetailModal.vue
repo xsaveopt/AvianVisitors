@@ -8,7 +8,7 @@ import { cachedBuffer, decodeRecording, getSpecCtx, paintSpectrogram } from '@/a
 import { ebirdUrl, fmtDateLine, fmtN, fmtRecTime, rarityLabel, wikiUrl } from '@/utils/format';
 import type { SpeciesDetail, WikiSummary } from '@/api/types';
 
-const IMG_VERSION = 'r10';
+const IMG_VERSION = 'r11';
 
 const props = defineProps<{ sci: string | null }>();
 const emit = defineEmits<{ close: [] }>();
