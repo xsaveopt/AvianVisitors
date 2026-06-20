@@ -1,7 +1,7 @@
 # Avian Visitors
 
 A live bird collage from a window microphone.
-A small mic listens, BirdNET figures out which bird is calling, and each species shows up as an illustration in the collage, sized by how often it's been heard.
+A small mic listens, BirdNET works out which bird is calling, and each species joins the collage as a cut-out photo, sized by how often it has been heard.
 
 It all runs in one Docker container on a Raspberry Pi (or any Debian box).
 The container records the audio, runs the detection, and serves the web page.
@@ -13,14 +13,14 @@ This is the far end of a fork chain:
 - [BirdNET-Lite](https://github.com/birdnet-team/BirdNET-Lite), the original from the BirdNET team at the Cornell Lab of Ornithology. It is the TFLite sound recognition model and analyzer that identifies which of 6,000+ species is calling. Everything else is built on top of this.
 - [BirdNET-Pi](https://github.com/mcguirepr89/BirdNET-Pi) by Patrick McGuire, which turned the model into a full realtime system for the Raspberry Pi. It adds 24/7 recording, automatic clip extraction, a SQLite database, a web interface, a live audio stream and spectrogram, notifications, and BirdWeather integration.
 - [the BirdNET-Pi fork](https://github.com/Nachtzuster/BirdNET-Pi) by Nachtzuster, the maintained successor after McGuire's went dormant. It modernizes the stack with newer Raspberry Pi OS (Bookworm and Trixie) and tflite_runtime support, a reworked and more robust analysis pipeline, a more responsive web ui, backup and restore, more notification types, and the V2.4 range model.
-- [AvianVisitors](https://github.com/Twarner491/AvianVisitors) by Twarner491, which this repo forked from. It keeps the recording, detection, clip extraction, live audio stream, charts, stats, and BirdWeather features, drops the admin tooling (web terminal, file manager, database admin, system info, FTP), and replaces the old dashboard with the illustrated bird collage as the main page.
+- [AvianVisitors](https://github.com/Twarner491/AvianVisitors) by Twarner491, which this repo forked from. It keeps the recording, detection, clip extraction, live audio stream, charts, stats, and BirdWeather features, drops the admin tooling (web terminal, file manager, database admin, system info, FTP), and makes a bird collage the main page.
 
 Most of the code comes from them, especially the recording and detection under `birdnet/`, which stays under their original license (see `birdnet/LICENSE`).
 
-What this repo adds is the packaging, and a fair amount of rebuilding on top of it.
-Instead of a hand-managed install on the pi, the whole stack (recording, detection, the web interface, and the live audio) now comes up as a single Docker container.
-The front end has been rewritten as a Vue 3 single-page app built around the collage, with a stats view and a full species atlas beside it and a small Slim backend underneath, and the illustrations it shows are generated rather than drawn, by a pipeline in webui/generate that runs on an NVIDIA GPU or falls back to the CPU.
-Under all of that the toolchain has been brought up to current Node, PHP, and Python with fresh dependencies, the detection, backend, and front-end code now carry tests that run in CI, and everything else got tidied up along the way through mago, oxlint, and ruff.
+This repo packages the whole stack as one Docker container and rebuilds the surface on top of it.
+The front end is a Vue 3 single-page app built around the collage, with a stats view and a full species atlas beside it and a small Slim backend underneath.
+Each bird in the collage is a real Creative-Commons photo with the background matted away, produced by the cutout pipeline in webui/generate.
+The Node, PHP, and Python toolchain is current, and the detection, backend, and front-end carry tests that run in CI.
 
 ## Contents
 
@@ -138,8 +138,9 @@ docker compose run --rm generate python build_masks.py
 
 Re-running only fetches birds you don't already have; add --force to redo one.
 
-The new pictures land in webui/assets/.
-To show them in the collage, rebuild the container:
+The whole set is kept as a single webui/assets/illustrations.tar so the repo holds one file instead of a folder of hundreds.
+photos.py unpacks it before a run and repacks it after, build_masks.py reads from it, and the container build unpacks it into the image, so you never handle the archive by hand.
+To show new pictures in the collage, rebuild the container:
 
 ```sh
 docker compose up -d --build
