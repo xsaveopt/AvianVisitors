@@ -185,4 +185,17 @@ final class SlimPublicApiTest extends SlimTestCase
         $this->assertSame(200, $res['status']);
         $this->assertArrayHasKey('services', $res['data']);
     }
+
+    public function testThemeIsPublicAndReflectsConfig(): void
+    {
+        $res = $this->json('GET', '/api/theme');
+        $this->assertSame(200, $res['status']);
+        $this->assertContains($res['data']['theme'], ['light', 'dark']);
+
+        $this->assertSame(200, $this->json('POST', '/api/config', [], json_encode(['THEME' => 'dark']))['status']);
+        $this->assertSame('dark', $this->json('GET', '/api/theme')['data']['theme']);
+
+        $this->assertSame(200, $this->json('POST', '/api/config', [], json_encode(['THEME' => 'light']))['status']);
+        $this->assertSame('light', $this->json('GET', '/api/theme')['data']['theme']);
+    }
 }

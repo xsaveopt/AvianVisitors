@@ -1,9 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
 
+const USER = process.env.AV_E2E_USER ?? 'admin';
 const PASS = process.env.AV_E2E_PASSWORD ?? 'e2e-secret';
 
 async function login(page: Page): Promise<void> {
   await page.click('#menuBtn');
+  await page.fill('#lockUser', USER);
   await page.fill('#lockPass', PASS);
   await page.click('#unlockForm button[type="submit"]');
   await expect(page.locator('body')).toHaveClass(/\bauthed\b/);
@@ -53,6 +55,7 @@ test('live audio control is hidden until login and appears after', async ({ page
   await page.click('#menuBtn');
   await expect(page.locator('#dd-items')).not.toHaveClass(/\bshow\b/);
 
+  await page.fill('#lockUser', USER);
   await page.fill('#lockPass', PASS);
   await page.click('#unlockForm button[type="submit"]');
   await expect(page.locator('#dd-items')).toHaveClass(/\bshow\b/);

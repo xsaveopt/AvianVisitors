@@ -232,7 +232,7 @@ async function saveSettings(): Promise<void> {
 
         <div v-else-if="section === 'settings'" class="admin-settings">
           <div class="menu-row">
-            <div><span class="label">Theme</span><span class="hint">saved on this device</span></div>
+            <div><span class="label">Theme</span><span class="hint">shared across everyone</span></div>
             <div class="seg" data-theme-seg>
               <button type="button" data-theme="light" :aria-current="theme === 'light' ? 'true' : 'false'" @click="setTheme('light')">light</button>
               <button type="button" data-theme="dark" :aria-current="theme === 'dark' ? 'true' : 'false'" @click="setTheme('dark')">dark</button>

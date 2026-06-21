@@ -7,18 +7,19 @@ import { audioClaim, audioRelease } from '@/audio/claim';
 defineProps<{ open: boolean }>();
 const auth = useAuthStore();
 
+const username = ref('');
 const password = ref('');
-const hint = ref('enter password to unlock tools.');
+const hint = ref('enter username and password to unlock tools.');
 const hintError = ref(false);
 
 async function submit(): Promise<void> {
-  const ok = await auth.login('admin', password.value);
+  const ok = await auth.login(username.value.trim(), password.value);
   if (ok) {
     password.value = '';
     hint.value = '';
     hintError.value = false;
   } else {
-    hint.value = 'wrong password.';
+    hint.value = 'wrong username or password.';
     hintError.value = true;
   }
 }
@@ -316,6 +317,13 @@ onBeforeUnmount(() => stopAudio());
   <aside id="menu-dd" :class="{ open }" :aria-hidden="open ? 'false' : 'true'">
     <div id="dd-locked">
       <form class="lock-row" id="unlockForm" @submit.prevent="submit">
+        <input
+          id="lockUser"
+          v-model="username"
+          type="text"
+          placeholder="username"
+          autocomplete="username"
+        />
         <input
           id="lockPass"
           v-model="password"

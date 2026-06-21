@@ -245,8 +245,11 @@ fi
 
 CADDY_TMPL=/etc/caddy/Caddyfile.tmpl
 CADDY_OUT=/etc/caddy/Caddyfile
-if [ -n "${AV_ADMIN_PASSWORD:-}" ]; then
-  AV_USER="${AV_ADMIN_USER:-admin}"
+if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -z "${AV_ADMIN_USER:-}" ]; then
+  warn "AV_ADMIN_PASSWORD is set but AV_ADMIN_USER is empty: set both to enable auth; staying PUBLIC until you do"
+fi
+if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -n "${AV_ADMIN_USER:-}" ]; then
+  AV_USER="${AV_ADMIN_USER}"
   AV_HASH=$(php -r 'echo password_hash($argv[1], PASSWORD_BCRYPT);' "${AV_ADMIN_PASSWORD}")
   cat > "${CADDY_OUT}" <<EOF
 {
@@ -297,7 +300,7 @@ EOF
   info "admin auth enabled (user=${AV_USER}); protected: recordings, livestream, stats, file browse, admin api"
 else
   cp "${CADDY_TMPL}" "${CADDY_OUT}"
-  warn "AV_ADMIN_PASSWORD not set: admin auth disabled; recordings, livestream, stats and admin tools are PUBLIC"
+  warn "admin auth disabled; recordings, livestream, stats and admin tools are PUBLIC (set both AV_ADMIN_USER and AV_ADMIN_PASSWORD to enable)"
 fi
 
 info "preflight complete; launching services"

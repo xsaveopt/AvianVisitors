@@ -17,7 +17,7 @@ services:
       BIRDNET_CHANNELS: "2"
       BIRDNET_LATITUDE: ""
       BIRDNET_LONGITUDE: ""
-      AV_ADMIN_USER: "admin"
+      AV_ADMIN_USER: ""
       AV_ADMIN_PASSWORD: ""
     volumes:
       - data:/data

@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { api } from '@/api/client';
 
 type Theme = 'light' | 'dark';
 
@@ -12,25 +13,50 @@ function read(): Theme {
   }
 }
 
+function cache(value: Theme): void {
+  try {
+    localStorage.setItem(KEY, value);
+  } catch {
+    return;
+  }
+}
+
 const theme = ref<Theme>(read());
 
-function apply(value: Theme): void {
-  theme.value = value;
+function applyDom(value: Theme): void {
   if (value === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   } else {
     document.documentElement.removeAttribute('data-theme');
   }
-  try {
-    localStorage.setItem(KEY, value);
-  } catch {
-    theme.value = value;
-  }
+}
+
+applyDom(theme.value);
+
+function applyLocal(value: Theme): void {
+  theme.value = value;
+  applyDom(value);
+  cache(value);
 }
 
 export function useTheme() {
-  function set(value: Theme): void {
-    apply(value);
+  async function set(value: Theme): Promise<void> {
+    applyLocal(value);
+    try {
+      await api.setTheme(value);
+    } catch {
+      return;
+    }
   }
-  return { theme, set };
+
+  async function sync(): Promise<void> {
+    try {
+      const { theme: server } = await api.theme();
+      applyLocal(server === 'dark' ? 'dark' : 'light');
+    } catch {
+      return;
+    }
+  }
+
+  return { theme, set, sync };
 }

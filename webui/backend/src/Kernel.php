@@ -48,6 +48,7 @@ final class Kernel
         $app->get('/api/firstseen', [$detections, 'firstseen']);
         $app->get('/api/wiki', $wiki);
         $app->get('/api/illustration', $illustration);
+        $app->get('/api/theme', [$configController, 'theme']);
 
         $app->get('/api/recording', [$mediaController, 'recording'])->add($auth);
         $app->get('/api/spectrogram', [$mediaController, 'spectrogram'])->add($auth);

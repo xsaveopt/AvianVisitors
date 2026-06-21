@@ -26,9 +26,9 @@ The Node, PHP, and Python toolchain is current, and the detection, backend, and 
 
 - [What you need](#what-you-need)
 - [Install](#install)
-- [Opening it](#opening-it)
 - [The microphone](#the-microphone)
-- [Location and settings](#location-and-settings)
+- [Container variables](#container-variables)
+- [The admin login](#the-admin-login)
 - [Making more bird pictures](#making-more-bird-pictures)
 - [Updating](#updating)
 - [Where your data lives](#where-your-data-lives)
@@ -59,15 +59,6 @@ To see what it's doing:
 docker compose logs -f
 ```
 
-## Opening it
-
-Open http://your-pi/ in a browser.
-The collage is the main page.
-There's also a small stats page at http://your-pi/stats.
-
-It starts empty.
-Birds appear as they get heard, so give it some time near a window with the mic.
-
 ## The microphone
 
 The container already gets access to the mic through Docker Compose, so usually it just works.
@@ -90,26 +81,41 @@ Then bring it back up:
 docker compose up -d
 ```
 
-## Location and settings
+## Container variables
 
-On the first run it guesses your latitude and longitude from your internet connection, which it uses to know which birds are likely in your area.
-To set it yourself, put your coordinates in docker-compose.yml and restart:
+| Variable          | What it does                                                                |
+| ----------------- | --------------------------------------------------------------------------- |
+| BIRDNET_REC_CARD  | ALSA card for the mic, like plughw:1,0 (default `default`)                  |
+| BIRDNET_CHANNELS  | Mic channel count, 1 or 2 (default 2)                                       |
+| BIRDNET_LATITUDE  | Your latitude for the range filter, guessed from your connection when empty |
+| BIRDNET_LONGITUDE | Your longitude                                                              |
+| AV_ADMIN_USER     | Admin username, must be set to enable the login                             |
+| AV_ADMIN_PASSWORD | Admin password, must be set to enable the login                             |
+
+Everything past these knobs is in /data/birdnet.conf and the settings page.
+
+## The admin login
+
+The collage, stats, and species pages are public to anyone who can reach them.
+The tools behind the menu, the recordings, and the live audio stream sit behind a single admin login instead.
+That login stays off until you set both AV_ADMIN_USER and AV_ADMIN_PASSWORD, and there is no default for either, so until you choose a username and a password those protected parts are open to everyone.
 
 ```yaml
 environment:
-  BIRDNET_LATITUDE: "52.3759"
-  BIRDNET_LONGITUDE: "4.8975"
+  AV_ADMIN_USER: "your-name"
+  AV_ADMIN_PASSWORD: "a-long-random-passphrase"
 ```
 
 ```sh
 docker compose up -d
 ```
 
-Everything else lives in the config file at /data/birdnet.conf inside the data volume (see below), and the settings page in the web interface can change most of it too.
+Open the menu on the page and enter that username and password to unlock the tools.
+Setting only one of the two leaves the login off, so set both.
 
 ## Making more bird pictures
 
-The pictures are real Creative-Commons photographs with the background cut away, not drawn by hand.
+The pictures are real Creative-Commons photographs with the background cut away.
 The repo already ships a full set, but you can make your own for your region.
 This part downloads a big cutout model, so do it on your computer, not the pi.
 

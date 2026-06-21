@@ -25,7 +25,7 @@ final class Config
             appDir: $appDir,
             birdsongsDir: $birdsongs,
             logsDir: self::env('AV_LOGS_DIR', '/data/logs'),
-            adminUser: self::env('AV_ADMIN_USER', 'admin'),
+            adminUser: self::env('AV_ADMIN_USER', ''),
             adminPassword: self::env('AV_ADMIN_PASSWORD', ''),
             userAgent: self::env('AV_USER_AGENT', 'AvianVisitors/1.0 (+https://github.com/Twarner491/AvianVisitors)'),
         );
@@ -74,6 +74,6 @@ final class Config
 
     public function authEnabled(): bool
     {
-        return $this->adminPassword !== '';
+        return $this->adminUser !== '' && $this->adminPassword !== '';
     }
 }

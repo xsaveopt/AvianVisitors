@@ -345,12 +345,16 @@ body {
 
 .lock-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   align-items: stretch;
   background: var(--paper-2);
   border-radius: 8px;
   box-shadow: var(--recess);
   padding: 4px;
+}
+.lock-row #lockUser {
+  flex-basis: 100%;
 }
 .lock-row input {
   flex: 1;

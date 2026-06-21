@@ -12,7 +12,9 @@ import AtlasView from '@/views/AtlasView.vue';
 import { useBirdsStore } from '@/stores/birds';
 import { useAuthStore } from '@/stores/auth';
 import { useHashRoute } from '@/composables/useHashRoute';
+import { useTheme } from '@/composables/useTheme';
 
+const { sync: syncTheme } = useTheme();
 const birds = useBirdsStore();
 const auth = useAuthStore();
 const { route, go, clear } = useHashRoute();
@@ -56,6 +58,7 @@ watch(() => auth.required, (v) => document.body.classList.toggle('auth-required'
 onMounted(() => {
   void birds.refresh();
   void auth.probe();
+  void syncTheme();
 });
 </script>
 

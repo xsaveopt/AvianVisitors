@@ -75,6 +75,8 @@ export const api = {
   menu: () => getJson<{ items: MenuItem[] }>('/menu', true),
   config: () => getJson<ConfigResponse>('/config', true),
   saveConfig: (payload: Record<string, unknown>) => postJson<SaveConfigResult>('/config', payload),
+  theme: () => getJson<{ theme: string }>('/theme'),
+  setTheme: (value: string) => postJson<SaveConfigResult>('/config', { THEME: value }),
   status: (action: string) => getJson<SystemDiag>(`/status?action=${action}`, true),
   logs: (unit: string, lines: number) =>
     getJson<LogsResponse>(`/status?action=logs&unit=${encodeURIComponent(unit)}&lines=${lines}`, true),

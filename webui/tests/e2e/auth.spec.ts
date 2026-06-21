@@ -27,6 +27,7 @@ test('the tools menu stays locked until the password is entered', async ({ page 
 test('logging in unlocks tools and enables listen-back', async ({ page }) => {
   await page.goto('/');
   await page.click('#menuBtn');
+  await page.fill('#lockUser', USER);
   await page.fill('#lockPass', PASS);
   await page.click('#unlockForm button[type="submit"]');
 
@@ -38,10 +39,11 @@ test('logging in unlocks tools and enables listen-back', async ({ page }) => {
 test('wrong password keeps it locked', async ({ page }) => {
   await page.goto('/');
   await page.click('#menuBtn');
+  await page.fill('#lockUser', USER);
   await page.fill('#lockPass', 'not-the-password');
   await page.click('#unlockForm button[type="submit"]');
 
-  await expect(page.locator('#lockHint')).toContainText('wrong password');
+  await expect(page.locator('#lockHint')).toContainText('wrong username or password');
   await expect(page.locator('body')).not.toHaveClass(/\bauthed\b/);
 });
 
@@ -56,4 +58,5 @@ test('protected API rejects anonymous and allows authenticated requests', async 
 test('public API stays open without credentials', async ({ request }) => {
   expect((await request.get('/api/stats')).status()).toBe(200);
   expect((await request.get('/api/illustration?sci=Calypte%20anna')).status()).toBe(200);
+  expect((await request.get('/api/theme')).status()).toBe(200);
 });

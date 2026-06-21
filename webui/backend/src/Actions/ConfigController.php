@@ -22,6 +22,7 @@ final class ConfigController
         'LATITUDE' => ['type' => 'float', 'min' => -90, 'max' => 90, 'restart' => true],
         'LONGITUDE' => ['type' => 'float', 'min' => -180, 'max' => 180, 'restart' => true],
         'SITE_NAME' => ['type' => 'string', 'maxlen' => 60],
+        'THEME' => ['type' => 'enum', 'values' => ['light', 'dark']],
     ];
 
     private const SUPERVISORCTL = '/usr/bin/supervisorctl -c /etc/supervisor/supervisord.conf';
@@ -29,6 +30,13 @@ final class ConfigController
     public function __construct(
         private readonly Conf $conf,
     ) {}
+
+    public function theme(Request $request, Response $response): Response
+    {
+        $conf = $this->conf->read();
+        $theme = ($conf['THEME'] ?? 'light') === 'dark' ? 'dark' : 'light';
+        return Json::write($response, ['theme' => $theme]);
+    }
 
     public function get(Request $request, Response $response): Response
     {
