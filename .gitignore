@@ -56,12 +56,8 @@ whitelist_species_list.txt
 .claude/
 # Large source / reference imagery kept on disk for working
 webui/assets/references/
-webui/assets/illustrations/*.avif
-webui/assets/illustrations/*.tmp
+webui/assets/illustrations/
 webui/assets/illustrations.tar.tmp
-webui/assets/illustrations/raw/
-webui/assets/illustrations/rejected/
-webui/assets/illustrations/rejected.json
 
 .venv/
 .pytest_cache/

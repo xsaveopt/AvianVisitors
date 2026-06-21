@@ -12,10 +12,10 @@ A full set already ships with the repo, so you only need anything here to add bi
 - build_masks.py rebuilds the collage silhouette masks in frontend/src/collage/data/ from the finished cutouts.
 
 photos.py takes the photo from Wikipedia's lead image first, since that is usually the cleanest portrait, and falls back to iNaturalist's curated species photo when Wikipedia has none.
-Every source is written to assets/illustrations/credits.json with its licence and attribution, so the photos stay properly credited.
+Every source is written to assets/credits.json with its licence and attribution, so the photos stay properly credited.
 
 The cutouts themselves live in git as a single assets/illustrations.tar rather than hundreds of loose files.
-photos.py unpacks it into assets/illustrations/ before it starts and repacks it when it finishes, and build_masks.py unpacks it before reading, so the loose folder is just working state and only the archive and credits.json are committed.
+photos.py unpacks it into assets/illustrations/ before it starts and repacks it when it finishes, and build_masks.py unpacks it before reading, so the assets/illustrations/ folder is just working state; only the archive and assets/credits.json are committed.
 Pass --no-archive to photos.py to work on loose files without touching the tar.
 
 ## Running it

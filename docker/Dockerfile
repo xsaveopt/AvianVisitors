@@ -88,7 +88,8 @@ COPY --chown=birdnet:birdnet --from=builder /home/birdnet/BirdNET-Pi/.venv ./.ve
 
 COPY --chown=birdnet:birdnet . ${APP_DIR}
 
-RUN tar -xf ${APP_DIR}/webui/assets/illustrations.tar -C ${APP_DIR}/webui/assets/illustrations \
+RUN mkdir -p ${APP_DIR}/webui/assets/illustrations \
+ && tar -xf ${APP_DIR}/webui/assets/illustrations.tar -C ${APP_DIR}/webui/assets/illustrations \
  && rm -f ${APP_DIR}/webui/assets/illustrations.tar \
  && chown -R birdnet:birdnet ${APP_DIR}/webui/assets/illustrations
 

@@ -4,8 +4,8 @@
 Fetches a Creative-Commons photo per species (Wikipedia's lead image first,
 iNaturalist's curated photo as a fallback), mattes the bird off its background
 with BiRefNet, crops to the bird, and writes a transparent AVIF to
-assets/illustrations/. Every source is recorded in credits.json with its
-licence and attribution.
+assets/illustrations/. Every source is recorded in assets/credits.json with
+its licence and attribution.
 
 Run it with the built-in sample list to fill the sample set, or point it at a
 whole region with --labels and --ebird-region.
@@ -662,7 +662,7 @@ def main() -> int:
             print(f"[archive] restored {restored} cutout(s) from {archive.tar_for(args.out).name}")
     raw_dir = args.out / "raw"
 
-    credits_path = args.out / "credits.json"
+    credits_path = args.out.parent / "credits.json"
     credits = {}
     if credits_path.exists():
         credits = json.loads(credits_path.read_text())
