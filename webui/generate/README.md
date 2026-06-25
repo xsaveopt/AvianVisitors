@@ -15,8 +15,9 @@ photos.py takes the photo from Wikipedia's lead image first, since that is usual
 Every source is written to assets/credits.json with its licence and attribution, so the photos stay properly credited.
 
 The cutouts themselves live in git as a single assets/illustrations.tar rather than hundreds of loose files.
-photos.py unpacks it into assets/illustrations/ before it starts and repacks it when it finishes, and build_masks.py unpacks it before reading, so the assets/illustrations/ folder is just working state; only the archive and assets/credits.json are committed.
-Pass --no-archive to photos.py to work on loose files without touching the tar.
+archive.py is the only thing that touches it: run `python archive.py unpack` to restore the loose assets/illustrations/ folder from the tar, and `python archive.py pack` once at the end to write it back for committing.
+photos.py and build_masks.py work purely on the loose folder and never touch the tar, so a run leaves you with the full assets/illustrations/ (and assets/illustrations/rejected/) tree to browse and pick what to redo.
+Only the tar and assets/credits.json are committed; the loose folder is working state.
 
 ## Running it
 
@@ -26,6 +27,7 @@ The first run downloads the BiRefNet matting model (about 1GB) into the models v
 ```sh
 cd webui/generate
 docker compose build generate
+docker compose run --rm generate python archive.py unpack
 docker compose run --rm generate python photos.py
 ```
 
@@ -42,6 +44,13 @@ docker compose run --rm generate python build_masks.py
 
 Re-running skips species that already have a cutout, so deleting a few bad ones and running again only redoes those.
 Add --force to redo everything.
+Move cutouts you don't like into assets/illustrations/rejected/ and the next run blocklists their source and re-picks a different photo.
+
+When you're happy with the set, pack the tar and commit it:
+
+```sh
+docker compose run --rm generate python archive.py pack
+```
 
 ## Knobs
 

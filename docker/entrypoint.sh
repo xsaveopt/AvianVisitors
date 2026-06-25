@@ -13,6 +13,14 @@ DBTXT=${DATA_DIR}/BirdDB.txt
 UID_IN=$(id -u)
 GID_IN=$(id -g)
 
+PORTS_INTERNAL="8080 8000 8501"
+EXEC_MOUNTS=""
+REQUIRED_RW="${DATA_DIR}"
+ENV_REPORT="BIRDNET_REC_CARD BIRDNET_CHANNELS BIRDNET_LATITUDE BIRDNET_LONGITUDE RTSP_STREAM AV_ADMIN_USER AV_ADMIN_PASSWORD"
+ENV_SECRET="AV_ADMIN_PASSWORD"
+NET_DNS_TARGET="cloudflare.com"
+NET_TCP_TARGET="1.1.1.1:443"
+
 C_RED=$'\033[31m'; C_YEL=$'\033[33m'; C_GRN=$'\033[32m'; C_DIM=$'\033[2m'; C_RST=$'\033[0m'
 [ -t 1 ] || { C_RED=; C_YEL=; C_GRN=; C_DIM=; C_RST=; }
 
@@ -43,33 +51,65 @@ if [ -r /proc/self/uid_map ]; then
   fi
 fi
 
-info "starting preflight checks"
-note "all processes run as uid=${UID_IN} gid=${GID_IN} (non-root)"
-if [ "${USERNS}" = "1" ]; then
-  warn "user namespace remapping is active (rootless docker or userns-remap)"
-  note "inside uid=${UID_IN} maps to HOST uid=${HOST_UID}; inside gid=${GID_IN} maps to HOST gid=${HOST_GID}"
-  note "when fixing bind-mount ownership on the host, chown to the HOST ids above, not ${UID_IN}:${GID_IN}"
-fi
+mount_opt() {
+  awk -v p="$1" -v o="$2" '$5==p { n=split($6,a,","); for(i=1;i<=n;i++) if(a[i]==o){print o; exit} }' /proc/self/mountinfo 2>/dev/null
+}
 
-ro_mount() { awk -v p="$1" '$2==p { if ($4 ~ /(^|,)ro(,|$)/) print "ro" }' /proc/mounts 2>/dev/null | head -1; }
+is_system_fs() {
+  case "$1" in
+    proc|sysfs|cgroup|cgroup2|devpts|mqueue|tmpfs|overlay|devtmpfs|securityfs|bpf|tracefs|debugfs|fusectl|configfs|pstore|autofs|binfmt_misc|hugetlbfs|nsfs|fuse.lxcfs|ramfs|rpc_pipefs) return 0 ;;
+  esac
+  return 1
+}
+
+is_system_path() {
+  case "$1" in
+    /|/proc|/proc/*|/sys|/sys/*|/dev|/dev/*|/run|/run/*|/etc/hostname|/etc/hosts|/etc/resolv.conf) return 0 ;;
+  esac
+  return 1
+}
+
+link() {
+  local src="$1" dst="$2" parent
+  parent=$(dirname "$dst")
+  if [ ! -d "$parent" ] || [ ! -w "$parent" ]; then
+    err "cannot create symlink ${dst}: directory ${parent} is missing or not writable by uid=${UID_IN}"
+    exit 1
+  fi
+  ln -sfn "$src" "$dst"
+}
+
+is_required_rw() {
+  case " ${REQUIRED_RW} " in *" $1 "*) return 0 ;; esac
+  return 1
+}
 
 check_rw() {
-  local dir="$1" label="$2"
+  local dir="$1" label="$2" required=0
+  is_required_rw "$dir" && required=1
   if [ ! -d "$dir" ]; then
-    fail "${label}: ${dir} is not present"
+    if [ "$required" = "1" ]; then fail "${label}: ${dir} is not present"; else warn "${label}: ${dir} is not present"; fi
     return
   fi
-  local owner mode probe
+  local owner mode probe ro=
   owner=$(stat -c '%U:%G (%u:%g)' "$dir" 2>/dev/null || echo '?')
   mode=$(stat -c '%a' "$dir" 2>/dev/null || echo '?')
+  [ "$(mount_opt "$dir" ro)" = ro ] && ro=' [mounted read-only]'
   probe="${dir}/.av-write-test.${RANDOM}"
   if [ -r "$dir" ] && touch "$probe" 2>/dev/null; then
     rm -f "$probe"
     info "${label}: read/write OK (${dir})"
     return
   fi
-  fail "${label}: cannot read+write ${dir} as uid=${UID_IN}"
-  note "current owner=${owner} mode=${mode}$( [ "$(ro_mount "$dir")" = ro ] && echo ' [mounted read-only]')"
+  if [ "$required" = "1" ]; then
+    fail "${label}: cannot read+write ${dir} as uid=${UID_IN}"
+  elif [ -n "$ro" ]; then
+    note "${label}: ${dir} is read-only${ro}; skipping (fine if you mounted it ro on purpose)"
+    return
+  else
+    warn "${label}: ${dir} is not writable by uid=${UID_IN}"
+  fi
+  note "current owner=${owner} mode=${mode}${ro}"
   if [ "${USERNS}" = "1" ]; then
     note "fix on host: chown -R ${HOST_UID}:${HOST_GID} <host-path-mounted-at-${dir}>"
   else
@@ -77,7 +117,151 @@ check_rw() {
   fi
 }
 
-check_rw "${DATA_DIR}" "data volume"
+check_perms() {
+  local dir="$1" mode others
+  [ -d "$dir" ] || return 0
+  mode=$(stat -c '%a' "$dir" 2>/dev/null || echo '')
+  [ -z "$mode" ] && return
+  others="${mode: -1}"
+  case "$others" in
+    2|3|6|7) warn "loose permissions on ${dir} (mode ${mode}, writable by any user); tighten to 0750/0770 unless this is intentional" ;;
+  esac
+}
+
+check_flags() {
+  local dir="$1"
+  if [ "$(mount_opt "$dir" noexec)" = noexec ]; then
+    case " ${EXEC_MOUNTS} " in
+      *" ${dir} "*) warn "${dir} is mounted noexec but this app must execute files there; remove noexec from that mount" ;;
+    esac
+  fi
+}
+
+check_caps() {
+  local hex val
+  hex=$(awk '/^CapEff:/{print $2; exit}' /proc/self/status 2>/dev/null || echo '')
+  if [ -z "$hex" ]; then note "capabilities: could not read /proc/self/status"; return; fi
+  val=$((16#$hex))
+  if [ "$val" -eq 0 ]; then note "capabilities: all dropped (CapEff=${hex}); good"; return; fi
+  local names="0:chown 1:dac_override 2:dac_read_search 3:fowner 4:fsetid 5:kill 6:setgid 7:setuid 8:setpcap 9:linux_immutable 10:net_bind_service 11:net_broadcast 12:net_admin 13:net_raw 14:ipc_lock 16:sys_module 17:sys_rawio 18:sys_chroot 19:sys_ptrace 21:sys_admin 22:sys_boot 24:sys_resource 25:sys_time 27:mknod 29:audit_write 31:setfcap 38:perfmon 39:bpf"
+  local default=" 0 1 3 4 5 6 7 8 10 13 18 27 29 31 "
+  local extra='' base='' e bit name
+  for e in $names; do
+    bit="${e%%:*}"; name="${e#*:}"
+    if (( (val >> bit) & 1 )); then
+      case "$default" in *" $bit "*) base="${base} ${name}" ;; *) extra="${extra} ${name}" ;; esac
+    fi
+  done
+  if [ -n "$extra" ]; then
+    warn "elevated capabilities present beyond the docker default:${extra}"
+    note "if the app does not need these, drop them (cap_drop) to shrink the attack surface"
+  else
+    note "capabilities: docker default set only (${base# })"
+  fi
+}
+
+check_clock() {
+  local year
+  year=$(date -u +%Y 2>/dev/null || echo 0)
+  if [ "${year:-0}" -lt 2024 ]; then
+    warn "system clock looks wrong (UTC year=${year}); TLS, tokens and scheduling may misbehave"
+  fi
+  if [ -z "${TZ:-}" ] && [ ! -e /etc/localtime ]; then
+    note "timezone not configured (TZ unset, no /etc/localtime); timestamps will be UTC"
+  fi
+}
+
+is_secret() {
+  case " ${ENV_SECRET} " in *" $1 "*) return 0 ;; esac
+  return 1
+}
+
+report_env() {
+  note "configuration (environment overrides; blank means default/config file):"
+  local v val shown
+  for v in ${ENV_REPORT}; do
+    val="${!v:-}"
+    if [ -z "$val" ]; then
+      shown='- (unset)'
+    elif is_secret "$v"; then
+      shown='****** (set)'
+    else
+      shown="$val"
+    fi
+    printf '%s %s[avianvisitors]        %-20s %s%s\n' "$(ts)" "$C_DIM" "$v" "$shown" "$C_RST"
+  done
+}
+
+listening_ports() {
+  awk '$4=="0A"{n=split($2,a,":"); print a[2]}' /proc/net/tcp /proc/net/tcp6 2>/dev/null \
+    | while read -r h; do [ -n "$h" ] && printf '%d\n' "0x$h"; done | sort -un
+}
+
+check_ports() {
+  local held p
+  held=$(listening_ports)
+  for p in ${PORTS_INTERNAL}; do
+    if printf '%s\n' "$held" | grep -qx "$p"; then
+      warn "port ${p} is already in use before services start; a service may fail to bind"
+      note "this usually means network_mode: host with another process on ${p}; remap or stop the conflict"
+    fi
+  done
+}
+
+check_net() {
+  [ "${PREFLIGHT_NET_CHECK:-0}" = "1" ] || return 0
+  local host="${NET_TCP_TARGET%:*}" port="${NET_TCP_TARGET##*:}"
+  if getent hosts "${NET_DNS_TARGET}" >/dev/null 2>&1; then
+    info "outbound DNS OK (resolved ${NET_DNS_TARGET})"
+  else
+    warn "outbound DNS failed (could not resolve ${NET_DNS_TARGET}); name resolution may be broken"
+  fi
+  if (exec 3<>"/dev/tcp/${host}/${port}") 2>/dev/null; then
+    info "outbound TCP OK (connected ${host}:${port})"
+  else
+    warn "outbound TCP to ${host}:${port} failed; egress may be blocked"
+  fi
+}
+
+collect_mounts() {
+  declare -A seen
+  MOUNTS=()
+  local mp fstype
+  seen["${DATA_DIR}"]=1
+  MOUNTS+=("${DATA_DIR}")
+  while IFS=$'\t' read -r mp fstype; do
+    [ -z "$mp" ] && continue
+    [ -n "${seen[$mp]:-}" ] && continue
+    is_system_fs "$fstype" && continue
+    is_system_path "$mp" && continue
+    seen["$mp"]=1
+    MOUNTS+=("$mp")
+  done < <(awk '{ s=0; for(i=1;i<=NF;i++) if($i=="-"){s=i;break} if(s) print $5 "\t" $(s+1) }' /proc/self/mountinfo 2>/dev/null)
+}
+
+info "starting preflight checks"
+if [ "${UID_IN}" = "0" ]; then
+  warn "running as uid=0 (root); this image is built to run unprivileged"
+else
+  note "all processes run as uid=${UID_IN} gid=${GID_IN} (non-root)"
+fi
+if [ "${USERNS}" = "1" ]; then
+  warn "user namespace remapping is active (rootless docker or userns-remap)"
+  note "inside uid=${UID_IN} maps to HOST uid=${HOST_UID}; inside gid=${GID_IN} maps to HOST gid=${HOST_GID}"
+  note "when fixing bind-mount ownership on the host, chown to the HOST ids above, not ${UID_IN}:${GID_IN}"
+fi
+
+check_caps
+check_clock
+report_env
+
+collect_mounts
+for m in "${MOUNTS[@]}"; do
+  if is_required_rw "$m"; then label="data volume"; else label="bind mount ${m}"; fi
+  check_rw "$m" "$label"
+  check_perms "$m"
+  check_flags "$m"
+done
 
 if [ "${FATAL}" = "1" ]; then
   err "preflight failed: required volumes are not writable; refusing to start"
@@ -87,6 +271,9 @@ if [ "${FATAL}" = "1" ]; then
   exit 1
 fi
 
+check_ports
+check_net
+
 mkdir -p \
   "${RECORDINGS}/Extracted/By_Date" \
   "${RECORDINGS}/Extracted/Charts" \
@@ -95,11 +282,11 @@ mkdir -p \
   "${LOGS_DIR}" \
   "${CFG_DIR}"
 
-ln -sf "${CONF}" "${APP_DIR}/birdnet.conf"
-ln -sf "${CONF}" /etc/birdnet/birdnet.conf
+link "${CONF}" "${APP_DIR}/birdnet.conf"
+link "${CONF}" /etc/birdnet/birdnet.conf
 
 for f in apprise.txt body.txt IdentifiedSoFar.txt include_species_list.txt exclude_species_list.txt whitelist_species_list.txt; do
-  ln -sf "${CFG_DIR}/${f}" "${APP_DIR}/${f}"
+  link "${CFG_DIR}/${f}" "${APP_DIR}/${f}"
 done
 
 if [ ! -f "${CONF}" ]; then
@@ -121,11 +308,11 @@ source "${CONF}"
 set +a
 
 if [ -d "${APP_DIR}/webui" ]; then
-  ln -sfn "${APP_DIR}/webui"                            "${EXTRACTED}/webui"
-  ln -sf  "${APP_DIR}/webui/frontend/dist/index.html"   "${EXTRACTED}/index.html"
-  ln -sfn "${APP_DIR}/webui/frontend/dist/assets"       "${EXTRACTED}/assets"
-  ln -sf  "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.png"
-  ln -sf  "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.ico"
+  link "${APP_DIR}/webui"                            "${EXTRACTED}/webui"
+  link "${APP_DIR}/webui/frontend/dist/index.html"   "${EXTRACTED}/index.html"
+  link "${APP_DIR}/webui/frontend/dist/assets"       "${EXTRACTED}/assets"
+  link "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.png"
+  link "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.ico"
 fi
 
 ln -sf "${APP_DIR}/birdnet/model/labels.txt" "${APP_DIR}/birdnet/labels.txt" 2>/dev/null || true
@@ -137,7 +324,7 @@ else
   fail "no .tflite model found under ${APP_DIR}/birdnet/model; detection cannot run"
 fi
 
-ln -sf "${DB}" "${APP_DIR}/birdnet/birds.db"
+link "${DB}" "${APP_DIR}/birdnet/birds.db"
 if [ ! -f "${DB}" ]; then
   info "no database found; creating ${DB} (details in ${LOGS_DIR}/createdb.log)"
   if ! HOME=/home/birdnet USER=birdnet bash "${APP_DIR}/birdnet/createdb.sh" >"${LOGS_DIR}/createdb.log" 2>&1; then
@@ -146,7 +333,7 @@ if [ ! -f "${DB}" ]; then
   fi
 fi
 
-ln -sf "${DBTXT}" "${APP_DIR}/BirdDB.txt"
+link "${DBTXT}" "${APP_DIR}/BirdDB.txt"
 if [ ! -f "${DBTXT}" ]; then
   echo "Date;Time;Sci_Name;Com_Name;Confidence;Lat;Lon;Cutoff;Week;Sens;Overlap" > "${DBTXT}"
 fi

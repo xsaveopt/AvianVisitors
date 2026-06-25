@@ -2,15 +2,19 @@
 
 The collage ships hundreds of transparent AVIF cutouts. Tracking them loose
 bloats the repo with one file per species, so git holds a single
-assets/illustrations.tar instead. photos.py unpacks it before a run and repacks
-it after, build_masks.py unpacks it before reading, and the Docker build
-extracts it into the image. The tar is written deterministically (sorted names,
-zeroed mtime and ownership) so an unchanged set produces a byte-identical
-archive and no spurious git diff.
+assets/illustrations.tar instead. This script is the only thing that touches it:
+run `python archive.py unpack` to restore the loose assets/illustrations/ folder
+from the tar, work on the loose files with photos.py and build_masks.py, then run
+`python archive.py pack` once at the end to write the tar back for committing.
+The Docker build extracts it into the image. The tar is written
+deterministically (sorted names, zeroed mtime and ownership) so an unchanged set
+produces a byte-identical archive and no spurious git diff.
 """
 
 from __future__ import annotations
 
+import argparse
+import sys
 import tarfile
 from pathlib import Path
 
@@ -74,3 +78,25 @@ def pack(illus_dir: Path = ILLUS_DIR, tar_path: Path | None = None) -> int:
         tmp.unlink(missing_ok=True)
         raise
     return len(cutouts)
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Pack or restore the illustrations tar.")
+    ap.add_argument("action", choices=("pack", "unpack"))
+    ap.add_argument("--illustrations", type=Path, default=ILLUS_DIR, help="Cutout directory (default: webui/assets/illustrations/).")
+    args = ap.parse_args(argv)
+    tar = tar_for(args.illustrations)
+    if args.action == "pack":
+        n = pack(args.illustrations)
+        print(f"packed {n} cutout(s) -> {tar}")
+    else:
+        if not tar.exists():
+            print(f"no tar at {tar}", file=sys.stderr)
+            return 1
+        n = unpack(args.illustrations)
+        print(f"restored {n} cutout(s) from {tar.name}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

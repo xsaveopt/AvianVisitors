@@ -29,8 +29,6 @@ import urllib.request
 from io import BytesIO
 from pathlib import Path
 
-import archive
-
 USER_AGENT = "AvianVisitors/1.0 (https://github.com/Twarner491/AvianVisitors)"
 
 VERBOSE = True
@@ -62,8 +60,8 @@ def ingest_rejections(rejected_dir: Path, rejected_path: Path, rejected: dict, c
     pending = sorted(rejected_dir.glob("*.avif")) if rejected_dir.exists() else []
     if not pending:
         return
-    archive = rejected_dir / "processed"
-    archive.mkdir(parents=True, exist_ok=True)
+    processed = rejected_dir / "processed"
+    processed.mkdir(parents=True, exist_ok=True)
     for p in pending:
         slug = p.stem
         cred = credits.get(slug)
@@ -73,9 +71,9 @@ def ingest_rejections(rejected_dir: Path, rejected_path: Path, rejected: dict, c
             print(f"  [reject] {slug}: will avoid {cred.get('image_url') or cred.get('url')}")
         else:
             print(f"  [reject] {slug}: no credit on record, nothing to block")
-        dest, i = archive / p.name, 1
+        dest, i = processed / p.name, 1
         while dest.exists():
-            dest, i = archive / f"{p.stem}-{i}.avif", i + 1
+            dest, i = processed / f"{p.stem}-{i}.avif", i + 1
         p.replace(dest)
     rejected_path.write_text(json.dumps(rejected, indent=2, ensure_ascii=False) + "\n")
 
@@ -134,8 +132,9 @@ WIKI_THUMB_WIDTH = 1600
 MIN_FRAME = 300
 MULTI_BIRD_RATIO = 0.5
 MIN_CUTOUT = 256
-GOOD_CUTOUT = 750
 MATTE_CAP = 15
+EDGE_COVER = 0.45
+CORNER_COVER = 0.2
 
 _NON_PHOTO = re.compile(
     r"range|distribution|locator|\bmap\b|logo|\bicon\b|iucn|"
@@ -290,7 +289,15 @@ def _cutout_side(data: bytes, session, frame_w: int, frame_h: int) -> tuple[int 
     second = int(areas[ranked[1]]) if n > 1 else 0
     if second / largest > MULTI_BIRD_RATIO:
         return None, "multiple birds"
-    ys, xs = np.where(labels == ranked[0])
+    mask = labels == ranked[0]
+    top, bottom = mask[0].mean(), mask[-1].mean()
+    left, right = mask[:, 0].mean(), mask[:, -1].mean()
+    if max(top, bottom, left, right) > EDGE_COVER:
+        return None, "bird runs off the frame"
+    corners = (min(top, left), min(top, right), min(bottom, left), min(bottom, right))
+    if max(corners) > CORNER_COVER:
+        return None, "bird cut off at a corner"
+    ys, xs = np.where(mask)
     bw = (xs.max() - xs.min() + 1) / im.width * frame_w
     bh = (ys.max() - ys.min() + 1) / im.height * frame_h
     side = int(min(bw, bh))
@@ -299,8 +306,8 @@ def _cutout_side(data: bytes, session, frame_w: int, frame_h: int) -> tuple[int 
     return side, ""
 
 
-def _evaluate(info: dict, session, name: str) -> tuple[int, dict] | None:
-    """(cutout min side, hit) for a candidate that is a single-bird close-up,
+def _evaluate(info: dict, session, name: str) -> dict | None:
+    """The hit for a candidate that is a single-bird close-up, or None,
     logging why each candidate is kept or dropped."""
     src = info.get("thumburl") or info.get("url")
     data = _get(src, 40)
@@ -316,17 +323,16 @@ def _evaluate(info: dict, session, name: str) -> tuple[int, dict] | None:
         substep(f"{name} → {reason}, skip")
         return None
     substep(f"{name} → single bird, ~{side}px cutout")
-    return side, {"data": data, "ext": ext, "source": "Wikimedia Commons", **_wiki_credit(info, src)}
+    return {"data": data, "ext": ext, "source": "Wikimedia Commons", **_wiki_credit(info, src)}
 
 
 def fetch_wiki(sci: str, com: str, session, blocked: set) -> dict | None:
-    """The article's preferred photo. Candidates are walked cover-first, then in
-    page order (the photos editors put up top are usually the best), and the
-    first one that is a single-bird shot of at least GOOD_CUTOUT wins, so the
-    cover is used whenever it is decent. Only when the early images are bad or
-    too small do we keep scanning; failing that, the largest valid cutout (by
-    resolution) is the fallback. Images in `blocked` (rejected on an earlier
-    run) are left out."""
+    """The article's lead photo, falling back to the first usable photo in page
+    order if the lead is missing or unusable. We trust the editors' ordering and
+    take the first single-bird shot we find rather than hunting for the
+    highest-resolution file: chasing resolution is what dragged in shared genus
+    plates and other off-subject high-res images over the perfectly good lead.
+    Images in `blocked` (rejected on an earlier run) are left out."""
     for title in (sci.replace(" ", "_"), com.replace(" ", "_")):
         images = _page_images(title)
         if not images:
@@ -344,35 +350,27 @@ def fetch_wiki(sci: str, com: str, session, blocked: set) -> dict | None:
             cands = {k: v for k, v in cands.items() if k not in dropped}
 
         def rank(item: tuple) -> tuple:
-            key, info = item
+            key, _ = item
             if key == lead_key:
                 return (0, 0)
             if key in order:
                 return (1, order[key])
-            return (2, -_min_side(info))
+            return (2, 0)
 
         ordered = sorted(cands.items(), key=rank)
-        step(f"Wikipedia page: {len(cands)} candidate photo(s), cover/top first")
+        step(f"Wikipedia page: {len(cands)} candidate photo(s), lead first")
 
-        best = None
         for i, (key, info) in enumerate(ordered):
             if i >= MATTE_CAP:
                 substep(f"reached the {MATTE_CAP}-photo cap, stopping")
                 break
-            label = "cover" if key == lead_key else f"#{order.get(key, '?')}"
+            label = "lead" if key == lead_key else f"#{order.get(key, '?')}"
             name = f"[{label}] {key.split(':', 1)[-1]} ({info.get('width')}x{info.get('height')})"
-            res = _evaluate(info, session, name)
-            if not res:
-                continue
-            if best is None or res[0] > best[0]:
-                best = res
-            if res[0] >= GOOD_CUTOUT:
-                step("good enough, keeping this one")
-                return res[1]
+            hit = _evaluate(info, session, name)
+            if hit:
+                step("using this one")
+                return hit
 
-        if best:
-            step(f"no image cleared {GOOD_CUTOUT}px; using the largest single-bird cutout found")
-            return best[1]
         step("no single-bird photo found on the page")
     return None
 
@@ -615,7 +613,6 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="Re-do species that already have a cutout.")
     ap.add_argument("--limit", type=int, help="Stop after N species.")
     ap.add_argument("--quiet", action="store_true", help="Only print the per-species result and final summary, not each step.")
-    ap.add_argument("--no-archive", action="store_true", help="Work on loose files only; don't unpack from or repack the illustrations.tar.")
     args = ap.parse_args()
 
     global VERBOSE
@@ -656,10 +653,6 @@ def main() -> int:
 
     licenses = [s.strip() for s in args.licenses.split(",") if s.strip()]
     args.out.mkdir(parents=True, exist_ok=True)
-    if not args.no_archive:
-        restored = archive.unpack(args.out)
-        if restored:
-            print(f"[archive] restored {restored} cutout(s) from {archive.tar_for(args.out).name}")
     raw_dir = args.out / "raw"
 
     credits_path = args.out.parent / "credits.json"
@@ -724,13 +717,7 @@ def main() -> int:
 
     print(f"\ncut {done} · skipped {skipped} (already have) · missed {missed}")
     print(f"credits -> {credits_path}")
-    if not args.no_archive:
-        try:
-            packed = archive.pack(args.out)
-            print(f"[archive] packed {packed} cutout(s) -> {archive.tar_for(args.out)}")
-        except KeyboardInterrupt:
-            print("[interrupted] tar left unchanged; rerun to repack")
-            return 130
+    print("loose cutouts left in assets/illustrations/; run `python archive.py pack` when you're happy with them")
     return 130 if interrupted else 0
 
 
