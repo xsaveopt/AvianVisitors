@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
-import { api, fetchAudioObjectUrl, illustrationPoseUrl, recordingFileUrl } from '@/api/client';
+import { api, fetchAudioObjectUrl, illustrationUrl, recordingFileUrl } from '@/api/client';
 import { useAuthStore } from '@/stores/auth';
 import { useBirdsStore } from '@/stores/birds';
 import { audioClaim, audioRelease } from '@/audio/claim';
@@ -19,7 +19,6 @@ const birds = useBirdsStore();
 const detail = ref<SpeciesDetail | null>(null);
 const wiki = ref<WikiSummary | null>(null);
 const loading = ref(false);
-const pose = ref(2);
 
 const recList = ref<HTMLElement | null>(null);
 const expanded = reactive(new Set<string>());
@@ -305,7 +304,7 @@ onBeforeUnmount(() => {
 });
 
 const genus = computed(() => (props.sci ? props.sci.split(' ')[0] : '-'));
-const imgSrc = computed(() => (props.sci ? illustrationPoseUrl(props.sci, IMG_VERSION, pose.value) : ''));
+const imgSrc = computed(() => (props.sci ? illustrationUrl(props.sci, IMG_VERSION) : ''));
 const summary = computed(() => detail.value?.summary ?? null);
 const allTime = computed(() => fmtN(summary.value ? Number(summary.value.total) : 0));
 const windowCount = computed(() => (props.sci ? (birds.winBySci[props.sci] ?? 0) : 0));
@@ -326,7 +325,6 @@ watch(
     expanded.clear();
     detail.value = null;
     wiki.value = null;
-    pose.value = 2;
     if (!sci) {
       return;
     }
@@ -352,29 +350,6 @@ watch(
       <div class="modal-grid">
         <div class="modal-img">
           <img id="modalImg" :src="imgSrc" :alt="sci ?? ''" />
-          <div v-seg-pill class="pose-toggle" id="modalPoseToggle" role="tablist" aria-label="Pose">
-            <i class="seg-pill" aria-hidden="true"></i>
-            <button type="button" data-pose="1" :aria-current="pose === 1 ? 'true' : 'false'" aria-label="perched" @click="pose = 1">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3.5 6.5 C 4 4, 6 3, 8 4 C 10 3.6, 11.6 4.6, 12 6.5 L 11.5 8 C 11 9.6, 9.4 10.4, 8 10.4 C 6.4 10.4, 4.8 9.6, 4.2 8 Z" />
-                <circle cx="10.6" cy="5.7" r=".4" fill="currentColor" />
-                <path d="M12 6.2 L 13.6 5.8" />
-                <path d="M7.5 10.4 L 7.2 12.2" />
-                <path d="M8.6 10.4 L 8.9 12.2" />
-                <path d="M2 12.6 H 13" />
-              </svg>
-              <span class="tip">perched</span>
-            </button>
-            <button type="button" data-pose="2" :aria-current="pose === 2 ? 'true' : 'false'" aria-label="in flight" @click="pose = 2">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1.5 8 Q 4.5 4, 7.5 7.5 Q 11 4, 14.5 8" />
-                <path d="M7.5 7.5 L 8 9.5" />
-                <circle cx="8.5" cy="7.2" r=".4" fill="currentColor" />
-                <path d="M8.6 7 L 10 6.6" />
-              </svg>
-              <span class="tip">in flight</span>
-            </button>
-          </div>
         </div>
         <div class="modal-info">
           <h2 id="modalCommon">{{ summary?.com ?? sci }}</h2>

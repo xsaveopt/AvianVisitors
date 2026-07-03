@@ -49,9 +49,8 @@ export const cutoutUrl = (sci: string, com: string, version: string): string =>
   (com ? `&com=${encodeURIComponent(com)}` : '') +
   `&v=${version}`;
 
-export const illustrationPoseUrl = (sci: string, version: string, pose: number): string =>
-  `${BASE}/illustration?sci=${encodeURIComponent(sci)}&v=${version}` +
-  (pose > 1 ? `&pose=${pose}` : '');
+export const illustrationUrl = (sci: string, version: string): string =>
+  `${BASE}/illustration?sci=${encodeURIComponent(sci)}&v=${version}`;
 
 async function postJson<T>(path: string, payload: unknown): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {

@@ -108,7 +108,7 @@ def parse_species_list(lines: list[str]) -> tuple[list[tuple[str, str]], int]:
     return out, skipped
 
 
-def ebird_filter(species, region: str, key: str):
+def ebird_filter(species, region: str, key: str, sci_to_com: dict | None = None):
     ebird_codes = set()
     for reg in (r.strip() for r in region.split(",") if r.strip()):
         url = f"https://api.ebird.org/v2/product/spplist/{reg}"
@@ -121,11 +121,27 @@ def ebird_filter(species, region: str, key: str):
         taxonomy = json.loads(r.read())
     code_to = {t["speciesCode"]: (t["sciName"], t.get("comName", "")) for t in taxonomy}
     allowed = {}
+    allowed_com = {}
     for c in ebird_codes:
         if c in code_to:
             sci_name, com_name = code_to[c]
             allowed[sci_name] = com_name
-    return [(s, allowed[s] or c) for s, c in species if s in allowed]
+            if com_name:
+                allowed_com[com_name.casefold()] = com_name
+    sci_to_com = sci_to_com or {}
+    out, recovered = [], []
+    for s, c in species:
+        if s in allowed:
+            out.append((s, allowed[s] or c))
+            continue
+        com = sci_to_com.get(s) or (c if c != s else "")
+        match = allowed_com.get(com.casefold()) if com else None
+        if match:
+            out.append((s, match))
+            recovered.append(f"{s} ({match})")
+    if recovered:
+        print(f"[ebird] recovered {len(recovered)} by common name: {', '.join(recovered)}")
+    return out
 
 
 WIKI_THUMB_WIDTH = 1600
@@ -633,7 +649,12 @@ def main() -> int:
             print("error: --ebird-region needs --ebird-key or EBIRD_API_KEY", file=sys.stderr)
             return 2
         print(f"[ebird] filtering {len(species)} species against {args.ebird_region}...")
-        species = ebird_filter(species, args.ebird_region, ek)
+        sci_to_com = {}
+        if args.labels:
+            en_path = args.labels.parent / "l18n" / "labels_en.json"
+            if en_path.exists():
+                sci_to_com = json.loads(en_path.read_text())
+        species = ebird_filter(species, args.ebird_region, ek, sci_to_com)
 
     if not species:
         print("error: no species to process", file=sys.stderr)

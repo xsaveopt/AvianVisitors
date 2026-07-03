@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { illustrationPoseUrl } from '@/api/client';
+import { illustrationUrl } from '@/api/client';
 import { useBirdsStore } from '@/stores/birds';
 import { layoutCollage, type Tile } from '@/collage/algorithm';
 import { fmtN } from '@/utils/format';
@@ -23,7 +23,7 @@ let resizeTimer: number | undefined;
 let enterTimer: number | undefined;
 
 function imgFor(t: Tile): string {
-  return illustrationPoseUrl(t.data.sci, IMG_VERSION, t.pose);
+  return illustrationUrl(t.data.sci, IMG_VERSION);
 }
 
 function relayout(): void {

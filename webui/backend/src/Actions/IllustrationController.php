@@ -28,22 +28,10 @@ final class IllustrationController
         }
 
         $slug = trim((string) preg_replace('/[^a-z0-9]+/', '-', strtolower($sci)), '-');
-        $pose = (int) ($params['pose'] ?? 1);
-        if ($pose < 1 || $pose > 99) {
-            $pose = 1;
-        }
-        $suffix = $pose === 1 ? '' : "-{$pose}";
 
-        $dir = $this->config->illustrationsDir();
-        $candidates = ["{$dir}/{$slug}{$suffix}.avif"];
-        if ($pose !== 1) {
-            $candidates[] = "{$dir}/{$slug}.avif";
-        }
-
-        foreach ($candidates as $path) {
-            if (is_file($path) && filesize($path) > 1024) {
-                return $this->serveImage($response, $path);
-            }
+        $path = "{$this->config->illustrationsDir()}/{$slug}.avif";
+        if (is_file($path) && filesize($path) > 1024) {
+            return $this->serveImage($response, $path);
         }
 
         return $this->placeholder($response, $sci, (string) ($params['com'] ?? ''));

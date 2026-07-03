@@ -7,7 +7,6 @@ const MASKS = masksData as unknown as Record<string, { w: number; h: number; bit
 
 const GRID_STRIDE = 4;
 const COLLAGE_PAD = 3;
-const FLY_PROB = 0.15;
 
 export interface Mask {
   w: number;
@@ -18,7 +17,6 @@ export interface Mask {
 export interface Tile {
   mask: Mask;
   data: RecentSpecies;
-  pose: number;
   ar: number;
   score: number;
   area: number;
@@ -29,7 +27,6 @@ export interface Tile {
 }
 
 const maskCache: Record<string, Mask> = {};
-const collagePose: Record<string, number> = {};
 
 export function slugify(sci: string): string {
   return sci.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -199,20 +196,8 @@ export function layoutCollage(items: RecentSpecies[], W: number, H: number): Til
 
   const tiles: Tile[] = [];
   for (const s of items) {
-    const base = slugify(s.sci);
-    let pose = collagePose[s.sci];
-    if (pose === undefined) {
-      pose = DIMS[base + '-2'] && Math.random() < FLY_PROB ? 2 : 1;
-      collagePose[s.sci] = pose;
-    }
-    let slug = pose === 2 ? base + '-2' : base;
-    let mask = loadMask(slug);
-    if (!mask && pose === 2) {
-      pose = 1;
-      slug = base;
-      mask = loadMask(slug);
-      collagePose[s.sci] = 1;
-    }
+    const slug = slugify(s.sci);
+    const mask = loadMask(slug);
     if (!mask) {
       continue;
     }
@@ -222,7 +207,6 @@ export function layoutCollage(items: RecentSpecies[], W: number, H: number): Til
     tiles.push({
       mask,
       data: s,
-      pose,
       ar: d ? d[0] / d[1] : 1.4,
       score: Math.pow(Math.max(1, n), T.countExp),
       area: 0,
@@ -232,12 +216,6 @@ export function layoutCollage(items: RecentSpecies[], W: number, H: number): Til
       y: 0,
     });
   }
-
-  const present: Record<string, number> = {};
-  items.forEach((s) => (present[s.sci] = 1));
-  Object.keys(collagePose).forEach((k) => {
-    if (!present[k]) delete collagePose[k];
-  });
 
   const sumScore = tiles.reduce((a, t) => a + t.score, 0) || 1;
   tiles.forEach((t) => {

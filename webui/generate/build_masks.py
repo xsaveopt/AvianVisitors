@@ -72,9 +72,7 @@ def main() -> int:
     args = ap.parse_args()
 
     dims, masks = build_tables(args.illustrations)
-    perched = sum(1 for k in dims if not k.endswith("-2"))
-    flight = sum(1 for k in dims if k.endswith("-2"))
-    print(f"built {len(dims)} masks ({perched} perched + {flight} flight) from {args.illustrations}")
+    print(f"built {len(dims)} masks from {args.illustrations}")
     if not dims:
         print("error: no cutouts found", file=sys.stderr)
         return 1
