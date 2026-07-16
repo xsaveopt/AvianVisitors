@@ -5,15 +5,22 @@ declare(strict_types=1);
 namespace AvianVisitors\Support;
 
 use AvianVisitors\Config;
+use AvianVisitors\Database;
 
 final class SpeciesNames
 {
     public function __construct(
         private readonly Config $config,
+        private readonly Database $db,
     ) {}
 
     public function commonFor(string $sci): ?string
     {
+        $fromDb = $this->commonFromDb($sci);
+        if ($fromDb !== null) {
+            return $fromDb;
+        }
+
         $birds = $this->config->birdsJsonPath();
         if (is_readable($birds)) {
             $list = json_decode((string) file_get_contents($birds), true);
@@ -44,6 +51,24 @@ final class SpeciesNames
             }
         }
 
+        return null;
+    }
+
+    private function commonFromDb(string $sci): ?string
+    {
+        if (!$this->db->exists()) {
+            return null;
+        }
+        try {
+            $name = $this->db->value('SELECT Com_Name FROM detections WHERE Sci_Name = :s ORDER BY Date DESC, Time DESC LIMIT 1', [
+                ':s' => $sci,
+            ]);
+        } catch (\Throwable) {
+            return null;
+        }
+        if (is_string($name) && $name !== '') {
+            return str_replace(' ', '_', $name);
+        }
         return null;
     }
 }

@@ -3,7 +3,7 @@ source /etc/birdnet/birdnet.conf
 
 loop_ffmpeg(){
   while true;do
-    if ! ffmpeg -hide_banner -loglevel $LOGGING_LEVEL -nostdin ${1} -i ${2} -vn -map a:0 -acodec pcm_s16le -ac 2 -ar 48000 -f segment -segment_format wav -segment_time ${RECORDING_LENGTH} -strftime 1 ${RECS_DIR}/StreamData/%F-birdnet-RTSP_${3}-%H:%M:%S.wav
+    if ! ffmpeg -hide_banner -loglevel $LOGGING_LEVEL -nostdin ${1} -i ${2} -vn -map a:0 -acodec pcm_s16le -ac 2 -ar ${SAMPLERATE} -f segment -segment_format wav -segment_time ${RECORDING_LENGTH} -strftime 1 ${RECS_DIR}/StreamData/%F-birdnet-RTSP_${3}-%H:%M:%S.wav
     then
       sleep 1
     fi
@@ -17,6 +17,14 @@ if [ "$LOGGING_LEVEL" == "info" ] || [ "$LOGGING_LEVEL" == "debug" ];then
 fi
 
 [ -z $RECORDING_LENGTH ] && RECORDING_LENGTH=15
+
+[ -z $MODEL ] && MODEL='BirdNET_GLOBAL_6K_V2.4_Model_FP16'
+if [ "$MODEL" == "Perch_v2" ]; then
+  SAMPLERATE=32000
+else
+  SAMPLERATE=48000
+fi
+
 [ -d $RECS_DIR/StreamData ] || mkdir -p $RECS_DIR/StreamData
 
 if [ -n "${RTSP_STREAM}" ];then
@@ -43,10 +51,10 @@ else
     echo "Recording"
   else
     if [ -z ${REC_CARD} ];then
-      arecord -f S16_LE -c${CHANNELS} -r48000 -t wav --max-file-time ${RECORDING_LENGTH}\
+      arecord -f S16_LE -c${CHANNELS} -r ${SAMPLERATE} -t wav --max-file-time ${RECORDING_LENGTH}\
 	      	      	       --use-strftime ${RECS_DIR}/StreamData/%F-birdnet-%H:%M:%S.wav
     else
-      arecord -f S16_LE -c${CHANNELS} -r48000 -t wav --max-file-time ${RECORDING_LENGTH}\
+      arecord -f S16_LE -c${CHANNELS} -r ${SAMPLERATE} -t wav --max-file-time ${RECORDING_LENGTH}\
         -D "${REC_CARD}" --use-strftime ${RECS_DIR}/StreamData/%F-birdnet-%H:%M:%S.wav
     fi
   fi

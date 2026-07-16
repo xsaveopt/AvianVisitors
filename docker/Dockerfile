@@ -38,10 +38,11 @@ RUN set -eux; \
 FROM node:26-bookworm-slim AS webui
 
 WORKDIR /build
-COPY webui/package.json webui/package-lock.json ./
-RUN npm ci
+COPY webui/package.json webui/pnpm-lock.yaml ./
+RUN npm install -g "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1].split('+')[0]")"
+RUN pnpm install --frozen-lockfile
 COPY webui/frontend ./frontend
-RUN npm run build
+RUN pnpm run build
 
 FROM composer:2 AS vendor
 

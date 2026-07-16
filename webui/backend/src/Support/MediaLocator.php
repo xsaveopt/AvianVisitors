@@ -22,10 +22,13 @@ final class MediaLocator
 
     public function validFileName(string $file, string $ext): bool
     {
-        if ($ext === 'mp3') {
-            return (bool) preg_match("/^[A-Za-z0-9_.:'-]+\\.mp3$/", $file);
+        if (str_contains($file, '..')) {
+            return false;
         }
-        return (bool) preg_match("/^[A-Za-z0-9_.:'-]+\\.(mp3|png)$/", $file);
+        if ($ext === 'mp3') {
+            return (bool) preg_match("/^[\\p{L}\\p{N}_.:'-]+\\.mp3$/u", $file);
+        }
+        return (bool) preg_match("/^[\\p{L}\\p{N}_.:'-]+\\.(mp3|png)$/u", $file);
     }
 
     public function findByFile(string $file, string $ext): ?string

@@ -27,7 +27,7 @@ final class Kernel
         $app->addBodyParsingMiddleware();
 
         $db = new Database($config->dbPath());
-        $names = new SpeciesNames($config);
+        $names = new SpeciesNames($config, $db);
         $media = new MediaLocator($config, $names);
         $conf = new Conf($config->confPath());
         $auth = new AuthMiddleware($config, $app->getResponseFactory());

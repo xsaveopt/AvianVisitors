@@ -35,6 +35,11 @@ function relayout(): void {
   const H = el.clientHeight;
   if (!W || !H || !birds.recent.length) {
     placed.value = [];
+    entering.value = true;
+    clearTimeout(enterTimer);
+    enterTimer = window.setTimeout(() => {
+      entering.value = false;
+    }, 700);
     return;
   }
   placed.value = layoutCollage(birds.recent, W, H);
@@ -138,7 +143,10 @@ onBeforeUnmount(() => {
       @mouseleave="onLeave"
       @click="onClick"
     >
-      <p v-if="!placed.length" class="empty">no birds heard in this window.</p>
+      <div v-if="!placed.length" class="empty-nest" :class="{ entering }">
+        <img class="nest-img" src="/nest.webp" alt="an empty nest" decoding="async" />
+        <p class="empty">no birds heard in this window.</p>
+      </div>
       <button
         v-for="t in placed"
         :key="t.data.sci"

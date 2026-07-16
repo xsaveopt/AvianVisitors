@@ -1007,6 +1007,43 @@ body {
   text-transform: uppercase;
 }
 
+.empty-nest {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.empty-nest .nest-img {
+  width: 78%;
+  max-width: 470px;
+  height: auto;
+}
+.empty-nest .empty {
+  padding: 0;
+  margin: 0;
+}
+@keyframes nest-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.empty-nest.entering {
+  animation: nest-in 640ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .empty-nest.entering {
+    animation: none;
+  }
+}
+
 .stats-grid {
   flex: 1 1 auto;
   min-height: 0;
@@ -1846,7 +1883,8 @@ table.admin-tbl button.restart[disabled] {
   margin-bottom: 14px;
 }
 .admin-logs-toolbar select,
-.admin-logs-toolbar input[type="number"] {
+.admin-logs-toolbar input[type="number"],
+.admin-select {
   font:
     12px ui-monospace,
     Menlo,
@@ -1856,6 +1894,9 @@ table.admin-tbl button.restart[disabled] {
   border-radius: 4px;
   background: var(--paper);
   color: var(--ink);
+}
+.admin-select {
+  max-width: 60%;
 }
 .admin-logs-toolbar label {
   font:

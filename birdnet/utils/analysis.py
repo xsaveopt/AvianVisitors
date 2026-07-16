@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 import time
 
 import librosa
@@ -97,9 +98,10 @@ def filter_humans(predictions):
         pass
 
     human_mask = [False] * len(predictions)
+    human = re.compile("(Human|Conversation|Speech|Child_|Female_|Male_|Yell)")
     for i, prediction in enumerate(predictions):
         for p in prediction[:human_cutoff]:
-            if "Human" in p[0]:
+            if human.match(p[0]):
                 human_mask[i] = True
                 break
 

@@ -12,6 +12,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class ConfigController
 {
     private const ALLOWED = [
+        'MODEL' => [
+            'type' => 'enum',
+            'values' => [
+                'BirdNET_GLOBAL_6K_V2.4_Model_FP16',
+                'BirdNET_6K_GLOBAL_MODEL',
+                'BirdNET-Go_classifier_20250916',
+                'Perch_v2',
+            ],
+            'restart' => true,
+        ],
         'CONFIDENCE' => ['type' => 'float', 'min' => 0.05, 'max' => 0.99, 'restart' => true],
         'SENSITIVITY' => ['type' => 'float', 'min' => 0.5, 'max' => 1.5, 'restart' => true],
         'SF_THRESH' => ['type' => 'float', 'min' => 0.0, 'max' => 1.0, 'restart' => true],

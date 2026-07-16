@@ -2,8 +2,10 @@ import logging
 import math
 import operator
 import os
+import tarfile
 
 import numpy as np
+import requests
 
 from .helpers import MODEL_PATH, get_model_labels, get_settings
 
@@ -50,6 +52,26 @@ def get_meta_model(model=None, version=None):
         return MDataModel2(conf.getfloat("SF_THRESH"))
 
 
+def download_file(url, file_path):
+    tmp_file = f"{file_path}_tmp"
+    session = requests.Session()
+    response = session.get(url, stream=True)
+    response.raise_for_status()
+    block_size = 32768
+
+    log.info("Downloading: %s", os.path.basename(file_path))
+    try:
+        with open(tmp_file, "wb") as outfile:
+            for data in response.iter_content(block_size):
+                outfile.write(data)
+    except requests.exceptions.HTTPError:
+        if os.path.exists(tmp_file):
+            os.unlink(tmp_file)
+        raise
+
+    os.rename(tmp_file, file_path)
+
+
 class Basemodel:
     chunk_duration = None
     sample_rate = None
@@ -58,8 +80,9 @@ class Basemodel:
     _output_layer = 0
 
     def __init__(self):
-        model_path = os.path.join(MODEL_PATH, f"{self.model_name}.tflite")
-        self.interpreter = tflite.Interpreter(model_path)
+        self.model_path = os.path.join(MODEL_PATH, f"{self.model_name}.tflite")
+        self.ensure_model()
+        self.interpreter = tflite.Interpreter(self.model_path)
         self.interpreter.allocate_tensors()
         input_details = self.interpreter.get_input_details()
         output_details = self.interpreter.get_output_details()
@@ -81,6 +104,9 @@ class Basemodel:
 
     def get_species_list(self):
         return []
+
+    def ensure_model(self):
+        pass
 
 
 class BirdNet(Basemodel):
@@ -181,9 +207,28 @@ class Perch(Basemodel):
         exp_x = np.exp(logits - np.max(logits))
         return self.label(exp_x / np.sum(exp_x))
 
+    def ensure_model(self):
+        if os.path.exists(self.model_path):
+            return
+        base_url = "https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.11"
+        file = "Perch_v2.tar.gz"
+        tmp_file = os.path.join(MODEL_PATH, file)
+        download_file(f"{base_url}/{file}", tmp_file)
+        log.info("Extracting %s...", file)
+        with tarfile.open(tmp_file, "r:gz") as tar:
+            tar.extractall(MODEL_PATH)
+        os.unlink(tmp_file)
+
 
 class BirdNETGo20250916(BirdNetV2_4):
     model_name = "BirdNET-Go_classifier_20250916"
+
+    def ensure_model(self):
+        if os.path.exists(self.model_path):
+            return
+        base_url = "https://raw.githubusercontent.com/tphakala/birdnet-go-classifiers/refs/heads/main/20250916"
+        for file in ["BirdNET-Go_classifier_20250916_Labels.txt", "BirdNET-Go_classifier_20250916.tflite"]:
+            download_file(f"{base_url}/{file}", os.path.join(MODEL_PATH, file))
 
 
 class MDataModel:

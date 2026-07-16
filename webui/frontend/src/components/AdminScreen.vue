@@ -20,6 +20,13 @@ type SliderKey = 'CONFIDENCE' | 'SENSITIVITY' | 'OVERLAP';
 const sliders = reactive<Record<SliderKey, number>>({ CONFIDENCE: 0, SENSITIVITY: 0, OVERLAP: 0 });
 const preserveOn = ref(false);
 const fullDisk = ref('purge');
+const MODELS: Array<{ value: string; label: string }> = [
+  { value: 'BirdNET_GLOBAL_6K_V2.4_Model_FP16', label: 'BirdNET v2.4 (recommended)' },
+  { value: 'BirdNET-Go_classifier_20250916', label: 'BirdNET-Go 2025-09-16' },
+  { value: 'Perch_v2', label: 'Perch v2 (needs a Pi 5 and 4 GB RAM)' },
+  { value: 'BirdNET_6K_GLOBAL_MODEL', label: 'BirdNET-Lite 2020 (legacy)' },
+];
+const model = ref('BirdNET_GLOBAL_6K_V2.4_Model_FP16');
 const pending = reactive<Record<string, unknown>>({});
 const saveState = ref('');
 const saveCls = ref('');
@@ -152,6 +159,7 @@ async function loadSettings(): Promise<void> {
     sliders.SENSITIVITY = Number(v.SENSITIVITY) || 0;
     sliders.OVERLAP = Number(v.OVERLAP) || 0;
     fullDisk.value = String(v.FULL_DISK ?? 'purge');
+    model.value = String(v.MODEL ?? 'BirdNET_GLOBAL_6K_V2.4_Model_FP16');
     preserveOn.value = cfg.preserve;
     for (const k of Object.keys(pending)) {
       delete pending[k];
@@ -191,6 +199,12 @@ function togglePreserve(): void {
 function setFullDisk(v: string): void {
   fullDisk.value = v;
   pending.FULL_DISK = v;
+  setSaveState('change pending');
+}
+
+function setModel(v: string): void {
+  model.value = v;
+  pending.MODEL = v;
   setSaveState('change pending');
 }
 
@@ -237,6 +251,18 @@ async function saveSettings(): Promise<void> {
               <button type="button" data-theme="light" :aria-current="theme === 'light' ? 'true' : 'false'" @click="setTheme('light')">light</button>
               <button type="button" data-theme="dark" :aria-current="theme === 'dark' ? 'true' : 'false'" @click="setTheme('dark')">dark</button>
             </div>
+          </div>
+
+          <div class="menu-row">
+            <div><span class="label">Detection model</span><span class="hint">external models download on first use</span></div>
+            <select
+              class="admin-select"
+              data-key="MODEL"
+              :value="model"
+              @change="setModel(($event.target as HTMLSelectElement).value)"
+            >
+              <option v-for="m in MODELS" :key="m.value" :value="m.value">{{ m.label }}</option>
+            </select>
           </div>
 
           <div class="menu-row">
