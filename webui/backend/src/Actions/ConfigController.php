@@ -58,7 +58,7 @@ final class ConfigController
             }
             $v = $conf[$k];
             if ($spec['type'] === 'float') {
-                $v = (float) $v;
+                $v = is_numeric($v) ? (float) $v : 0.0;
             } elseif ($spec['type'] === 'int') {
                 $v = (int) $v;
             }
@@ -73,6 +73,7 @@ final class ConfigController
 
     public function post(Request $request, Response $response): Response
     {
+        /** @var array<string, scalar|null>|object|null $body */
         $body = $request->getParsedBody();
         if (!is_array($body)) {
             return Json::error($response, 'bad json', 400);
@@ -90,13 +91,13 @@ final class ConfigController
             }
             $spec = self::ALLOWED[$k];
             if ($spec['type'] === 'float') {
-                $v = (float) $v;
+                $v = is_numeric($v) ? (float) $v : 0.0;
                 if ($v < ($spec['min'] ?? -INF) || $v > ($spec['max'] ?? INF)) {
                     $errors[$k] = 'out of range';
                     continue;
                 }
             } elseif ($spec['type'] === 'int') {
-                $v = (int) $v;
+                $v = is_numeric($v) ? (int) $v : 0;
                 if ($v < ($spec['min'] ?? -PHP_INT_MAX) || $v > ($spec['max'] ?? PHP_INT_MAX)) {
                     $errors[$k] = 'out of range';
                     continue;
@@ -106,7 +107,7 @@ final class ConfigController
                     $errors[$k] = 'invalid value';
                     continue;
                 }
-            } elseif ($spec['type'] === 'string') {
+            } else {
                 $v = (string) $v;
                 if (strlen($v) > ($spec['maxlen'] ?? 200)) {
                     $errors[$k] = 'too long';

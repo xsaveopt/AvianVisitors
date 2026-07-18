@@ -32,20 +32,24 @@ final class Runtime
         sort($bundled);
         $copied = false;
         foreach ($bundled as $illustration) {
-            if (filesize($illustration) > 1024) {
-                copy($illustration, $dest . basename($illustration));
-                $copied = true;
-                break;
+            if (filesize($illustration) <= 1024) {
+                continue;
             }
+
+            copy($illustration, $dest . basename($illustration));
+            $copied = true;
+            break;
         }
         $tar = $webui . '/assets/illustrations.tar';
         if (!$copied && is_file($tar) && class_exists(\PharData::class)) {
             try {
                 foreach (new \PharData($tar) as $entry) {
-                    if ($entry->getSize() > 1024 && str_ends_with($entry->getFilename(), '.avif')) {
-                        copy($entry->getPathname(), $dest . $entry->getFilename());
-                        break;
+                    if (!($entry->getSize() > 1024 && str_ends_with($entry->getFilename(), '.avif'))) {
+                        continue;
                     }
+
+                    copy($entry->getPathname(), $dest . $entry->getFilename());
+                    break;
                 }
             } catch (\Throwable) {
             }
@@ -136,7 +140,7 @@ final class Runtime
         $mp3 = str_repeat("\x00", 256);
         $png =
             base64_decode(
-                'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9' . 'awAAAABJRU5ErkJggg==',
+                'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
                 true,
             ) . str_repeat("\x00", 64);
         foreach ($rows as $r) {

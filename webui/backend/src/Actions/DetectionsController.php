@@ -35,6 +35,7 @@ final class DetectionsController
         $weekSpec = (int) $this->db->value(
             "SELECT COUNT(DISTINCT Sci_Name) FROM detections WHERE Date >= DATE('now','localtime','-7 day')",
         );
+        /** @var string|null $started */
         $started = $this->db->value('SELECT MIN(Date) FROM detections');
 
         return Json::write($response, [
@@ -74,9 +75,9 @@ final class DetectionsController
             $best = $this->db->one('SELECT File_Name AS file, Date AS d, Time AS t, Confidence AS conf FROM detections '
             . 'WHERE Sci_Name = :sn '
             . "AND (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= :hrs "
-            . 'ORDER BY Confidence DESC LIMIT 1', [':sn' => $r['sci'], ':hrs' => $hours]);
+            . 'ORDER BY Confidence DESC LIMIT 1', [':sn' => (string) $r['sci'], ':hrs' => $hours]);
             $r['top_file'] = $best['file'] ?? null;
-            $r['top_at'] = isset($best['d']) ? $best['d'] . ' ' . $best['t'] : null;
+            $r['top_at'] = isset($best['d']) ? (string) $best['d'] . ' ' . (string) ($best['t'] ?? '') : null;
         }
         unset($r);
         return Json::write($response, ['hours' => $hours, 'species' => $rows, 'as_of' => date('c')]);

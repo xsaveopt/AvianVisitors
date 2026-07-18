@@ -30,9 +30,16 @@ final class Database
         return $this->pdo;
     }
 
+    /**
+     * @param array<string, scalar|null> $bind
+     * @return list<array<string, mixed>>
+     */
     public function rows(string $sql, array $bind = []): array
     {
         $stmt = $this->pdo()->prepare($sql);
+        if ($stmt === false) {
+            return [];
+        }
         foreach ($bind as $key => $value) {
             $stmt->bindValue($key, $value, match (true) {
                 is_int($value) => PDO::PARAM_INT,
@@ -42,14 +49,22 @@ final class Database
             });
         }
         $stmt->execute();
-        return $stmt->fetchAll();
+        /** @var list<array<string, mixed>> */
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param array<string, scalar|null> $bind
+     * @return array<string, mixed>|null
+     */
     public function one(string $sql, array $bind = []): ?array
     {
         return $this->rows($sql, $bind)[0] ?? null;
     }
 
+    /**
+     * @param array<string, scalar|null> $bind
+     */
     public function value(string $sql, array $bind = []): mixed
     {
         $row = $this->one($sql, $bind);

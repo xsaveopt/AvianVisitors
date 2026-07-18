@@ -23,16 +23,17 @@ final class SpeciesNames
 
         $birds = $this->config->birdsJsonPath();
         if (is_readable($birds)) {
+            /** @var array<int, array<string, mixed>|scalar>|scalar|null $list */
             $list = json_decode((string) file_get_contents($birds), true);
             if (is_array($list)) {
                 foreach ($list as $row) {
                     if (!is_array($row)) {
                         continue;
                     }
-                    $rowSci = $row['sci'] ?? $row['scientific'] ?? $row['scientificName'] ?? '';
-                    $rowCom = $row['com'] ?? $row['common'] ?? $row['commonName'] ?? '';
-                    if (strcasecmp(trim((string) $rowSci), $sci) === 0 && $rowCom) {
-                        return str_replace(' ', '_', (string) $rowCom);
+                    $rowSci = (string) ($row['sci'] ?? $row['scientific'] ?? $row['scientificName'] ?? '');
+                    $rowCom = (string) ($row['com'] ?? $row['common'] ?? $row['commonName'] ?? '');
+                    if (strcasecmp(trim($rowSci), $sci) === 0 && $rowCom !== '') {
+                        return str_replace(' ', '_', $rowCom);
                     }
                 }
             }
@@ -40,7 +41,7 @@ final class SpeciesNames
 
         $labels = $this->config->labelsPath();
         if (is_readable($labels)) {
-            foreach (file($labels, FILE_IGNORE_NEW_LINES) as $line) {
+            foreach (file($labels, FILE_IGNORE_NEW_LINES) ?: [] as $line) {
                 if (!str_contains($line, '_')) {
                     continue;
                 }
@@ -60,6 +61,7 @@ final class SpeciesNames
             return null;
         }
         try {
+            /** @var scalar|null $name */
             $name = $this->db->value('SELECT Com_Name FROM detections WHERE Sci_Name = :s ORDER BY Date DESC, Time DESC LIMIT 1', [
                 ':s' => $sci,
             ]);

@@ -33,6 +33,7 @@ final class WikiController
         if ($raw === false) {
             return Json::write($response, ['extract' => null, 'thumbnail' => null]);
         }
+        /** @var array{extract?: string, title?: string, thumbnail?: array{source?: string}}|scalar|null $j */
         $j = json_decode($raw, true);
         if (!is_array($j)) {
             return Json::write($response, ['extract' => null, 'thumbnail' => null]);
@@ -40,7 +41,7 @@ final class WikiController
 
         $thumb = $j['thumbnail']['source'] ?? null;
         if ($thumb) {
-            $host = parse_url((string) $thumb, PHP_URL_HOST) ?: '';
+            $host = parse_url($thumb, PHP_URL_HOST) ?: '';
             if (!preg_match('/(?:^|\.)(?:wikimedia\.org|wikipedia\.org)$/i', $host)) {
                 $thumb = null;
             }

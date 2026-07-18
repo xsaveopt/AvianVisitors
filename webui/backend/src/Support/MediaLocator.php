@@ -40,6 +40,7 @@ final class MediaLocator
 
         $byDate = $this->config->byDateDir();
         $date = null;
+        $m = [];
         if (preg_match('/(\d{4}-\d{2}-\d{2})/', $target, $m)) {
             $date = $m[1];
         }
@@ -53,7 +54,7 @@ final class MediaLocator
         }
 
         if (is_dir($byDate)) {
-            foreach (scandir($byDate) as $d) {
+            foreach (scandir($byDate) ?: [] as $d) {
                 if ($d[0] === '.') {
                     continue;
                 }
@@ -105,7 +106,7 @@ final class MediaLocator
         if (!is_dir($dayDir)) {
             return null;
         }
-        foreach (scandir($dayDir) as $sub) {
+        foreach (scandir($dayDir) ?: [] as $sub) {
             if ($sub[0] === '.') {
                 continue;
             }
@@ -119,7 +120,7 @@ final class MediaLocator
 
     private function matchSpeciesDir(string $dayDir, string $want): ?string
     {
-        foreach (scandir($dayDir) as $sub) {
+        foreach (scandir($dayDir) ?: [] as $sub) {
             if ($sub[0] === '.' || !is_dir("{$dayDir}/{$sub}")) {
                 continue;
             }
@@ -132,7 +133,7 @@ final class MediaLocator
 
     private function normalize(string $s): string
     {
-        return preg_replace('/[^a-z0-9]/', '', strtolower($s));
+        return preg_replace('/[^a-z0-9]/', '', strtolower($s)) ?? '';
     }
 
     private function bigEnough(string $path): bool

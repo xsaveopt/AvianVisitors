@@ -35,7 +35,7 @@ final class ConfTest extends TestCase
 
     public function testReadMissingFileReturnsEmpty(): void
     {
-        $this->assertSame([], (new Conf('/no/such/file.conf'))->read());
+        $this->assertSame([], new Conf('/no/such/file.conf')->read());
     }
 
     public function testWriteUpdatesExistingAndPreservesOthers(): void
@@ -66,6 +66,6 @@ final class ConfTest extends TestCase
 
     public function testWriteReturnsFalseWhenUnwritable(): void
     {
-        $this->assertFalse((new Conf('/no/such/dir/birdnet.conf'))->write(['A' => 'b']));
+        $this->assertFalse(new Conf('/no/such/dir/birdnet.conf')->write(['A' => 'b']));
     }
 }

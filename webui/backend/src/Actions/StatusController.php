@@ -119,6 +119,7 @@ final class StatusController
     {
         $raw = $this->shell(self::SUPERVISORCTL . ' status');
         $out = [];
+        $m = [];
         foreach (explode("\n", $raw) as $line) {
             if (!preg_match('/^(\S+)\s+(\S+)\s*(.*)$/', $line, $m)) {
                 continue;
@@ -139,7 +140,8 @@ final class StatusController
     private function uptime(): array
     {
         $up = @file_get_contents('/proc/uptime');
-        $sec = $up ? (float) explode(' ', trim($up))[0] : 0;
+        $first = $up !== false ? explode(' ', trim($up))[0] : '';
+        $sec = is_numeric($first) ? (float) $first : 0.0;
         return [
             'seconds' => $sec,
             'pretty' => $this->humanDuration((int) $sec),
@@ -171,6 +173,8 @@ final class StatusController
     private function mem(): array
     {
         $info = @file_get_contents('/proc/meminfo') ?: '';
+        $t = [];
+        $a = [];
         preg_match('/MemTotal:\s+(\d+)/', $info, $t);
         preg_match('/MemAvailable:\s+(\d+)/', $info, $a);
         $tot = isset($t[1]) ? (int) $t[1] * 1024 : 0;
@@ -188,8 +192,8 @@ final class StatusController
         if (!is_dir($path)) {
             return ['path' => $path, 'error' => 'not found'];
         }
-        $tot = @disk_total_space($path);
-        $free = @disk_free_space($path);
+        $tot = (float) @disk_total_space($path);
+        $free = (float) @disk_free_space($path);
         if (!$tot) {
             return ['path' => $path, 'error' => 'stat failed'];
         }
@@ -215,23 +219,26 @@ final class StatusController
     {
         $cards = [];
         foreach (explode("\n", $this->shell('arecord -l')) as $line) {
-            if (preg_match('/^card \d+:/', $line)) {
-                $cards[] = trim($line);
+            if (!preg_match('/^card \d+:/', $line)) {
+                continue;
             }
+
+            $cards[] = trim($line);
         }
         $usb = $this->shell('lsusb');
         return [
             'arecord_l' => $cards,
-            'usb' => array_values(array_filter(explode("\n", $usb), static function ($l) {
-                return (
+            'usb' => array_values(array_filter(
+                explode("\n", $usb),
+                static fn($l) => (
                     $l !== ''
                     && (
                         stripos($l, 'audio') !== false
                         || stripos($l, 'microphone') !== false
                         || stripos($l, 'mic') !== false
                     )
-                );
-            })),
+                ),
+            )),
         ];
     }
 
@@ -242,9 +249,10 @@ final class StatusController
             return ['exists' => false];
         }
         $files = @scandir($dir, SCANDIR_SORT_DESCENDING) ?: [];
-        $wav = array_values(array_filter($files, static function ($f) {
-            return $f !== '.' && $f !== '..' && preg_match('/\.(wav|mp3|raw)$/i', $f);
-        }));
+        $wav = array_values(array_filter(
+            $files,
+            static fn($f) => $f !== '.' && $f !== '..' && preg_match('/\.(wav|mp3|raw)$/i', $f),
+        ));
         $newestAge = null;
         if (count($wav) > 0) {
             $newestAge = time() - (int) @filemtime("{$dir}/" . $wav[0]);
@@ -289,7 +297,8 @@ final class StatusController
             'RTSP_STREAM',
         ];
         $vals = [];
-        foreach (file($p, FILE_IGNORE_NEW_LINES) as $line) {
+        $m = [];
+        foreach (file($p, FILE_IGNORE_NEW_LINES) ?: [] as $line) {
             if (!$line || $line[0] === '#') {
                 continue;
             }

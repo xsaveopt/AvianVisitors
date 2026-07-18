@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AvianVisitors\Tests;
 
 use AvianVisitors\Config;
+use AvianVisitors\Database;
 use AvianVisitors\Support\SpeciesNames;
 use AvianVisitors\Tests\Support\Runtime;
 use PHPUnit\Framework\TestCase;
@@ -27,7 +28,7 @@ final class SpeciesNamesTest extends TestCase
     private function names(): SpeciesNames
     {
         $config = new Config($this->appDir, $this->appDir . '/BirdSongs', $this->appDir . '/logs', 'admin', '', 'ua');
-        return new SpeciesNames($config);
+        return new SpeciesNames($config, new Database($config->dbPath()));
     }
 
     private function writeBirds(string $json): void

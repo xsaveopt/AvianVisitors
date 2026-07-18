@@ -68,7 +68,7 @@ final class MediaController
         bool $acceptRanges,
         int $maxAge,
     ): Response {
-        $stream = (new StreamFactory())->createStreamFromFile($path);
+        $stream = new StreamFactory()->createStreamFromFile($path);
         $response = $response
             ->withHeader('Content-Type', $contentType)
             ->withHeader('Content-Length', (string) filesize($path))

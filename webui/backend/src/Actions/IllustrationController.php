@@ -30,7 +30,7 @@ final class IllustrationController
         $slug = trim((string) preg_replace('/[^a-z0-9]+/', '-', strtolower($sci)), '-');
 
         $path = "{$this->config->illustrationsDir()}/{$slug}.avif";
-        if (is_file($path) && filesize($path) > 1024) {
+        if (is_file($path) && (int) filesize($path) > 1024) {
             return $this->serveImage($response, $path);
         }
 
@@ -39,7 +39,7 @@ final class IllustrationController
 
     private function serveImage(Response $response, string $path): Response
     {
-        $stream = (new StreamFactory())->createStreamFromFile($path);
+        $stream = new StreamFactory()->createStreamFromFile($path);
         return $response
             ->withHeader('Content-Type', 'image/avif')
             ->withHeader('Cache-Control', 'public, max-age=86400')

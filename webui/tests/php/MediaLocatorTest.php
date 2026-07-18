@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AvianVisitors\Tests;
 
 use AvianVisitors\Config;
+use AvianVisitors\Database;
 use AvianVisitors\Support\MediaLocator;
 use AvianVisitors\Support\SpeciesNames;
 use AvianVisitors\Tests\Support\Runtime;
@@ -31,7 +32,7 @@ final class MediaLocatorTest extends TestCase
     private function locator(): MediaLocator
     {
         $config = new Config($this->appDir, $this->songs, $this->appDir . '/logs', 'admin', '', 'ua');
-        return new MediaLocator($config, new SpeciesNames($config));
+        return new MediaLocator($config, new SpeciesNames($config, new Database($config->dbPath())));
     }
 
     private function putMedia(string $date, string $dir, string $file, int $size): string

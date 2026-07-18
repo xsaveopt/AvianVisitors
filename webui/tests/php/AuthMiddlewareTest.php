@@ -23,7 +23,7 @@ final class AuthMiddlewareTest extends TestCase
         return new class implements Handler {
             public function handle(Request $request): Response
             {
-                return (new ResponseFactory())->createResponse(200);
+                return new ResponseFactory()->createResponse(200);
             }
         };
     }
@@ -36,7 +36,7 @@ final class AuthMiddlewareTest extends TestCase
 
     private function dispatch(#[\SensitiveParameter] string $password, array $headers): int
     {
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/api/menu');
+        $request = new ServerRequestFactory()->createServerRequest('GET', '/api/menu');
         foreach ($headers as $k => $v) {
             $request = $request->withHeader($k, $v);
         }

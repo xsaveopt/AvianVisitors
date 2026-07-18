@@ -15,7 +15,7 @@ final class SlimPublicApiTest extends SlimTestCase
 
     private function today(): string
     {
-        return (new DateTimeImmutable('now'))->format('Y-m-d');
+        return new DateTimeImmutable('now')->format('Y-m-d');
     }
 
     public function testStatsContract(): void

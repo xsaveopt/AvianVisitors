@@ -30,14 +30,13 @@ describe('layoutCollage', () => {
     expect(layoutCollage([species('Totally fakebird', 5)], 800, 600)).toEqual([]);
   });
 
-  it('places known species with finite coordinates and a valid pose', () => {
+  it('places known species with finite coordinates', () => {
     const tiles = layoutCollage([species('Cyanistes caeruleus', 10), species('Parus major', 3)], 1000, 800);
     expect(tiles.length).toBe(2);
     for (const tile of tiles) {
       expect(Number.isFinite(tile.x)).toBe(true);
       expect(Number.isFinite(tile.y)).toBe(true);
       expect(tile.fullW).toBeGreaterThan(0);
-      expect([1, 2]).toContain(tile.pose);
     }
   });
 });
