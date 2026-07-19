@@ -4,11 +4,11 @@ version = "0.0.1"
 description = "Creative-Commons bird photo fetch + BiRefNet cutout pipeline for the AvianVisitors collage."
 requires-python = ">=3.13"
 dependencies = [
-    "pillow>=11.0",
+    "pillow>=12.3.0",
     "pillow-avif-plugin>=1.4",
-    "rembg>=2.0.76",
+    "rembg>=2.0.77",
     "onnxruntime>=1.22",
-    "numpy>=2.5.0",
+    "numpy>=2.5.1",
 ]
 
 [tool.uv]
