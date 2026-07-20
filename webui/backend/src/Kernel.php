@@ -35,6 +35,7 @@ final class Kernel
         $detections = new DetectionsController($db);
         $wiki = new WikiController($config);
         $illustration = new IllustrationController($config);
+        $publicIllustration = new IllustrationController($config, $db, true);
         $mediaController = new MediaController($media);
         $configController = new ConfigController($conf);
         $menu = new MenuController();
@@ -43,6 +44,8 @@ final class Kernel
         $app->get('/api/stats', [$detections, 'stats']);
         $app->get('/api/lifelist', [$detections, 'lifelist']);
         $app->get('/api/recent', [$detections, 'recent']);
+        $app->get('/api/collage', [$detections, 'collage']);
+        $app->get('/api/collage/illustration', $publicIllustration);
         $app->get('/api/species', [$detections, 'species']);
         $app->get('/api/timeseries', [$detections, 'timeseries']);
         $app->get('/api/firstseen', [$detections, 'firstseen']);

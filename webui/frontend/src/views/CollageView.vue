@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { illustrationUrl } from '@/api/client';
-import { useBirdsStore } from '@/stores/birds';
-import { layoutCollage, type Tile } from '@/collage/algorithm';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { layoutCollage, type CollageSpecies, type Tile } from '@/collage/algorithm';
 import { fmtN } from '@/utils/format';
 
-const IMG_VERSION = 'r11';
-
-const birds = useBirdsStore();
+const props = defineProps<{
+  species: CollageSpecies[];
+  illustration: (sci: string) => string;
+  nestSrc: string;
+  windowLabel: string;
+}>();
 const emit = defineEmits<{ open: [sci: string] }>();
 
 const root = ref<HTMLElement | null>(null);
@@ -23,7 +24,7 @@ let resizeTimer: number | undefined;
 let enterTimer: number | undefined;
 
 function imgFor(t: Tile): string {
-  return illustrationUrl(t.data.sci, IMG_VERSION);
+  return props.illustration(t.data.sci);
 }
 
 function relayout(): void {
@@ -33,7 +34,7 @@ function relayout(): void {
   }
   const W = el.clientWidth;
   const H = el.clientHeight;
-  if (!W || !H || !birds.recent.length) {
+  if (!W || !H || !props.species.length) {
     placed.value = [];
     entering.value = true;
     clearTimeout(enterTimer);
@@ -42,7 +43,7 @@ function relayout(): void {
     }, 700);
     return;
   }
-  placed.value = layoutCollage(birds.recent, W, H);
+  placed.value = layoutCollage(props.species, W, H);
   playEntrance();
 }
 
@@ -123,7 +124,7 @@ onMounted(() => {
     observer = new ResizeObserver(() => scheduleRelayout());
     observer.observe(root.value);
   }
-  birds.$subscribe(() => scheduleRelayout());
+  watch(() => props.species, () => scheduleRelayout());
 });
 
 onBeforeUnmount(() => {
@@ -144,7 +145,7 @@ onBeforeUnmount(() => {
       @click="onClick"
     >
       <div v-if="!placed.length" class="empty-nest" :class="{ entering }">
-        <img class="nest-img" src="/nest.webp" alt="an empty nest" decoding="async" />
+        <img class="nest-img" :src="nestSrc" alt="an empty nest" decoding="async" />
         <p class="empty">no birds heard in this window.</p>
       </div>
       <button
@@ -171,7 +172,7 @@ onBeforeUnmount(() => {
           <span class="ct-name">{{ tip.com }}</span>
           <span class="ct-w"> - </span>
           <span class="ct-n">{{ fmtN(tip.n) }}</span>
-          <span class="ct-w"> {{ tip.n === 1 ? 'call' : 'calls' }} {{ birds.windowLabel }}</span>
+          <span class="ct-w"> {{ tip.n === 1 ? 'call' : 'calls' }} {{ windowLabel }}</span>
         </template>
       </div>
     </div>

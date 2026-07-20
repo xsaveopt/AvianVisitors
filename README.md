@@ -29,6 +29,7 @@ The Node, PHP, and Python toolchain is current, and the detection, backend, and 
 - [The microphone](#the-microphone)
 - [Container variables](#container-variables)
 - [The admin login](#the-admin-login)
+- [A public gallery](#a-public-gallery)
 - [Making more bird pictures](#making-more-bird-pictures)
 - [Updating](#updating)
 - [Where your data lives](#where-your-data-lives)
@@ -83,14 +84,16 @@ docker compose up -d
 
 ## Container variables
 
-| Variable          | What it does                                                                |
-| ----------------- | --------------------------------------------------------------------------- |
-| BIRDNET_REC_CARD  | ALSA card for the mic, like plughw:1,0 (default `default`)                  |
-| BIRDNET_CHANNELS  | Mic channel count, 1 or 2 (default 2)                                       |
-| BIRDNET_LATITUDE  | Your latitude for the range filter, guessed from your connection when empty |
-| BIRDNET_LONGITUDE | Your longitude                                                              |
-| AV_ADMIN_USER     | Admin username, must be set to enable the login                             |
-| AV_ADMIN_PASSWORD | Admin password, must be set to enable the login                             |
+| Variable          | What it does                                                                        |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| BIRDNET_REC_CARD  | ALSA card for the mic, like plughw:1,0 (default `default`)                          |
+| BIRDNET_CHANNELS  | Mic channel count, 1 or 2 (default 2)                                               |
+| BIRDNET_LATITUDE  | Your latitude for the range filter, guessed from your connection when empty         |
+| BIRDNET_LONGITUDE | Your longitude                                                                      |
+| AV_ADMIN_USER     | Admin username, must be set to enable the login                                     |
+| AV_ADMIN_PASSWORD | Admin password, must be set to enable the login                                     |
+| AV_PUBLIC_GALLERY | Set to `true` to serve the locked-down public gallery on port 8081 (off by default) |
+| AV_PUBLIC_PATH    | Optional path to mount that gallery under, like /birds; empty serves it at the root |
 
 Everything past these knobs is in /data/birdnet.conf and the settings page.
 
@@ -112,6 +115,42 @@ docker compose up -d
 
 Open the menu on the page and enter that username and password to unlock the tools.
 Setting only one of the two leaves the login off, so set both.
+
+## A public gallery
+
+The main page on port 80 is the whole app, with the menu, the stats, the atlas, and the admin tools behind it, so it is meant for you and your own network.
+When you want to let the outside world watch your birds without handing them any of that, there is a second, stripped-down page for exactly this.
+
+Set AV_PUBLIC_GALLERY to true and the container serves a hardened gallery on port 8081.
+It shows only the collage of what has been heard in the last 24 hours and nothing else, with no menu, no stats, no atlas, and nothing to click through to.
+
+This is a separate build, not the real app with things hidden.
+The page a visitor downloads contains only the collage, so it carries none of the admin screens, none of the login code, and no list of the private api paths.
+It talks to exactly one endpoint that returns just the species names and how many times each was heard, with no timestamps, no confidence scores and no recording filenames, and the pictures it can request are limited to the species actually in that 24 hour window.
+Everything else on that port answers with a bare 404.
+
+```yaml
+environment:
+  AV_PUBLIC_GALLERY: "true"
+```
+
+For reverse proxies:
+Subdomain:
+
+```caddy
+gallery.example.com {
+    reverse_proxy 127.0.0.1:8081
+}
+```
+
+Subpath:
+`AV_PUBLIC_PATH=/birds`
+
+```caddy
+example.com {
+    reverse_proxy /birds* 127.0.0.1:8081
+}
+```
 
 ## Making more bird pictures
 

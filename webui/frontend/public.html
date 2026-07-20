@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>your birds</title>
+    <meta name="description" content="A live bird collage from your window." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <script>
+      window.__AV_BASE__ = '__AV_BASE_PATH__';
+      try {
+        if (localStorage.getItem('bird:theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body class="av-local av-public">
+    <div id="app"></div>
+    <script type="module" src="/src/public/main.ts"></script>
+  </body>
+</html>

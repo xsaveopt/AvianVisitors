@@ -50,7 +50,40 @@ final class SlimPublicApiTest extends SlimTestCase
         $week = $this->json('GET', '/api/recent?hours=168');
         $this->assertCount(2, $day['data']['species']);
         $this->assertCount(3, $week['data']['species']);
-        $this->assertNotNull($day['data']['species'][0]['top_file']);
+        $top = $day['data']['species'][0];
+        foreach (['sci', 'com', 'n', 'best_conf', 'last_seen'] as $key) {
+            $this->assertArrayHasKey($key, $top);
+        }
+        $this->assertArrayNotHasKey('top_file', $top);
+        $this->assertArrayNotHasKey('top_at', $top);
+    }
+
+    public function testCollageReturnsMinimalPayload(): void
+    {
+        $res = $this->json('GET', '/api/collage');
+        $this->assertSame(200, $res['status']);
+        $species = $res['data']['species'];
+        $this->assertCount(2, $species);
+        $this->assertSame('Calypte anna', $species[0]['sci']);
+        $this->assertSame(3, $species[0]['n']);
+        $this->assertSame(['sci', 'com', 'n'], array_keys($species[0]));
+        $this->assertArrayNotHasKey('hours', $res['data']);
+        $this->assertArrayNotHasKey('as_of', $res['data']);
+    }
+
+    public function testPublicIllustrationOnlyServesRecentSpecies(): void
+    {
+        $inWindow = $this->request('GET', '/api/collage/illustration?sci=' . rawurlencode('Calypte anna'));
+        $this->assertSame(200, $inWindow['status']);
+
+        $olderThanWindow = $this->request('GET', '/api/collage/illustration?sci=' . rawurlencode('Turdus migratorius'));
+        $this->assertSame(404, $olderThanWindow['status']);
+
+        $bad = $this->request('GET', '/api/collage/illustration?sci=' . rawurlencode('not valid 123'));
+        $this->assertSame(400, $bad['status']);
+
+        $unrestricted = $this->request('GET', '/api/illustration?sci=' . rawurlencode('Turdus migratorius'));
+        $this->assertSame(200, $unrestricted['status']);
     }
 
     public function testSpeciesDetail(): void

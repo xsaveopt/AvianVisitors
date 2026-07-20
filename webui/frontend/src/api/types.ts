@@ -22,8 +22,6 @@ export interface RecentSpecies {
   n: number;
   best_conf: number;
   last_seen: string;
-  top_file: string | null;
-  top_at: string | null;
 }
 
 export interface Detection {

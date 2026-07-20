@@ -71,16 +71,20 @@ final class DetectionsController
         . "MAX(Date||' '||Time) AS last_seen FROM detections "
         . "WHERE (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= :hrs "
         . 'GROUP BY Sci_Name ORDER BY last_seen DESC', [':hrs' => $hours]);
-        foreach ($rows as &$r) {
-            $best = $this->db->one('SELECT File_Name AS file, Date AS d, Time AS t, Confidence AS conf FROM detections '
-            . 'WHERE Sci_Name = :sn '
-            . "AND (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= :hrs "
-            . 'ORDER BY Confidence DESC LIMIT 1', [':sn' => (string) $r['sci'], ':hrs' => $hours]);
-            $r['top_file'] = $best['file'] ?? null;
-            $r['top_at'] = isset($best['d']) ? (string) $best['d'] . ' ' . (string) ($best['t'] ?? '') : null;
-        }
-        unset($r);
         return Json::write($response, ['hours' => $hours, 'species' => $rows, 'as_of' => date('c')]);
+    }
+
+    public function collage(Request $request, Response $response): Response
+    {
+        if (($guard = $this->guard($response)) !== null) {
+            return $guard;
+        }
+        $rows = $this->db->rows(
+            'SELECT Sci_Name AS sci, Com_Name AS com, COUNT(*) AS n FROM detections '
+            . "WHERE (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= 24 "
+            . 'GROUP BY Sci_Name ORDER BY n DESC',
+        );
+        return Json::write($response, ['species' => $rows]);
     }
 
     public function species(Request $request, Response $response): Response

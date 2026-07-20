@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AvianVisitors\Actions;
 
 use AvianVisitors\Config;
+use AvianVisitors\Database;
 use AvianVisitors\Support\Json;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,6 +15,8 @@ final class IllustrationController
 {
     public function __construct(
         private readonly Config $config,
+        private readonly ?Database $db = null,
+        private readonly bool $restrictToRecent = false,
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
@@ -27,6 +30,10 @@ final class IllustrationController
             return Json::error($response, 'invalid sci', 400);
         }
 
+        if ($this->restrictToRecent && $this->db !== null && !$this->heardRecently($sci)) {
+            return $response->withStatus(404);
+        }
+
         $slug = trim((string) preg_replace('/[^a-z0-9]+/', '-', strtolower($sci)), '-');
 
         $path = "{$this->config->illustrationsDir()}/{$slug}.avif";
@@ -35,6 +42,17 @@ final class IllustrationController
         }
 
         return $this->placeholder($response, $sci, (string) ($params['com'] ?? ''));
+    }
+
+    private function heardRecently(string $sci): bool
+    {
+        if ($this->db === null) {
+            return false;
+        }
+        $hit = $this->db->one('SELECT 1 FROM detections '
+        . "WHERE Sci_Name = :sn AND (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= 24 "
+        . 'LIMIT 1', [':sn' => $sci]);
+        return $hit !== null;
     }
 
     private function serveImage(Response $response, string $path): Response

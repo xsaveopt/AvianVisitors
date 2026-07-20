@@ -121,7 +121,7 @@ RUN rm -f /etc/php/8.5/fpm/pool.d/www.conf \
  && chown -h birdnet:birdnet /home/birdnet/BirdSongs
 
 VOLUME ["/data"]
-EXPOSE 8080
+EXPOSE 8080 8081
 
 USER birdnet
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

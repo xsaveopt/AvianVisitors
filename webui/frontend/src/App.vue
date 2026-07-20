@@ -9,10 +9,13 @@ import AdminScreen from '@/components/AdminScreen.vue';
 import CollageView from '@/views/CollageView.vue';
 import StatsView from '@/views/StatsView.vue';
 import AtlasView from '@/views/AtlasView.vue';
+import { illustrationUrl } from '@/api/client';
 import { useBirdsStore } from '@/stores/birds';
 import { useAuthStore } from '@/stores/auth';
 import { useHashRoute } from '@/composables/useHashRoute';
 import { useTheme } from '@/composables/useTheme';
+
+const IMG_VERSION = 'r11';
 
 const { sync: syncTheme } = useTheme();
 const birds = useBirdsStore();
@@ -30,6 +33,10 @@ const selectedSci = computed(() => route.value.sci);
 
 function openSpecies(sci: string): void {
   go('#sci=' + encodeURIComponent(sci));
+}
+
+function collageIllustration(sci: string): string {
+  return illustrationUrl(sci, IMG_VERSION);
 }
 
 watch(
@@ -76,7 +83,13 @@ onMounted(() => {
       <h1 id="staticTitle">{{ title }}</h1>
     </header>
     <div class="views" id="views" :style="{ transform: viewsTransform }">
-      <CollageView @open="openSpecies" />
+      <CollageView
+        :species="birds.recent"
+        :illustration="collageIllustration"
+        nest-src="/nest.webp"
+        :window-label="birds.windowLabel"
+        @open="openSpecies"
+      />
       <StatsView @open="openSpecies" />
       <AtlasView @open="openSpecies" />
     </div>

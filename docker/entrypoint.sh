@@ -13,10 +13,10 @@ DBTXT=${DATA_DIR}/BirdDB.txt
 UID_IN=$(id -u)
 GID_IN=$(id -g)
 
-PORTS_INTERNAL="8080 8000 8501"
+PORTS_INTERNAL="8080 8081 8000 8501"
 EXEC_MOUNTS=""
 REQUIRED_RW="${DATA_DIR}"
-ENV_REPORT="BIRDNET_REC_CARD BIRDNET_CHANNELS BIRDNET_LATITUDE BIRDNET_LONGITUDE RTSP_STREAM AV_ADMIN_USER AV_ADMIN_PASSWORD"
+ENV_REPORT="BIRDNET_REC_CARD BIRDNET_CHANNELS BIRDNET_LATITUDE BIRDNET_LONGITUDE RTSP_STREAM AV_ADMIN_USER AV_ADMIN_PASSWORD AV_PUBLIC_GALLERY AV_PUBLIC_PATH"
 ENV_SECRET="AV_ADMIN_PASSWORD"
 NET_DNS_TARGET="cloudflare.com"
 NET_TCP_TARGET="1.1.1.1:443"
@@ -311,6 +311,7 @@ if [ -d "${APP_DIR}/webui" ]; then
   link "${APP_DIR}/webui"                            "${EXTRACTED}/webui"
   link "${APP_DIR}/webui/frontend/dist/index.html"   "${EXTRACTED}/index.html"
   link "${APP_DIR}/webui/frontend/dist/assets"       "${EXTRACTED}/assets"
+  link "${APP_DIR}/webui/frontend/dist/nest.webp"    "${EXTRACTED}/nest.webp"
   link "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.png"
   link "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.ico"
 fi
@@ -430,6 +431,88 @@ if [ -f /etc/icecast2/icecast.xml ]; then
   done
 fi
 
+append_public_gallery() {
+  if [ "${AV_PUBLIC_GALLERY:-false}" != "true" ]; then
+    note "public gallery disabled (set AV_PUBLIC_GALLERY=true to serve the last-24h collage on port 8081)"
+    return
+  fi
+
+  local raw sub pub
+  raw=$(printf '%s' "${AV_PUBLIC_PATH:-}" | tr -cd 'A-Za-z0-9/_-')
+  raw="${raw#/}"
+  raw="${raw%/}"
+  if [ -n "$raw" ]; then sub="/${raw}"; else sub=""; fi
+
+  pub=/home/birdnet/run/public.html
+  cp "${APP_DIR}/webui/frontend/dist/public.html" "$pub"
+  sed -i "s|__AV_BASE_PATH__|${sub}|g" "$pub"
+  link "$pub" "${EXTRACTED}/public.html"
+
+  if [ -z "$sub" ]; then
+    cat >> "${CADDY_OUT}" <<'EOF'
+
+:8081 {
+	root * /home/birdnet/BirdSongs/Extracted
+
+	handle /api/collage* {
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+	handle /assets/* {
+		file_server
+	}
+	@pubfiles path /favicon.png /favicon.ico /nest.webp
+	handle @pubfiles {
+		file_server
+	}
+	handle / {
+		rewrite * /public.html
+		file_server
+	}
+	handle {
+		respond 404
+	}
+}
+EOF
+    info "public gallery enabled on port 8081 at / (last 24h collage only)"
+  else
+    cat >> "${CADDY_OUT}" <<EOF
+
+:8081 {
+	root * /home/birdnet/BirdSongs/Extracted
+
+	handle ${sub}/api/collage* {
+		uri strip_prefix ${sub}
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+	handle ${sub}/assets/* {
+		uri strip_prefix ${sub}
+		file_server
+	}
+	@pubfiles path ${sub}/favicon.png ${sub}/favicon.ico ${sub}/nest.webp
+	handle @pubfiles {
+		uri strip_prefix ${sub}
+		file_server
+	}
+	handle ${sub} {
+		redir ${sub}/ 308
+	}
+	handle ${sub}/ {
+		rewrite * /public.html
+		file_server
+	}
+	handle {
+		respond 404
+	}
+}
+EOF
+    info "public gallery enabled on port 8081 at ${sub}/ (last 24h collage only)"
+  fi
+}
+
 CADDY_TMPL=/etc/caddy/Caddyfile.tmpl
 CADDY_OUT=/etc/caddy/Caddyfile
 if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -z "${AV_ADMIN_USER:-}" ]; then
@@ -489,6 +572,8 @@ else
   cp "${CADDY_TMPL}" "${CADDY_OUT}"
   warn "admin auth disabled; recordings, livestream, stats and admin tools are PUBLIC (set both AV_ADMIN_USER and AV_ADMIN_PASSWORD to enable)"
 fi
+
+append_public_gallery
 
 info "preflight complete; launching services"
 exec "$@"

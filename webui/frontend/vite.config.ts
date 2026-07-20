@@ -11,9 +11,16 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  base: './',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        index: fileURLToPath(new URL('./index.html', import.meta.url)),
+        public: fileURLToPath(new URL('./public.html', import.meta.url)),
+      },
+    },
   },
   server: {
     proxy: {

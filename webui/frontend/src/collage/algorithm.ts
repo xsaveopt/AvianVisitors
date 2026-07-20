@@ -1,6 +1,11 @@
 import dimsData from './data/dims.json';
 import masksData from './data/masks.json';
-import type { RecentSpecies } from '@/api/types';
+
+export interface CollageSpecies {
+  sci: string;
+  com: string;
+  n: number;
+}
 
 const DIMS = dimsData as unknown as Record<string, [number, number]>;
 const MASKS = masksData as unknown as Record<string, { w: number; h: number; bits: string }>;
@@ -16,7 +21,7 @@ export interface Mask {
 
 export interface Tile {
   mask: Mask;
-  data: RecentSpecies;
+  data: CollageSpecies;
   ar: number;
   score: number;
   area: number;
@@ -188,7 +193,7 @@ function maskPack(tiles: Tile[], W: number, H: number, xBias: number, yBias: num
   return placed;
 }
 
-export function layoutCollage(items: RecentSpecies[], W: number, H: number): Tile[] {
+export function layoutCollage(items: CollageSpecies[], W: number, H: number): Tile[] {
   const T = tuning(items.length);
   const vpArea = W * H;
   const budget = vpArea * T.packingBudgetFrac;
