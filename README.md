@@ -148,7 +148,8 @@ Subpath:
 
 ```caddy
 example.com {
-    reverse_proxy /birds* 127.0.0.1:8081
+    redir /birds /birds/
+    reverse_proxy /birds/* 127.0.0.1:8081
 }
 ```
 
