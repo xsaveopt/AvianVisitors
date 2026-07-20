@@ -479,9 +479,13 @@ EOF
 	root * /home/birdnet/BirdSongs/Extracted
 
 	handle ${sub}/api/collage* {
-		uri strip_prefix ${sub}
-		php_fastcgi unix//run/php/php-fpm.sock {
-			try_files /webui/backend/public/index.php
+		route {
+			uri strip_prefix ${sub}
+			vars stripped {http.request.uri}
+			php_fastcgi unix//run/php/php-fpm.sock {
+				try_files /webui/backend/public/index.php
+				env REQUEST_URI {vars.stripped}
+			}
 		}
 	}
 	handle ${sub}/assets/* {
