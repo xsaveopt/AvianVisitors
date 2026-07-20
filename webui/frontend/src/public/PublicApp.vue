@@ -2,11 +2,10 @@
 import { onMounted, ref } from 'vue';
 import CollageView from '@/views/CollageView.vue';
 import type { CollageSpecies } from '@/collage/algorithm';
-import { BASE_PATH } from '@/env';
 import { collageIllustrationUrl, fetchCollage } from './api';
 
 const species = ref<CollageSpecies[]>([]);
-const nestSrc = `${BASE_PATH}/nest.webp`;
+const nestSrc = 'nest.webp';
 
 onMounted(async () => {
   species.value = await fetchCollage();

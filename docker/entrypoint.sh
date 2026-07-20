@@ -310,6 +310,7 @@ set +a
 if [ -d "${APP_DIR}/webui" ]; then
   link "${APP_DIR}/webui"                            "${EXTRACTED}/webui"
   link "${APP_DIR}/webui/frontend/dist/index.html"   "${EXTRACTED}/index.html"
+  link "${APP_DIR}/webui/frontend/dist/public.html"  "${EXTRACTED}/public.html"
   link "${APP_DIR}/webui/frontend/dist/assets"       "${EXTRACTED}/assets"
   link "${APP_DIR}/webui/frontend/dist/nest.webp"    "${EXTRACTED}/nest.webp"
   link "${APP_DIR}/webui/frontend/dist/favicon.png"  "${EXTRACTED}/favicon.png"
@@ -437,16 +438,11 @@ append_public_gallery() {
     return
   fi
 
-  local raw sub pub
+  local raw sub
   raw=$(printf '%s' "${AV_PUBLIC_PATH:-}" | tr -cd 'A-Za-z0-9/_-')
   raw="${raw#/}"
   raw="${raw%/}"
   if [ -n "$raw" ]; then sub="/${raw}"; else sub=""; fi
-
-  pub=/home/birdnet/run/public.html
-  cp "${APP_DIR}/webui/frontend/dist/public.html" "$pub"
-  sed -i "s|__AV_BASE_PATH__|${sub}|g" "$pub"
-  link "$pub" "${EXTRACTED}/public.html"
 
   if [ -z "$sub" ]; then
     cat >> "${CADDY_OUT}" <<'EOF'
