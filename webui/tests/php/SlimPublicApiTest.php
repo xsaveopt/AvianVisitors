@@ -71,6 +71,21 @@ final class SlimPublicApiTest extends SlimTestCase
         $this->assertArrayNotHasKey('as_of', $res['data']);
     }
 
+    public function testCollageRecentReturnsHardenedFeed(): void
+    {
+        $res = $this->json('GET', '/api/collage/recent');
+        $this->assertSame(200, $res['status']);
+        $recent = $res['data']['recent'];
+        $this->assertCount(4, $recent);
+        $this->assertSame(['sci', 'com', 'ago'], array_keys($recent[0]));
+        $this->assertIsInt($recent[0]['ago']);
+        $this->assertGreaterThanOrEqual(0, $recent[0]['ago']);
+        foreach ($recent as $row) {
+            $this->assertArrayNotHasKey('file', $row);
+            $this->assertArrayNotHasKey('best_conf', $row);
+        }
+    }
+
     public function testPublicIllustrationOnlyServesRecentSpecies(): void
     {
         $inWindow = $this->request('GET', '/api/collage/illustration?sci=' . rawurlencode('Calypte anna'));

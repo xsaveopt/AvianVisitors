@@ -87,6 +87,20 @@ final class DetectionsController
         return Json::write($response, ['species' => $rows]);
     }
 
+    public function collageRecent(Request $request, Response $response): Response
+    {
+        if (($guard = $this->guard($response)) !== null) {
+            return $guard;
+        }
+        $rows = $this->db->rows(
+            'SELECT Sci_Name AS sci, Com_Name AS com, '
+            . "CAST((julianday('now','localtime') - julianday(Date||' '||Time)) * 86400 AS INTEGER) AS ago "
+            . "FROM detections WHERE (julianday('now','localtime') - julianday(Date||' '||Time)) * 24 <= 24 "
+            . 'ORDER BY Date DESC, Time DESC LIMIT 8',
+        );
+        return Json::write($response, ['recent' => $rows]);
+    }
+
     public function species(Request $request, Response $response): Response
     {
         if (($guard = $this->guard($response)) !== null) {
