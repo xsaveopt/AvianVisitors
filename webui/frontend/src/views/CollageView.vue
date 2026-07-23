@@ -8,6 +8,7 @@ const props = defineProps<{
   illustration: (sci: string) => string;
   nestSrc: string;
   windowLabel: string;
+  loaded: boolean;
 }>();
 const emit = defineEmits<{ open: [sci: string] }>();
 
@@ -124,7 +125,7 @@ onMounted(() => {
     observer = new ResizeObserver(() => scheduleRelayout());
     observer.observe(root.value);
   }
-  watch(() => props.species, () => scheduleRelayout());
+  watch(() => [props.species, props.loaded], () => scheduleRelayout());
 });
 
 onBeforeUnmount(() => {
@@ -144,7 +145,7 @@ onBeforeUnmount(() => {
       @mouseleave="onLeave"
       @click="onClick"
     >
-      <div v-if="!placed.length" class="empty-nest" :class="{ entering }">
+      <div v-if="loaded && !placed.length" class="empty-nest" :class="{ entering }">
         <img class="nest-img" :src="nestSrc" alt="an empty nest" decoding="async" />
         <p class="empty">no birds heard in this window.</p>
       </div>

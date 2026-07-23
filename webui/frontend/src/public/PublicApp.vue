@@ -6,6 +6,7 @@ import { collageIllustrationUrl, fetchCollage, fetchCollageRecent, type RecentCa
 
 const species = ref<CollageSpecies[]>([]);
 const recent = ref<RecentCapture[]>([]);
+const loaded = ref(false);
 const fetchedAt = ref(Date.now());
 const now = ref(Date.now());
 const nestSrc = 'nest.webp';
@@ -13,13 +14,19 @@ const log = ref<HTMLElement | null>(null);
 
 let refresh: ReturnType<typeof setInterval> | undefined;
 let tick: ReturnType<typeof setInterval> | undefined;
+let speciesKey = '';
 
 async function load() {
   const [s, r] = await Promise.all([fetchCollage(), fetchCollageRecent()]);
-  species.value = s;
+  const key = JSON.stringify(s);
+  if (key !== speciesKey) {
+    speciesKey = key;
+    species.value = s;
+  }
   recent.value = r;
   fetchedAt.value = Date.now();
   now.value = Date.now();
+  loaded.value = true;
 }
 
 function relative(ago: number): string {
@@ -67,6 +74,7 @@ onUnmounted(() => {
           :illustration="collageIllustrationUrl"
           :nest-src="nestSrc"
           window-label="today"
+          :loaded="loaded"
         />
       </div>
       <button v-if="captures.length" type="button" class="scroll-cue" @click="toLog">

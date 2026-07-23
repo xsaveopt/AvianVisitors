@@ -88,6 +88,7 @@ onMounted(() => {
         :illustration="collageIllustration"
         nest-src="/nest.webp"
         :window-label="birds.windowLabel"
+        :loaded="birds.loaded"
         @open="openSpecies"
       />
       <StatsView @open="openSpecies" />
