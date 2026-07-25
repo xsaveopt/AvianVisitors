@@ -14,6 +14,7 @@ final class Config
         #[\SensitiveParameter]
         public readonly string $adminPassword,
         public readonly string $userAgent,
+        public readonly string $dataDir = '/data',
     ) {}
 
     public static function fromEnv(): self
@@ -25,6 +26,7 @@ final class Config
             appDir: $appDir,
             birdsongsDir: $birdsongs,
             logsDir: self::env('AV_LOGS_DIR', '/data/logs'),
+            dataDir: self::env('AV_DATA_DIR', '/data'),
             adminUser: self::env('AV_ADMIN_USER', ''),
             adminPassword: self::env('AV_ADMIN_PASSWORD', ''),
             userAgent: self::env('AV_USER_AGENT', 'AvianVisitors/1.0 (+https://github.com/Twarner491/AvianVisitors)'),
@@ -70,6 +72,16 @@ final class Config
     public function streamDir(): string
     {
         return $this->birdsongsDir . '/StreamData';
+    }
+
+    public function metricsDir(): string
+    {
+        return $this->dataDir . '/metrics';
+    }
+
+    public function analyzingNowPath(): string
+    {
+        return $this->streamDir() . '/analyzing_now.txt';
     }
 
     public function authEnabled(): bool

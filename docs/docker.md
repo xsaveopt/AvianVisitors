@@ -12,6 +12,7 @@ There's no systemd inside the container, so supervisord runs the services instea
 - [Config](#config)
 - [Live audio stream](#live-audio-stream)
 - [Logs and control](#logs-and-control)
+- [Prometheus metrics](#prometheus-metrics)
 - [What doesn't work in a container](#what-doesnt-work-in-a-container)
 - [How it's built](#how-its-built)
 
@@ -109,6 +110,43 @@ docker compose logs -f
 docker exec avianvisitors supervisorctl status
 docker exec avianvisitors supervisorctl restart analysis
 ```
+
+## Prometheus metrics
+
+The container exposes `/metrics` on the main port in the Prometheus text format.
+It is a plain scrape endpoint with no state of its own: every value is read fresh out of the detections database, the recordings folder, `/proc` and the container's own cgroup when you ask for it.
+
+It sits behind the admin login, so point Prometheus at it with the same credentials you set in `AV_ADMIN_USER` and `AV_ADMIN_PASSWORD`:
+
+```yaml
+scrape_configs:
+  - job_name: avianvisitors
+    static_configs:
+      - targets: ["birdpi:80"]
+    basic_auth:
+      username: your-admin-user
+      password: your-admin-password
+```
+
+Leaving the admin variables empty serves `/metrics` to anyone who can reach the port, exactly like the rest of the admin surface.
+The public gallery on port 8081 never exposes it, whether auth is on or off.
+
+The interesting families are the ones that tell you the listening pipeline is healthy rather than the ones that count birds.
+`avianvisitors_segments_pending` is the recorded audio waiting for the analyser, and a number that climbs and never drains means the Pi cannot keep up with the mic.
+`avianvisitors_analysis_lag_seconds` is the age of the newest detection, which is the fastest way to notice that detection stopped without anything crashing.
+`avianvisitors_alsa_capture_running` drops to zero the moment the capture device stops, which catches an unplugged usb mic long before the lag metric notices.
+`avianvisitors_container_cpu_throttled_seconds_total` rising is the container being starved of cpu, usually the real cause behind a growing backlog.
+Alongside those are the bird ones: `avianvisitors_detections_total` per species, the life list, the 24 hour counts, and a histogram of detection confidence.
+
+Anything that only the python side can measure, such as how long the model takes per file, can be dropped into `/data/metrics` as a `.prom` file.
+The endpoint appends every such file to its own output, so a producer needs nothing but a text file and a unique metric name.
+
+There is a ready made Grafana dashboard at [grafana-dashboard.json](grafana-dashboard.json) that plots every metric the endpoint exports.
+Import it from Dashboards, New, Import, upload the file, and pick your Prometheus data source when it asks.
+It has no hardcoded data source or job name, so nothing needs editing first, and the instance picker at the top lets one dashboard cover several boxes.
+
+The top row is the one to look at when something feels wrong: detection lag, microphone state, backlog, services down, database and data volume, each coloured green until it isn't.
+Below that sit the birds (calls per hour by species, the top species table, the confidence heatmap), then the pipeline ages, the microphone details, the supervised services, the container's own memory and cpu throttling, and finally disk, database growth and the exporter's own scrape time.
 
 ## What doesn't work in a container
 

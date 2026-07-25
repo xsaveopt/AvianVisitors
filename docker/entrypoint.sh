@@ -280,7 +280,8 @@ mkdir -p \
   "${RECORDINGS}/Processed" \
   "${RECORDINGS}/StreamData" \
   "${LOGS_DIR}" \
-  "${CFG_DIR}"
+  "${CFG_DIR}" \
+  "${DATA_DIR}/metrics"
 
 link "${CONF}" "${APP_DIR}/birdnet.conf"
 link "${CONF}" /etc/birdnet/birdnet.conf
@@ -530,7 +531,7 @@ if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -n "${AV_ADMIN_USER:-}" ]; then
 :8080 {
 	root * /home/birdnet/BirdSongs/Extracted
 
-	@protected path /stream /stats /stats/* /By_Date /By_Date/* /Charts /Charts/* /StreamData /StreamData/* /Processed /Processed/*
+	@protected path /metrics /stream /stats /stats/* /By_Date /By_Date/* /Charts /Charts/* /StreamData /StreamData/* /Processed /Processed/*
 	basic_auth @protected {
 		${AV_USER} ${AV_HASH}
 	}
@@ -543,6 +544,12 @@ if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -n "${AV_ADMIN_USER:-}" ]; then
 	}
 
 	handle /api/* {
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+
+	handle /metrics {
 		php_fastcgi unix//run/php/php-fpm.sock {
 			try_files /webui/backend/public/index.php
 		}
@@ -567,10 +574,10 @@ if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -n "${AV_ADMIN_USER:-}" ]; then
 	}
 }
 EOF
-  info "admin auth enabled (user=${AV_USER}); protected: recordings, livestream, stats, file browse, admin api"
+  info "admin auth enabled (user=${AV_USER}); protected: recordings, livestream, stats, file browse, metrics, admin api"
 else
   cp "${CADDY_TMPL}" "${CADDY_OUT}"
-  warn "admin auth disabled; recordings, livestream, stats and admin tools are PUBLIC (set both AV_ADMIN_USER and AV_ADMIN_PASSWORD to enable)"
+  warn "admin auth disabled; recordings, livestream, stats, metrics and admin tools are PUBLIC (set both AV_ADMIN_USER and AV_ADMIN_PASSWORD to enable)"
 fi
 
 append_public_gallery

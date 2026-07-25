@@ -40,6 +40,7 @@ abstract class SlimTestCase extends TestCase
         putenv('AV_APP_DIR=' . self::$docroot);
         putenv('AV_BIRDSONGS_DIR=' . self::$base . '/BirdSongs');
         putenv('AV_LOGS_DIR=' . self::$base . '/logs');
+        putenv('AV_DATA_DIR=' . self::$base . '/data');
         putenv('AV_ADMIN_USER=admin');
         putenv('AV_ADMIN_PASSWORD=' . static::adminPassword());
         $this->app = Kernel::create(Config::fromEnv());
@@ -81,6 +82,11 @@ abstract class SlimTestCase extends TestCase
         $decoded = json_decode($res['body'], true);
         $this->assertIsArray($decoded, "non-json from {$path}: " . substr($res['body'], 0, 200));
         return ['status' => $res['status'], 'headers' => $res['headers'], 'data' => $decoded];
+    }
+
+    protected static function base(): string
+    {
+        return (string) self::$base;
     }
 
     protected static function basic(string $user, string $pass): array

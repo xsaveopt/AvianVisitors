@@ -24,6 +24,7 @@ final class SlimAuthEnabledTest extends SlimTestCase
             'status' => ['/api/status?action=diag'],
             'recording' => ['/api/recording?sci=' . rawurlencode('Calypte anna')],
             'spectrogram' => ['/api/spectrogram?sci=' . rawurlencode('Calypte anna')],
+            'metrics' => ['/metrics'],
         ];
     }
 

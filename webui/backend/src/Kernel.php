@@ -9,6 +9,7 @@ use AvianVisitors\Actions\DetectionsController;
 use AvianVisitors\Actions\IllustrationController;
 use AvianVisitors\Actions\MediaController;
 use AvianVisitors\Actions\MenuController;
+use AvianVisitors\Actions\MetricsController;
 use AvianVisitors\Actions\StatusController;
 use AvianVisitors\Actions\WikiController;
 use AvianVisitors\Middleware\AuthMiddleware;
@@ -40,6 +41,7 @@ final class Kernel
         $configController = new ConfigController($conf);
         $menu = new MenuController();
         $status = new StatusController($config);
+        $metrics = new MetricsController($config, $db);
 
         $app->get('/api/stats', [$detections, 'stats']);
         $app->get('/api/lifelist', [$detections, 'lifelist']);
@@ -60,6 +62,7 @@ final class Kernel
         $app->post('/api/config', [$configController, 'post'])->add($auth);
         $app->map(['GET', 'POST'], '/api/menu', $menu)->add($auth);
         $app->map(['GET', 'POST'], '/api/status', $status)->add($auth);
+        $app->get('/metrics', $metrics)->add($auth);
 
         $app->addErrorMiddleware(false, true, true);
 

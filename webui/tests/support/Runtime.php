@@ -26,6 +26,8 @@ final class Runtime
         @mkdir($docroot . '/birdnet', 0o777, true);
         @mkdir($base . '/BirdSongs/Extracted/By_Date', 0o777, true);
         @mkdir($base . '/BirdNET-Pi/birdnet/model', 0o777, true);
+        @mkdir($base . '/BirdSongs/StreamData', 0o777, true);
+        @mkdir($base . '/data/metrics', 0o777, true);
 
         $dest = $docroot . '/webui/assets/illustrations/';
         $bundled = glob($webui . '/assets/illustrations/*.avif');
