@@ -5,7 +5,7 @@ description = "Live bird collage from a window microphone, powered by BirdNET."
 requires-python = ">=3.13,<3.14"
 dependencies = [
     "librosa",
-    "numpy>=2",
+    "numpy>=2.5.1",
     "pandas",
     "resampy",
     "soundfile",
