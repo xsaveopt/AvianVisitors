@@ -52,7 +52,7 @@ jobs:
         working-directory: webui
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: "26"
       - run: npm install -g "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1].split('+')[0]")"
@@ -76,7 +76,7 @@ jobs:
         working-directory: webui
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: "26"
       - uses: shivammathur/setup-php@v2
