@@ -69,56 +69,6 @@
     },
     {
       "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "description": "ALSA capture state. Drops to stopped the moment the mic is unplugged or the recorder dies.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [
-            {
-              "options": {
-                "0": { "color": "red", "index": 0, "text": "stopped" },
-                "1": { "color": "green", "index": 1, "text": "capturing" }
-              },
-              "type": "value"
-            }
-          ],
-          "noValue": "no device",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
-      "id": 2,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "expr": "max(avianvisitors_alsa_capture_running{instance=~\"$instance\"})",
-          "legendFormat": "capture",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Microphone",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "description": "Recorded wav segments waiting for the analyser. A number that climbs and never drains means the box cannot keep up with the mic.",
       "fieldConfig": {
         "defaults": {
@@ -846,179 +796,6 @@
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 35 },
-      "id": 103,
-      "panels": [],
-      "title": "Microphone",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "description": "Capture state per card and device, straight from the ALSA proc entries.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "fillOpacity": 70, "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineWidth": 0, "spanNulls": false },
-          "mappings": [
-            {
-              "options": {
-                "0": { "color": "red", "index": 0, "text": "stopped" },
-                "1": { "color": "green", "index": 1, "text": "capturing" }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 10, "x": 0, "y": 36 },
-      "id": 30,
-      "options": {
-        "alignValue": "center",
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "expr": "avianvisitors_alsa_capture_running{instance=~\"$instance\"}",
-          "legendFormat": "card {{card}} device {{device}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Capture state",
-      "type": "state-timeline"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "description": "Sample rate the device actually negotiated. Anything other than the configured rate quietly wrecks detection accuracy.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "text", "value": null }] },
-          "unit": "hertz"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 4, "x": 10, "y": 36 },
-      "id": 31,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": true },
-        "textMode": "value_and_name"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "expr": "avianvisitors_alsa_capture_rate_hz{instance=~\"$instance\"}",
-          "legendFormat": "card {{card}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Sample rate",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "description": "Channel count the device negotiated.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "text", "value": null }] },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 4, "x": 14, "y": 36 },
-      "id": 32,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": true },
-        "textMode": "value_and_name"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "expr": "avianvisitors_alsa_capture_channels{instance=~\"$instance\"}",
-          "legendFormat": "card {{card}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Channels",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "description": "Sample format of the open capture stream.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "text", "value": null }] }
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 36 },
-      "id": 33,
-      "options": {
-        "cellHeight": "sm",
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
-        "showHeader": true
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avianvisitors_alsa_capture_info{instance=~\"$instance\"}",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Capture format",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true, "Value": true, "__name__": true, "instance": true, "job": true },
-            "indexByName": {},
-            "renameByName": { "card": "Card", "device": "Device", "format": "Format" }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 42 },
       "id": 104,
       "panels": [],
       "title": "Services",
@@ -1051,7 +828,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 43 },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 36 },
       "id": 40,
       "options": {
         "alignValue": "center",
@@ -1105,7 +882,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 43 },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 36 },
       "id": 41,
       "options": {
         "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "right", "showLegend": true },
@@ -1155,7 +932,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 50 },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 43 },
       "id": 42,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "right", "showLegend": true },
@@ -1205,7 +982,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 50 },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 43 },
       "id": 43,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "right", "showLegend": true },
@@ -1226,7 +1003,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 57 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 50 },
       "id": 105,
       "panels": [],
       "title": "Container",
@@ -1272,7 +1049,7 @@
           }
         ]
       },
-      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 58 },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 51 },
       "id": 50,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
@@ -1338,7 +1115,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 58 },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 51 },
       "id": 51,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1393,7 +1170,7 @@
           }
         ]
       },
-      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 65 },
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 58 },
       "id": 52,
       "options": {
         "legend": { "calcs": ["max"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1451,7 +1228,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 65 },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 58 },
       "id": 53,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1472,7 +1249,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 71 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 64 },
       "id": 106,
       "panels": [],
       "title": "Storage and exporter",
@@ -1518,7 +1295,7 @@
           }
         ]
       },
-      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 72 },
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 65 },
       "id": 60,
       "options": {
         "legend": { "calcs": ["lastNotNull"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1566,7 +1343,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 72 },
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 65 },
       "id": 61,
       "options": {
         "minVizHeight": 75,
@@ -1621,7 +1398,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 72 },
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 65 },
       "id": 62,
       "options": {
         "legend": { "calcs": ["lastNotNull"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1671,7 +1448,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 12, "x": 0, "y": 78 },
+      "gridPos": { "h": 5, "w": 12, "x": 0, "y": 71 },
       "id": 63,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom", "showLegend": true },
@@ -1708,7 +1485,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 12, "x": 12, "y": 78 },
+      "gridPos": { "h": 5, "w": 12, "x": 12, "y": 71 },
       "id": 64,
       "options": {
         "colorMode": "background",
