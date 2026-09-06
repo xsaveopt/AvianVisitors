@@ -474,7 +474,7 @@ wheels = [
 
 [[package]]
 name = "rembg"
-version = "2.0.81"
+version = "2.0.83"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jsonschema" },
@@ -486,9 +486,9 @@ dependencies = [
     { name = "scipy" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/9c/14d479b4f854ab11188350be67568e0b9b0bccb521102c442205a3e54718/rembg-2.0.81.tar.gz", hash = "sha256:0a8b7a8d4219836a1bbe465f533f07d87b7ba8bedbae5c0d84043419622195b8", size = 45710, upload-time = "2026-08-18T23:42:53.972Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/26/e85291179e169fe658dd24a15e935c94e686f232035ef1388e0f9e900034/rembg-2.0.83.tar.gz", hash = "sha256:cabcf922f0720cf52ae8187dc5d75bde35399d27b2371d3fbed6e378f523aa4e", size = 47927, upload-time = "2026-09-02T13:05:05.779Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/10/f61aecf05ffa6fd59d2c4c710d9814642d838375c09686de4542c104437e/rembg-2.0.81-py3-none-any.whl", hash = "sha256:764d96567c1ae12573037156180bf813d51335e80dffb116f62999b308079083", size = 60258, upload-time = "2026-08-18T23:42:54.994Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/88/b59547d7e04c003aeefadc4ec6ae455becb9c1b57a6c6ab4d999a34dc44e/rembg-2.0.83-py3-none-any.whl", hash = "sha256:d274f28564db62700e199d5bfa964c36852b39fe5ab48af8be54eb8b103c33a4", size = 62459, upload-time = "2026-09-02T13:05:06.803Z" },
 ]
 
 [[package]]
