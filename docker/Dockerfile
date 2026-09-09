@@ -123,6 +123,6 @@ RUN rm -f /etc/php/8.5/fpm/pool.d/www.conf \
 VOLUME ["/data"]
 EXPOSE 8080 8081
 
-USER birdnet
+USER 1000
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
