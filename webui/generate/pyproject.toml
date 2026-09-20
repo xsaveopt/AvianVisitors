@@ -11,6 +11,11 @@ dependencies = [
     "numpy>=2.5.2",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
 [tool.uv]
 package = false
 

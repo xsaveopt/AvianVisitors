@@ -3,7 +3,22 @@ import datetime
 import os
 
 from utils.helpers import MODEL_PATH, get_settings
-from utils.models import MDataModel1, MDataModel2
+
+
+def read_labels(labels_path):
+    with open(labels_path, "r") as lfile:
+        return [line.strip() for line in lfile]
+
+
+def build_model(conf, threshold):
+    from utils.models import MDataModel1, MDataModel2
+
+    return MDataModel1(threshold) if conf.getint("DATA_MODEL_VERSION") == 1 else MDataModel2(threshold)
+
+
+def format_species(species):
+    return f"{species[1]} - {species[0]:.4f}"
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Get list of species for a given location with BirdNET. Sorted by occurrence frequency.")
@@ -16,16 +31,14 @@ if __name__ == "__main__":
     week = datetime.datetime.today().isocalendar()[1]
 
     print(f"Getting species list for {lat}/{lon}, Week {week}...", flush=True)
-    labels_path = os.path.join(MODEL_PATH, "labels.txt")
-    with open(labels_path, "r") as lfile:
-        labels = [line.strip() for line in lfile]
+    labels = read_labels(os.path.join(MODEL_PATH, "labels.txt"))
 
-    model = MDataModel1(args.threshold) if conf.getint("DATA_MODEL_VERSION") == 1 else MDataModel2(args.threshold)
+    model = build_model(conf, args.threshold)
     model.set_meta_data(lat, lon, week)
     species_list = model.get_species_list_details(labels)
 
     for species in species_list:
-        print(f"{species[1]} - {species[0]:.4f}")
+        print(format_species(species))
 
     print("""
 The above species list describes all the species that the model will attempt to detect.

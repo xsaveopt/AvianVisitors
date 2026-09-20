@@ -31,7 +31,7 @@ jobs:
       - run: uv run --no-sync pytest -q
 
   generate:
-    name: generate (ruff)
+    name: generate (ruff + pytest)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,6 +43,8 @@ jobs:
           version: "0.11.19"
       - run: uvx ruff check .
       - run: uvx ruff format --check .
+      - run: uv sync --locked --only-group dev
+      - run: uv run --no-sync pytest -q
 
   frontend:
     name: frontend (oxlint + oxfmt + vue-tsc)
