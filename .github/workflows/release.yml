@@ -24,7 +24,7 @@ jobs:
         with:
           version: "0.11.19"
       - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libsndfile1 libgomp1
-      - run: uv sync --frozen --extra notify --group dev
+      - run: uv sync --frozen --extra stats --extra notify --group dev
       - run: uv pip install https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/tflite_runtime-2.17.1-cp313-cp313-linux_x86_64.whl
       - run: uv run ruff check .
       - run: uv run ruff format --check .
