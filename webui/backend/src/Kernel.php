@@ -6,6 +6,7 @@ namespace AvianVisitors;
 
 use AvianVisitors\Actions\ConfigController;
 use AvianVisitors\Actions\DetectionsController;
+use AvianVisitors\Actions\HealthController;
 use AvianVisitors\Actions\IllustrationController;
 use AvianVisitors\Actions\MediaController;
 use AvianVisitors\Actions\MenuController;
@@ -42,6 +43,7 @@ final class Kernel
         $menu = new MenuController();
         $status = new StatusController($config);
         $metrics = new MetricsController($config, $db);
+        $health = new HealthController($db);
 
         $app->get('/api/stats', [$detections, 'stats']);
         $app->get('/api/lifelist', [$detections, 'lifelist']);
@@ -63,6 +65,7 @@ final class Kernel
         $app->map(['GET', 'POST'], '/api/menu', $menu)->add($auth);
         $app->map(['GET', 'POST'], '/api/status', $status)->add($auth);
         $app->get('/metrics', $metrics)->add($auth);
+        $app->get('/health', $health);
 
         $app->addErrorMiddleware(false, true, true);
 
