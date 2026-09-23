@@ -555,6 +555,12 @@ if [ -n "${AV_ADMIN_PASSWORD:-}" ] && [ -n "${AV_ADMIN_USER:-}" ]; then
 		}
 	}
 
+	handle /health {
+		php_fastcgi unix//run/php/php-fpm.sock {
+			try_files /webui/backend/public/index.php
+		}
+	}
+
 	handle /By_Date* {
 		file_server browse
 	}
