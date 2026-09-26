@@ -10,7 +10,6 @@ from datetime import date, time
 from unittest.mock import patch
 
 import plotly.graph_objects as go
-import pytest
 
 from tests.helpers import Settings
 
@@ -294,7 +293,6 @@ class TestDailyHeatmap(PageTestCase):
 class TestSingleDayView(PageTestCase):
     answers = {("checkbox", "Single Day"): True, ("radio", "Resample"): "Raw"}
 
-    @pytest.mark.xfail(strict=True, raises=AttributeError, reason="pd.value_counts was removed in pandas 3")
     def test_defaults_to_the_latest_day(self):
         st, _ = self.run_page(self.answers)
 
