@@ -64,7 +64,7 @@ def download_file(url, file_path):
         with open(tmp_file, "wb") as outfile:
             for data in response.iter_content(block_size):
                 outfile.write(data)
-    except requests.exceptions.HTTPError:
+    except requests.exceptions.RequestException:
         if os.path.exists(tmp_file):
             os.unlink(tmp_file)
         raise

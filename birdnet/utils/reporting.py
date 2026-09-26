@@ -52,6 +52,7 @@ def spectrogram(in_file, title, comment, raw=0):
     ret = result.stdout.decode("utf-8")
     err = result.stderr.decode("utf-8")
     if err:
+        os.remove(tmp_file)
         raise RuntimeError(f"{ret}:\n {err}")
     img = Image.open(tmp_file)
     height = img.size[1]
@@ -86,6 +87,7 @@ def write_to_db(file: ParseFileName, detection: Detection):
     conf = get_settings()
 
     for attempt_number in range(3):
+        con = None
         try:
             con = sqlite3.connect(DB_PATH)
             cur = con.cursor()
@@ -108,11 +110,15 @@ def write_to_db(file: ParseFileName, detection: Detection):
             )
 
             con.commit()
-            con.close()
             break
         except BaseException as e:
             log.warning("Database busy: %s", e)
             sleep(2)
+        finally:
+            if con is not None:
+                con.close()
+    else:
+        log.error("Detection dropped after 3 attempts: %s", os.path.basename(detection.file_name_extr))
 
 
 def summary(file: ParseFileName, detection: Detection):
