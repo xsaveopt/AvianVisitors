@@ -90,14 +90,18 @@ final class ConfigController
                 continue;
             }
             $spec = self::ALLOWED[$k];
+            if (($spec['type'] === 'float' || $spec['type'] === 'int') && !is_numeric($v)) {
+                $errors[$k] = 'not a number';
+                continue;
+            }
             if ($spec['type'] === 'float') {
-                $v = is_numeric($v) ? (float) $v : 0.0;
+                $v = (float) $v;
                 if ($v < ($spec['min'] ?? -INF) || $v > ($spec['max'] ?? INF)) {
                     $errors[$k] = 'out of range';
                     continue;
                 }
             } elseif ($spec['type'] === 'int') {
-                $v = is_numeric($v) ? (int) $v : 0;
+                $v = (int) $v;
                 if ($v < ($spec['min'] ?? -PHP_INT_MAX) || $v > ($spec['max'] ?? PHP_INT_MAX)) {
                     $errors[$k] = 'out of range';
                     continue;
@@ -113,7 +117,7 @@ final class ConfigController
                     $errors[$k] = 'too long';
                     continue;
                 }
-                if (!preg_match("/^[A-Za-z0-9 _.,'-]*$/u", $v)) {
+                if (!preg_match("/^[A-Za-z0-9 _.,'-]*$/Du", $v)) {
                     $errors[$k] = 'invalid characters';
                     continue;
                 }
