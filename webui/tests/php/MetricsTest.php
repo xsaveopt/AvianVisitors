@@ -157,6 +157,43 @@ final class MetricsTest extends SlimTestCase
         $this->assertSame(0.0, $this->value($body, 'avianvisitors_textfile_read_errors'));
     }
 
+    public function testContainerMemoryComesFromTheCgroup(): void
+    {
+        $raw = @file_get_contents('/sys/fs/cgroup/memory.current');
+        if ($raw === false) {
+            $this->markTestSkipped('no cgroup v2 memory controller');
+        }
+        $body = $this->scrape();
+        $this->assertGreaterThan(0, $this->value($body, 'avianvisitors_container_memory_bytes'));
+        $this->assertGreaterThan(0, $this->value($body, 'avianvisitors_container_pids'));
+    }
+
+    public function testUnlimitedContainerMemoryHasNoLimitSample(): void
+    {
+        $raw = @file_get_contents('/sys/fs/cgroup/memory.max');
+        if ($raw === false) {
+            $this->markTestSkipped('no cgroup v2 memory controller');
+        }
+        $limit = $this->values($this->scrape(), 'avianvisitors_container_memory_limit_bytes');
+        if (trim($raw) === 'max') {
+            $this->assertSame([], $limit);
+            return;
+        }
+        $this->assertSame([(float) trim($raw)], $limit);
+    }
+
+    public function testContainerCpuIsReportedInSeconds(): void
+    {
+        $stat = @file_get_contents('/sys/fs/cgroup/cpu.stat');
+        $m = [];
+        if ($stat === false || preg_match('/^usage_usec\s+(\d+)$/m', $stat, $m) !== 1) {
+            $this->markTestSkipped('no cgroup v2 cpu.stat');
+        }
+        $seconds = $this->value($this->scrape(), 'avianvisitors_container_cpu_seconds_total');
+        $this->assertGreaterThanOrEqual((float) $m[1] / 1000000, $seconds);
+        $this->assertLessThan(((float) $m[1] / 1000000) + 60, $seconds);
+    }
+
     public function testStorageMetricsCoverTheDataVolume(): void
     {
         $body = $this->scrape();
