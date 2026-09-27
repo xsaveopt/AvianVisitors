@@ -2,6 +2,21 @@ ARG UV_VERSION=0.11.19
 
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
+FROM --platform=$BUILDPLATFORM golang:1.27.1-trixie AS caddy
+
+ARG BUILDARCH
+ARG TARGETARCH
+ARG CADDY_VERSION=v2.11.4
+ARG XCADDY_VERSION=v0.4.7
+ARG GRPC_VERSION=v1.84.0
+ARG XTEXT_VERSION=v0.42.0
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH}
+
+RUN GOARCH="${BUILDARCH}" go install "github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}" \
+ && xcaddy build "${CADDY_VERSION}" --output /out/caddy \
+      --with "google.golang.org/grpc@${GRPC_VERSION}" \
+      --with "golang.org/x/text@${XTEXT_VERSION}"
+
 FROM debian:trixie-slim AS builder
 
 ARG TARGETARCH
@@ -62,15 +77,13 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates curl gnupg apt-transport-https debian-keyring debian-archive-keyring \
- && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg \
- && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' -o /etc/apt/sources.list.d/caddy-stable.list \
  && curl -1sLf 'https://packages.sury.org/debsuryorg-archive-keyring.deb' -o /tmp/sury-keyring.deb \
  && dpkg -i /tmp/sury-keyring.deb \
  && rm -f /tmp/sury-keyring.deb \
  && echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ trixie main" > /etc/apt/sources.list.d/sury-php.list \
  && echo "icecast2 icecast2/icecast-setup boolean false" | debconf-set-selections \
  && apt-get update && apt-get install -y --no-install-recommends \
-      caddy supervisor \
+      supervisor \
       sqlite3 php8.5-sqlite3 php8.5-fpm php8.5-curl php8.5-xml php8.5-zip php8.5-mbstring php8.5-cli \
       sox libsox-fmt-mp3 alsa-utils ffmpeg icecast2 \
       python3 \
@@ -97,6 +110,7 @@ RUN mkdir -p ${APP_DIR}/webui/assets/illustrations \
 COPY --chown=birdnet:birdnet --from=webui /build/frontend/dist ${APP_DIR}/webui/frontend/dist
 COPY --chown=birdnet:birdnet --from=vendor /app/vendor ${APP_DIR}/webui/vendor
 
+COPY --from=caddy /out/caddy /usr/bin/caddy
 COPY docker/Caddyfile /etc/caddy/Caddyfile.tmpl
 COPY docker/php-fpm-pool.conf /etc/php/8.5/fpm/pool.d/zz-birdnet.conf
 COPY docker/supervisord.conf /etc/supervisor/supervisord.conf

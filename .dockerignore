@@ -6,7 +6,7 @@ node_modules
 **/__pycache__
 *.pyc
 .ruff_cache
-.venv
+**/.venv
 **/vendor
 webui/tests
 webui/playwright.config.ts
