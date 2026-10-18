@@ -2,7 +2,7 @@ ARG UV_VERSION=0.11.19
 
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
-FROM --platform=$BUILDPLATFORM golang:1.27.1-trixie AS caddy
+FROM --platform=$BUILDPLATFORM golang:1.27.2-trixie AS caddy
 
 ARG BUILDARCH
 ARG TARGETARCH
