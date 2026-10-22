@@ -2,20 +2,22 @@ ARG UV_VERSION=0.11.19
 
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
-FROM --platform=$BUILDPLATFORM golang:1.27.1-trixie AS caddy
+FROM --platform=$BUILDPLATFORM golang:1.27.3-trixie AS caddy
 
 ARG BUILDARCH
 ARG TARGETARCH
 ARG CADDY_VERSION=v2.11.4
 ARG XCADDY_VERSION=v0.4.7
 ARG GRPC_VERSION=v1.84.0
-ARG XTEXT_VERSION=v0.42.0
+ARG XTEXT_VERSION=v0.43.0
+ARG XNET_VERSION=v0.61.0
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH}
 
 RUN GOARCH="${BUILDARCH}" go install "github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}" \
  && xcaddy build "${CADDY_VERSION}" --output /out/caddy \
       --with "google.golang.org/grpc@${GRPC_VERSION}" \
-      --with "golang.org/x/text@${XTEXT_VERSION}"
+      --with "golang.org/x/text@${XTEXT_VERSION}" \
+      --replace "golang.org/x/net=golang.org/x/net@${XNET_VERSION}"
 
 FROM debian:trixie-slim AS builder
 
